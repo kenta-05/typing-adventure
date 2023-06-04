@@ -5,7 +5,7 @@ export default function Home() {
     <>
       <main>
         <div className="flex pt-32 h-screen bg-gray-400 shadow-xl">
-          <div className="bg-gray-100 w-4/5 h-144 mx-8 flex justify-center">
+          <div className=" bg-gray-100 w-4/5 h-144 mx-8 flex justify-center">
             <div className="space-y-20 flex flex-col justify-center items-center">
               <h1 className="text-6xl">タイピング冒険者</h1>
               <Link href="/play">

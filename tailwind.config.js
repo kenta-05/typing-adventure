@@ -11,7 +11,7 @@ module.exports = {
         mochiypop: ["Mochiy Pop P One", "sans-serif"],
       },
       backgroundImage: {
-        "main-bg": "url('/main-bg.png')",
+        "stage1-bg": "url('/game-asset/stage1.png')",
       },
       width: {
         120: "30rem",
