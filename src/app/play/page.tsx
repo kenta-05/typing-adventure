@@ -3,16 +3,34 @@ import Link from "next/link";
 import React, {
   ChangeEvent,
   ReactEventHandler,
+  use,
   useEffect,
   useState,
 } from "react";
 
+class Monster {
+  name: string;
+  hp: number;
+  image: string;
+
+  constructor(n: string, hp: number, img: string) {
+    this.name = n;
+    this.hp = hp;
+    this.image = img;
+  }
+}
+
 function Page() {
   const [playing, setPlaying] = useState<boolean>(false);
-  const [kanji, setKanji] = useState("スペースボタンでスタート");
+  const [text, setText] = useState("スペースボタンでスタート");
   const [unfilled, setUnfilled] = useState("");
   const [filled, setFilled] = useState("");
   const [hp, setHp] = useState<number>(100);
+  const [monster, setMonster] = useState<Monster | null>(null);
+  const [monsterHp, setMonsterHp] = useState<number>(0);
+  const [monsterState, setMonsterState] = useState<string | null>(null);
+  const [damageHandler, setDamageHandler] = useState<(() => void) | null>(null);
+
   const sentences = [
     {
       main: "隣の客はよく柿食う客だ",
@@ -44,43 +62,28 @@ function Page() {
     },
   ];
 
-  const fill_new = () => {
-    setPlaying(true);
-    const randomIndex = Math.floor(Math.random() * sentences.length);
-    const randomSentence = sentences[randomIndex];
-    setFilled("");
-    setKanji(randomSentence.main);
-    setUnfilled(randomSentence.sub);
-  };
-  const game_stop = () => {
-    setPlaying(false);
-    setKanji("スペースボタンでスタート");
-    setUnfilled("");
-    setFilled("");
-  };
-
   useEffect(() => {
-    // すべて入力すると書き換える
+    // 入力を終えるとfill_new関数
     if (unfilled === "" && playing) {
       fill_new();
     }
     const handleKeyDown = (e: KeyboardEvent) => {
-      // スペースキーでスタート
+      // スペースキーでgame_start関数
       if (e.code === "Space") {
-        if (playing) {
+        if (playing == true) {
           return;
         }
-        fill_new();
+        game_start();
       }
-      // ESPキーで中断
+      // ESPキーでgame_stop関数
       if (e.code === "Escape") {
         game_stop();
-        setHp(100);
       }
       // 入力キーの判定
       if (e.key === unfilled.charAt(0)) {
         setFilled((prevFilled) => prevFilled + e.key);
         setUnfilled((prevUnfilled) => prevUnfilled.slice(1));
+        setMonsterHp((prev) => prev - 1);
       }
       if (e.key !== unfilled.charAt(0) && e.key !== "Escape") {
         if (playing) {
@@ -94,9 +97,71 @@ function Page() {
     };
   }, [playing, unfilled, filled]);
 
-  // HPバーの割合の計算
-  const hpBarStyle = {
-    width: `${hp}%`,
+  // 指定した時間、待機(f)
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
+  // 文章書き換え(f)
+  const fill_new = () => {
+    setPlaying(true);
+    const randomIndex = Math.floor(Math.random() * sentences.length);
+    const randomSentence = sentences[randomIndex];
+    setFilled("");
+    setText(randomSentence.main);
+    setUnfilled(randomSentence.sub);
+  };
+
+  // ゲームストップ(f)
+  const game_stop = () => {
+    window.location.reload();
+    // setPlaying(false);
+    // setText("スペースボタンでスタート");
+    // setUnfilled("");
+    // setFilled("");
+    // setHp(100);
+  };
+
+  // モンスターとの戦闘関数(f)
+  const battle = (_monster: Monster) => {
+    return new Promise<void>((resolve) => {
+      // モンスターを表示
+      setMonster(_monster);
+      setMonsterHp(_monster.hp);
+      setMonsterState("appearing"); // モンスターが登場するアニメーションを開始
+
+      // モンスターの登場が終わったら戦闘開始
+      setTimeout(() => {
+        setMonsterState("in_battle");
+      }, 1000); //出現アニメ時間
+
+      // タイピングによるダメージ処理の関数をセット
+      const win = () => {
+        if (monsterHp <= 0) {
+          setMonsterState("disappearing"); // モンスターが消えるアニメーションを開始
+
+          // モンスターが消えるのを待つ
+          setTimeout(() => {
+            setMonsterHp(0);
+            setMonster(null);
+            setMonsterState(null);
+            setDamageHandler(null); // ダメージ処理の関数をリセット
+            resolve(); // 戦闘終了
+          }, 1000); // 消失アニメ時間
+        }
+      };
+    });
+  };
+
+  const ririppo = new Monster("リリッポ", 30, "ririppo");
+  const tokotoko = new Monster("トコトコ", 200, "tokotoko");
+  const torubo = new Monster("トルボ", 300, "torubo");
+  // ゲーム進行(f)
+  const game_start = async () => {
+    setText("");
+    await delay(600);
+    await battle(ririppo);
+    await battle(tokotoko);
+    await battle(torubo);
   };
 
   return (
@@ -109,7 +174,7 @@ function Page() {
               <div className="w-72 h-10 bg-slate-200 rounded-sm">
                 <div
                   className="flex items-center h-10 bg-red-600 rounded-sm text-2xl font-bold pl-1"
-                  style={hpBarStyle}
+                  style={{ width: `${hp}%` }}
                 >
                   <p className="text-white">{hp}</p>
                 </div>
@@ -117,12 +182,30 @@ function Page() {
             </div>
 
             <div className="w-full h-full flex justify-center items-end">
-              <div className="mb-24">
-                {/* <img className="w-56" src="/opponents/kione.png" alt="" /> */}
-              </div>
+              {monster && (
+                <div className="mb-12">
+                  <img
+                    className="w-64"
+                    src={`/opponents/${monster.image}.png`}
+                    alt=""
+                  />
+                  <div className="w-56 mb-3 h-6 bg-slate-200 rounded-sm">
+                    <div
+                      className="flex items-center h-6 bg-red-600 rounded-sm text-2xl font-bold pl-1"
+                      style={{ width: `${100}%` }}
+                    >
+                      <p className="text-white">{monsterHp}</p>
+                    </div>
+                    <p className="mt-1 text-2xl font-bold">{monster.name}</p>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="flex flex-col justify-center items-center border-2 border-black opacity-80 rounded-md w-full h-72 border-spacing-2 bg-slate-200">
-              <h2 className="text-5xl">{kanji}</h2>
+            <div
+              className="flex flex-col justify-center items-center border-2 border-black opacity-80 rounded-md h-64 mb-2 border-spacing-2 bg-slate-200"
+              style={{ width: "98%" }}
+            >
+              <h2 className="text-5xl">{text}</h2>
               <div className="flex">
                 <p className="text-3xl text-red-400">{filled}</p>
                 <p className="text-3xl">{unfilled}</p>
