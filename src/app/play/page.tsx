@@ -13,11 +13,24 @@ class Monster {
   name: string;
   hp: number;
   image: string;
+  attack: string;
+  damage: number;
+  duration: number;
 
-  constructor(n: string, hp: number, img: string) {
+  constructor(
+    n: string,
+    hp: number,
+    img: string,
+    a: string,
+    da: number,
+    du: number
+  ) {
     this.name = n;
     this.hp = hp;
     this.image = img;
+    this.attack = a;
+    this.damage = da;
+    this.duration = du;
   }
 }
 
@@ -29,7 +42,7 @@ function Page() {
   const [hp, setHp] = useState<number>(100); //プレイヤーのHP
   const [monster, setMonster] = useState<Monster | null>(null); //現在セットされているモンスター
   const [monsterHp, setMonsterHp] = useState<number>(0); //上記モンスターのHP
-  // const [monsterState, setMonsterState] = useState<string | null>(null);
+  const [attackModal, setAttack] = useState<boolean>(false);
 
   const sentences = [
     {
@@ -100,7 +113,7 @@ function Page() {
   };
 
   // モンスターとの戦闘関数(f)
-  const battle = (_monster: Monster) => {
+  const fight = (_monster: Monster) => {
     return new Promise<void>((resolve) => {
       // 戦闘開始の下準備
       setMonster(_monster);
@@ -109,6 +122,15 @@ function Page() {
 
       // 待機
       setTimeout(() => {}, 1000); //出現アニメ時間
+
+      // 定期的な攻撃のセット
+      const intervalId = setInterval(() => {
+        setAttack(true);
+        setTimeout(function () {
+          setAttack(false);
+        }, 900);
+        setHp((prevHp) => prevHp - _monster.damage);
+      }, _monster.duration);
 
       // ダメージ処理のハンドラ
       const damageHandler = (e: KeyboardEvent) => {
@@ -129,7 +151,8 @@ function Page() {
 
             // 敵HPが無くなると、win関数
             if (newHp <= 0) {
-              document.removeEventListener("keydown", damageHandler); // remove event listener when monster is defeated
+              document.removeEventListener("keydown", damageHandler);
+              clearInterval(intervalId);
               win().then(resolve);
             }
             return newHp;
@@ -152,21 +175,21 @@ function Page() {
         setMonsterHp(0);
         setMonster(null);
         resolve(); // モンスターが消えた
-      }, 1000); // 消失アニメ時間
+      }, 0); // 消えるアニメ実装
     });
   };
 
-  const ririppo = new Monster("リリッポ", 30, "ririppo");
-  const tokotoko = new Monster("トコトコ", 200, "tokotoko");
-  const torubo = new Monster("トルボ", 300, "torubo");
+  const ririppo = new Monster("リリッポ", 30, "ririppo", "つつく", 3, 5000);
+  const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 3, 5000);
+  const torubo = new Monster("トルボ", 300, "torubo", "突進", 3, 5000);
   // ゲーム進行(f)
   const game_start = async () => {
     setPlaying(true);
     text.current = "";
     await delay(600);
-    await battle(ririppo);
-    await battle(tokotoko);
-    await battle(torubo);
+    await fight(ririppo);
+    await fight(tokotoko);
+    await fight(torubo);
   };
 
   return (
@@ -185,6 +208,12 @@ function Page() {
                 </div>
               </div>
             </div>
+            {/* モーダルの表示3種類 */}
+            {attackModal && (
+              <div className="absolute top-36 px-1 left-6 bg-slate-100 border-black font-bold border-4 text-4xl rounded-md">
+                {monster?.name}の{monster?.attack}!
+              </div>
+            )}
 
             <div className="w-full h-full flex justify-center items-end">
               {monster && (
