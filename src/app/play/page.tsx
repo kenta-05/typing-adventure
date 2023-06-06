@@ -42,7 +42,8 @@ function Page() {
   const [hp, setHp] = useState<number>(100); //プレイヤーのHP
   const [monster, setMonster] = useState<Monster | null>(null); //現在セットされているモンスター
   const [monsterHp, setMonsterHp] = useState<number>(0); //上記モンスターのHP
-  const [attackModal, setAttack] = useState<boolean>(false);
+  const [attackDisplay, setAttackDisplay] = useState<boolean>(false);
+  const atackPosition = useRef({ top: "", left: "" });
 
   const sentences = [
     {
@@ -97,6 +98,18 @@ function Page() {
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 
+  //攻撃モーダルの位置を抽選する(f)
+  const modalLocate = () => {
+    const positions = [
+      { top: "130px", left: "25px" },
+      { top: "200px", left: "25px" },
+      { top: "130px", left: "610px" },
+      { top: "200px", left: "610px" },
+    ];
+    const randomIndex = Math.floor(Math.random() * positions.length);
+    atackPosition.current = positions[randomIndex];
+  };
+
   // 文章書き換え(f)
   const fill_new = () => {
     const randomIndex = Math.floor(Math.random() * sentences.length);
@@ -123,11 +136,12 @@ function Page() {
       // 待機
       setTimeout(() => {}, 1000); //出現アニメ時間
 
-      // 定期的な攻撃のセット
+      // モンスターの定期的な攻撃
       const intervalId = setInterval(() => {
-        setAttack(true);
+        modalLocate();
+        setAttackDisplay(true);
         setTimeout(function () {
-          setAttack(false);
+          setAttackDisplay(false);
         }, 900);
         setHp((prevHp) => prevHp - _monster.damage);
       }, _monster.duration);
@@ -179,7 +193,7 @@ function Page() {
     });
   };
 
-  const ririppo = new Monster("リリッポ", 30, "ririppo", "つつく", 3, 5000);
+  const ririppo = new Monster("リリッポ", 30, "ririppo", "つつく", 2, 3000);
   const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 3, 5000);
   const torubo = new Monster("トルボ", 300, "torubo", "突進", 3, 5000);
   // ゲーム進行(f)
@@ -209,8 +223,14 @@ function Page() {
               </div>
             </div>
             {/* モーダルの表示3種類 */}
-            {attackModal && (
-              <div className="absolute top-36 px-1 left-6 bg-slate-100 border-black font-bold border-4 text-4xl rounded-md">
+            {attackDisplay && (
+              <div
+                className="absolute px-1 bg-slate-100 border-black font-bold border-4 text-4xl rounded-md"
+                style={{
+                  top: atackPosition.current.top,
+                  left: atackPosition.current.left,
+                }}
+              >
                 {monster?.name}の{monster?.attack}!
               </div>
             )}
