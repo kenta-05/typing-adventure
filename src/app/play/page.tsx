@@ -5,6 +5,7 @@ import React, {
   ReactEventHandler,
   use,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -21,15 +22,14 @@ class Monster {
 }
 
 function Page() {
-  const [playing, setPlaying] = useState<boolean>(false);
-  const [text, setText] = useState("スペースボタンでスタート");
-  const [unfilled, setUnfilled] = useState("");
-  const [filled, setFilled] = useState("");
-  const [hp, setHp] = useState<number>(100);
-  const [monster, setMonster] = useState<Monster | null>(null);
-  const [monsterHp, setMonsterHp] = useState<number>(0);
-  const [monsterState, setMonsterState] = useState<string | null>(null);
-  const [damageHandler, setDamageHandler] = useState<(() => void) | null>(null);
+  const [playing, setPlaying] = useState<boolean>(false); //ゲーム中か否か
+  const text = useRef("スペースキーでスタート"); //基本的なテキスト+問題文
+  const unfilled = useRef(""); //未入力ローマ字
+  const filled = useRef(""); //入力済みローマ字
+  const [hp, setHp] = useState<number>(100); //プレイヤーのHP
+  const [monster, setMonster] = useState<Monster | null>(null); //現在セットされているモンスター
+  const [monsterHp, setMonsterHp] = useState<number>(0); //上記モンスターのHP
+  // const [monsterState, setMonsterState] = useState<string | null>(null);
 
   const sentences = [
     {
@@ -62,33 +62,16 @@ function Page() {
     },
   ];
 
+  // 主にゲーム以外でのキーイベント
   useEffect(() => {
-    // 入力を終えるとfill_new関数
-    if (unfilled === "" && playing) {
-      fill_new();
-    }
     const handleKeyDown = (e: KeyboardEvent) => {
-      // スペースキーでgame_start関数
       if (e.code === "Space") {
-        if (playing == true) {
-          return;
+        if (!playing) {
+          game_start();
         }
-        game_start();
       }
-      // ESPキーでgame_stop関数
       if (e.code === "Escape") {
         game_stop();
-      }
-      // 入力キーの判定
-      if (e.key === unfilled.charAt(0)) {
-        setFilled((prevFilled) => prevFilled + e.key);
-        setUnfilled((prevUnfilled) => prevUnfilled.slice(1));
-        setMonsterHp((prev) => prev - 1);
-      }
-      if (e.key !== unfilled.charAt(0) && e.key !== "Escape") {
-        if (playing) {
-          setHp((prev) => prev - 2);
-        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -103,52 +86,73 @@ function Page() {
 
   // 文章書き換え(f)
   const fill_new = () => {
-    setPlaying(true);
     const randomIndex = Math.floor(Math.random() * sentences.length);
     const randomSentence = sentences[randomIndex];
-    setFilled("");
-    setText(randomSentence.main);
-    setUnfilled(randomSentence.sub);
+    filled.current = "";
+    text.current = randomSentence.main;
+    unfilled.current = randomSentence.sub;
   };
 
   // ゲームストップ(f)
   const game_stop = () => {
+    setPlaying(false);
     window.location.reload();
-    // setPlaying(false);
-    // setText("スペースボタンでスタート");
-    // setUnfilled("");
-    // setFilled("");
-    // setHp(100);
   };
 
   // モンスターとの戦闘関数(f)
   const battle = (_monster: Monster) => {
     return new Promise<void>((resolve) => {
-      // モンスターを表示
+      // 戦闘開始の下準備
       setMonster(_monster);
       setMonsterHp(_monster.hp);
-      setMonsterState("appearing"); // モンスターが登場するアニメーションを開始
+      fill_new();
 
-      // モンスターの登場が終わったら戦闘開始
-      setTimeout(() => {
-        setMonsterState("in_battle");
-      }, 1000); //出現アニメ時間
+      // 待機
+      setTimeout(() => {}, 1000); //出現アニメ時間
 
-      // タイピングによるダメージ処理の関数をセット
-      const win = () => {
-        if (monsterHp <= 0) {
-          setMonsterState("disappearing"); // モンスターが消えるアニメーションを開始
+      // ダメージ処理のハンドラ
+      const damageHandler = (e: KeyboardEvent) => {
+        if (e.key === unfilled.current.charAt(0)) {
+          setMonsterHp((prevHp) => {
+            // 正解ならHPを減らして、Filledを移動
+            const newHp = prevHp - 1;
+            const newFilled = filled.current + unfilled.current.charAt(0);
+            const newUnfilled = unfilled.current.slice(1);
 
-          // モンスターが消えるのを待つ
-          setTimeout(() => {
-            setMonsterHp(0);
-            setMonster(null);
-            setMonsterState(null);
-            setDamageHandler(null); // ダメージ処理の関数をリセット
-            resolve(); // 戦闘終了
-          }, 1000); // 消失アニメ時間
+            filled.current = newFilled;
+            unfilled.current = newUnfilled;
+
+            // 未入力が無くなると、新しい文
+            if (unfilled.current.length <= 0) {
+              fill_new();
+            }
+
+            // 敵HPが無くなると、win関数
+            if (newHp <= 0) {
+              document.removeEventListener("keydown", damageHandler); // remove event listener when monster is defeated
+              win().then(resolve);
+            }
+            return newHp;
+          });
+        }
+        if (e.key !== unfilled.current.charAt(0)) {
+          // 不正解ならHPを-2する
+          setHp((prev) => prev - 1);
         }
       };
+
+      document.addEventListener("keydown", damageHandler);
+    });
+  };
+
+  const win = () => {
+    return new Promise<void>((resolve) => {
+      // モンスターが消えるのを待つ
+      setTimeout(() => {
+        setMonsterHp(0);
+        setMonster(null);
+        resolve(); // モンスターが消えた
+      }, 1000); // 消失アニメ時間
     });
   };
 
@@ -157,7 +161,8 @@ function Page() {
   const torubo = new Monster("トルボ", 300, "torubo");
   // ゲーム進行(f)
   const game_start = async () => {
-    setText("");
+    setPlaying(true);
+    text.current = "";
     await delay(600);
     await battle(ririppo);
     await battle(tokotoko);
@@ -205,10 +210,10 @@ function Page() {
               className="flex flex-col justify-center items-center border-2 border-black opacity-80 rounded-md h-64 mb-2 border-spacing-2 bg-slate-200"
               style={{ width: "98%" }}
             >
-              <h2 className="text-5xl">{text}</h2>
+              <h2 className="text-5xl">{text.current}</h2>
               <div className="flex">
-                <p className="text-3xl text-red-400">{filled}</p>
-                <p className="text-3xl">{unfilled}</p>
+                <p className="text-3xl text-red-400">{filled.current}</p>
+                <p className="text-3xl">{unfilled.current}</p>
               </div>
             </div>
           </div>
