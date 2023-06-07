@@ -18,6 +18,8 @@ function Page() {
   const filled = useRef(""); // 入力済みローマ字
   const attackPosition = useRef({ top: "", left: "" }); // アタックモーダルの位置
   const [typeSpcae, setTypeSpace] = useState<boolean>(false); // 「スペースで進む」の表示/非表示
+  const monsterAtack = useRef<NodeJS.Timeout | null>(null);
+  const damageHandler = useRef<((e: KeyboardEvent) => void) | null>(null);
 
   const sentences = [
     {
@@ -50,8 +52,12 @@ function Page() {
     },
   ];
 
-  // 主にゲーム以外でのキーイベント
   useEffect(() => {
+    // HPが0以下になるとgame_stop()
+    if (hp <= 0) {
+      game_over();
+    }
+    // ホーム画面でのキーイベント
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Space") {
         if (!playing) {
@@ -66,7 +72,7 @@ function Page() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [playing, unfilled, filled]);
+  }, [playing, unfilled, filled, hp]);
 
   // 指定した時間、待機(f)
   const delay = (ms: number) =>
@@ -102,10 +108,41 @@ function Page() {
     unfilled.current = "";
     setHp(100);
     setMonster(null);
+
+    setAttackDisplay(false);
+    // モンスターの攻撃をストップ
+    if (damageHandler.current) {
+      document.removeEventListener("keydown", damageHandler.current);
+      damageHandler.current = null;
+    }
+    // タイピングによる攻撃をストップ
+    if (monsterAtack.current) {
+      clearInterval(monsterAtack.current);
+      monsterAtack.current = null;
+    }
   };
 
   // ゲームオーバー(f)
-  const game_over = () => {};
+  const game_over = () => {
+    setPlaying(false);
+    text.current = "";
+    filled.current = "";
+    unfilled.current = "";
+    setHp(100);
+    setMonster(null);
+
+    setAttackDisplay(false);
+    // モンスターの攻撃をストップ
+    if (damageHandler.current) {
+      document.removeEventListener("keydown", damageHandler.current);
+      damageHandler.current = null;
+    }
+    // タイピングによる攻撃をストップ
+    if (monsterAtack.current) {
+      clearInterval(monsterAtack.current);
+      monsterAtack.current = null;
+    }
+  };
 
   // テキストの表示(f)
   const write = (_text: string) => {
@@ -137,20 +174,17 @@ function Page() {
       setTimeout(() => {}, 1000); //出現アニメ時間
 
       // モンスターの定期的な攻撃
-      const intervalId = setInterval(() => {
+      monsterAtack.current = setInterval(() => {
         modalLocate();
         setAttackDisplay(true);
         setTimeout(function () {
           setAttackDisplay(false);
         }, 900);
         setHp((prevHp) => prevHp - _monster.damage);
-        if (hp <= 0) {
-          game_over();
-        }
       }, _monster.duration);
 
       // ダメージ処理のハンドラ
-      const damageHandler = (e: KeyboardEvent) => {
+      damageHandler.current = (e: KeyboardEvent) => {
         if (e.key === unfilled.current.charAt(0)) {
           setMonsterHp((prevHp) => {
             // 正解ならHPを減らして、Filledを移動
@@ -168,8 +202,17 @@ function Page() {
 
             // 敵HPが無くなると、win関数
             if (newHp <= 0) {
-              document.removeEventListener("keydown", damageHandler);
-              clearInterval(intervalId);
+              setAttackDisplay(false);
+              // モンスターの攻撃をストップ
+              if (damageHandler.current) {
+                document.removeEventListener("keydown", damageHandler.current);
+                damageHandler.current = null;
+              }
+              // タイピングによる攻撃をストップ
+              if (monsterAtack.current) {
+                clearInterval(monsterAtack.current);
+                monsterAtack.current = null;
+              }
               win().then(resolve);
             }
             return newHp;
@@ -181,7 +224,7 @@ function Page() {
         }
       };
 
-      document.addEventListener("keydown", damageHandler);
+      document.addEventListener("keydown", damageHandler.current);
     });
   };
 
