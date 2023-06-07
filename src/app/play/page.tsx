@@ -1,49 +1,23 @@
 "use client";
 import Link from "next/link";
-import React, {
-  ChangeEvent,
-  ReactEventHandler,
-  use,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
-class Monster {
-  name: string;
-  hp: number;
-  image: string;
-  attack: string;
-  damage: number;
-  duration: number;
-
-  constructor(
-    n: string,
-    hp: number,
-    img: string,
-    a: string,
-    da: number,
-    du: number
-  ) {
-    this.name = n;
-    this.hp = hp;
-    this.image = img;
-    this.attack = a;
-    this.damage = da;
-    this.duration = du;
-  }
-}
+import React, { useEffect, useRef, useState } from "react";
+import { Monster } from "../class";
+import MonsterDisplay from "../components/big/MonsterDisplay";
+import TextDisplay from "../components/big/TextDisplay";
+import HpBar from "../components/small/HpBar";
+import AttackDisplay from "../components/small/AttackDisplay";
 
 function Page() {
-  const [playing, setPlaying] = useState<boolean>(false); //ゲーム中か否か
-  const text = useRef("スペースキーでスタート"); //基本的なテキスト+問題文
-  const unfilled = useRef(""); //未入力ローマ字
-  const filled = useRef(""); //入力済みローマ字
-  const [hp, setHp] = useState<number>(100); //プレイヤーのHP
-  const [monster, setMonster] = useState<Monster | null>(null); //現在セットされているモンスター
-  const [monsterHp, setMonsterHp] = useState<number>(0); //上記モンスターのHP
-  const [attackDisplay, setAttackDisplay] = useState<boolean>(false);
-  const atackPosition = useRef({ top: "", left: "" });
+  const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
+  const [hp, setHp] = useState<number>(100); // プレイヤーのHP
+  const [monster, setMonster] = useState<Monster | null>(null); // 現在セットされているモンスター
+  const [monsterHp, setMonsterHp] = useState<number>(0); // 上記モンスターのHP
+  const [attackDisplay, setAttackDisplay] = useState<boolean>(false); // モンスターの攻撃文字の表示/非表示
+  const text = useRef("スペースキーでスタート"); // 基本的なテキスト+問題文
+  const unfilled = useRef(""); // 未入力ローマ字
+  const filled = useRef(""); // 入力済みローマ字
+  const attackPosition = useRef({ top: "", left: "" }); // アタックモーダルの位置
+  const [typeSpcae, setTypeSpace] = useState<boolean>(false); // 「スペースで進む」の表示/非表示
 
   const sentences = [
     {
@@ -105,9 +79,10 @@ function Page() {
       { top: "200px", left: "25px" },
       { top: "130px", left: "610px" },
       { top: "200px", left: "610px" },
+      { top: "270px", left: "610px" },
     ];
     const randomIndex = Math.floor(Math.random() * positions.length);
-    atackPosition.current = positions[randomIndex];
+    attackPosition.current = positions[randomIndex];
   };
 
   // 文章書き換え(f)
@@ -122,7 +97,32 @@ function Page() {
   // ゲームストップ(f)
   const game_stop = () => {
     setPlaying(false);
-    window.location.reload();
+    text.current = "";
+    filled.current = "";
+    unfilled.current = "";
+    setHp(100);
+    setMonster(null);
+  };
+
+  // ゲームオーバー(f)
+  const game_over = () => {};
+
+  // テキストの表示(f)
+  const write = (_text: string) => {
+    return new Promise<void>((resolve) => {
+      setTypeSpace(true);
+      text.current = _text;
+      unfilled.current = "";
+      filled.current = "";
+      const damageHandler = (e: KeyboardEvent) => {
+        if (e.code === "Space") {
+          document.removeEventListener("keydown", damageHandler);
+          setTypeSpace(false);
+          resolve();
+        }
+      };
+      document.addEventListener("keydown", damageHandler);
+    });
   };
 
   // モンスターとの戦闘関数(f)
@@ -144,6 +144,9 @@ function Page() {
           setAttackDisplay(false);
         }, 900);
         setHp((prevHp) => prevHp - _monster.damage);
+        if (hp <= 0) {
+          game_over();
+        }
       }, _monster.duration);
 
       // ダメージ処理のハンドラ
@@ -202,6 +205,10 @@ function Page() {
     text.current = "";
     await delay(600);
     await fight(ririppo);
+    await write("リリッポを倒した！");
+    await write("次に出てくる敵に対策しよう");
+    await write("タイピングで倒すことができます");
+    await write("敵によって攻撃の頻度とダメージが異なります");
     await fight(tokotoko);
     await fight(torubo);
   };
@@ -211,60 +218,20 @@ function Page() {
       <div className="flex pt-32 bg-gray-400 h-screen shadow-xl">
         <div className="bg-gray-100 w-4/5 h-144 mx-8 flex justify-center">
           <div className="bg-stage1-bg bg-cover w-full flex flex-col justify-center items-center relative">
-            {/* HPバーの表示 */}
-            <div className="absolute top-2 left-2">
-              <div className="w-72 h-10 bg-slate-200 rounded-sm">
-                <div
-                  className="flex items-center h-10 bg-red-600 rounded-sm text-2xl font-bold pl-1"
-                  style={{ width: `${hp}%` }}
-                >
-                  <p className="text-white">{hp}</p>
-                </div>
-              </div>
-            </div>
-            {/* モーダルの表示3種類 */}
+            <HpBar hp={hp} />
             {attackDisplay && (
-              <div
-                className="absolute px-1 bg-slate-100 border-black font-bold border-4 text-4xl rounded-md"
-                style={{
-                  top: atackPosition.current.top,
-                  left: atackPosition.current.left,
-                }}
-              >
-                {monster?.name}の{monster?.attack}!
-              </div>
+              <AttackDisplay
+                attackPosition={attackPosition}
+                monster={monster}
+              />
             )}
-
-            <div className="w-full h-full flex justify-center items-end">
-              {monster && (
-                <div className="mb-12">
-                  <img
-                    className="w-64"
-                    src={`/opponents/${monster.image}.png`}
-                    alt=""
-                  />
-                  <div className="w-56 mb-3 h-6 bg-slate-200 rounded-sm">
-                    <div
-                      className="flex items-center h-6 bg-red-600 rounded-sm text-2xl font-bold pl-1"
-                      style={{ width: `${100}%` }}
-                    >
-                      <p className="text-white">{monsterHp}</p>
-                    </div>
-                    <p className="mt-1 text-2xl font-bold">{monster.name}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div
-              className="flex flex-col justify-center items-center border-2 border-black opacity-80 rounded-md h-64 mb-2 border-spacing-2 bg-slate-200"
-              style={{ width: "98%" }}
-            >
-              <h2 className="text-5xl">{text.current}</h2>
-              <div className="flex">
-                <p className="text-3xl text-red-400">{filled.current}</p>
-                <p className="text-3xl">{unfilled.current}</p>
-              </div>
-            </div>
+            <MonsterDisplay monster={monster} monsterHp={monsterHp} />
+            <TextDisplay
+              text={text}
+              filled={filled}
+              unfilled={unfilled}
+              typeSpace={typeSpcae}
+            />
           </div>
         </div>
         <div className="bg-gray-100 w-1/5 h-144 mr-8 flex justify-center">
