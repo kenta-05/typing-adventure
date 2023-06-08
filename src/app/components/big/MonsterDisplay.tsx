@@ -14,7 +14,7 @@ function MonsterDisplay({ monster, monsterHp }: Props) {
           <img
             className="w-64"
             src={`/opponents/${monster.image}.png`}
-            alt=""
+            alt="モンスター"
           />
           <div className="w-56 mb-3 h-6 bg-slate-200 rounded-sm">
             <div

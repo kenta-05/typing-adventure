@@ -1,16 +1,17 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { Monster } from "../class";
 import MonsterDisplay from "../components/big/MonsterDisplay";
 import TextDisplay from "../components/big/TextDisplay";
 import HpBar from "../components/small/HpBar";
 import AttackDisplay from "../components/small/AttackDisplay";
+import LoseModal from "../components/middle/LoseModal";
 
 function Page() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
   const [hp, setHp] = useState<number>(100); // プレイヤーのHP
   const [monster, setMonster] = useState<Monster | null>(null); // 現在セットされているモンスター
+  const [prevMonster, setPrevMonster] = useState<Monster | null>(null); // 限界戦っていたモンスター
   const [monsterHp, setMonsterHp] = useState<number>(0); // 上記モンスターのHP
   const [attackDisplay, setAttackDisplay] = useState<boolean>(false); // モンスターの攻撃文字の表示/非表示
   const text = useRef("スペースキーでスタート"); // 基本的なテキスト+問題文
@@ -18,8 +19,11 @@ function Page() {
   const filled = useRef(""); // 入力済みローマ字
   const attackPosition = useRef({ top: "", left: "" }); // アタックモーダルの位置
   const [typeSpcae, setTypeSpace] = useState<boolean>(false); // 「スペースで進む」の表示/非表示
-  const monsterAtack = useRef<NodeJS.Timeout | null>(null);
-  const damageHandler = useRef<((e: KeyboardEvent) => void) | null>(null);
+  const monsterAtack = useRef<NodeJS.Timeout | null>(null); // モンスター攻撃時タイマー
+  const damageHandler = useRef<((e: KeyboardEvent) => void) | null>(null); // 攻撃時ハンドラー
+  const [loseModal, setLoseModal] = useState<boolean>(false); // 敗北時モーダルの表示/非表示
+  const [currentType, setCurrentType] = useState<number>(0); // 正解のタイプ数
+  const [wrongType, setWrongType] = useState<number>(0); // 不正解のタイプ数
 
   const sentences = [
     {
@@ -107,6 +111,7 @@ function Page() {
     filled.current = "";
     unfilled.current = "";
     setHp(100);
+    setPrevMonster(monster);
     setMonster(null);
 
     setAttackDisplay(false);
@@ -129,8 +134,10 @@ function Page() {
     filled.current = "";
     unfilled.current = "";
     setHp(100);
+    setPrevMonster(monster);
     setMonster(null);
 
+    setLoseModal(true);
     setAttackDisplay(false);
     // モンスターの攻撃をストップ
     if (damageHandler.current) {
@@ -186,6 +193,8 @@ function Page() {
       // ダメージ処理のハンドラ
       damageHandler.current = (e: KeyboardEvent) => {
         if (e.key === unfilled.current.charAt(0)) {
+          // 正解のタイプ数を++
+          setCurrentType((prev) => prev + 1);
           setMonsterHp((prevHp) => {
             // 正解ならHPを減らして、Filledを移動
             const newHp = prevHp - 1;
@@ -221,6 +230,8 @@ function Page() {
         if (e.key !== unfilled.current.charAt(0)) {
           // 不正解ならHPを-2する
           setHp((prev) => prev - 1);
+          // 不正解のタイプ数を++
+          setWrongType((prev) => prev + 1);
         }
       };
 
@@ -233,6 +244,7 @@ function Page() {
       // モンスターが消えるのを待つ
       setTimeout(() => {
         setMonsterHp(0);
+        setPrevMonster(monster);
         setMonster(null);
         resolve(); // モンスターが消えた
       }, 0); // 消えるアニメ実装
@@ -259,8 +271,17 @@ function Page() {
   return (
     <>
       <div className="flex pt-32 bg-gray-400 h-screen shadow-xl">
-        <div className="bg-gray-100 w-4/5 h-144 mx-8 flex justify-center">
-          <div className="bg-stage1-bg bg-cover w-full flex flex-col justify-center items-center relative">
+        <div className="bg-gray-100 w-4/5 h-144 mx-8 flex justify-center relative">
+          {loseModal && (
+            <LoseModal
+              prevMonster={prevMonster}
+              setLoseModal={setLoseModal}
+              game_start={game_start}
+              currentType={currentType}
+              wrongType={wrongType}
+            />
+          )}
+          <div className="bg-stage1-bg bg-cover w-full flex flex-col justify-center items-center relative z-0">
             <HpBar hp={hp} />
             {attackDisplay && (
               <AttackDisplay
