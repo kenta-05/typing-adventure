@@ -6,6 +6,8 @@ import TextDisplay from "../components/big/TextDisplay";
 import HpBar from "../components/small/HpBar";
 import AttackDisplay from "../components/small/AttackDisplay";
 import LoseModal from "../components/middle/LoseModal";
+import keygraph from "../lib/keygraph";
+import sentences from "../sentences.json";
 
 function Page() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -20,52 +22,45 @@ function Page() {
   const attackPosition = useRef({ top: "", left: "" }); // アタックモーダルの位置
   const [typeSpcae, setTypeSpace] = useState<boolean>(false); // 「スペースで進む」の表示/非表示
   const monsterAtack = useRef<NodeJS.Timeout | null>(null); // モンスター攻撃時タイマー
-  const damageHandler = useRef<((e: KeyboardEvent) => void) | null>(null); // 攻撃時ハンドラー
+  const typeHandler = useRef<((e: KeyboardEvent) => void) | null>(null); // 攻撃時ハンドラー
   const [loseModal, setLoseModal] = useState<boolean>(false); // 敗北時モーダルの表示/非表示
   const [currentType, setCurrentType] = useState<number>(0); // 正解のタイプ数
   const [wrongType, setWrongType] = useState<number>(0); // 不正解のタイプ数
 
-  const sentences = [
-    {
-      main: "隣の客はよく柿食う客だ",
-      sub: "tonarinokyakuhayokukakikuukyakuda",
-    },
-    {
-      main: "東京特許許可局",
-      sub: "toukyoutokkyokyokakyoku",
-    },
-    {
-      main: "これはテストの文の一部です",
-      sub: "korehatesutonobunnnoitibudesu",
-    },
-    {
-      main: "今日はそばが食べたい気分だ",
-      sub: "kyouhasobagatabetaikibunda",
-    },
-    {
-      main: "今日は散歩に行こうと思います",
-      sub: "kyouhasanponiikoutoomoimasu",
-    },
-    {
-      main: "私の好きな食べ物はハンバーグです",
-      sub: "watasinosukinatabemonohahanba-gudesu",
-    },
-    {
-      main: "最近めっきり寒くなりましたね",
-      sub: "saikinmekkirisamukunarimasitane",
-    },
-  ];
+  const [kanjiText, setKanjiText] = useState<string>("スペースキーでスタート"); // 現在の漢字込みテキスト
+
+  const [keyCandidate, setKeyCandidate] = useState(""); // 未入力
+  const [keyDone, setKeyDone] = useState(""); // 既入力
+  // キーの複数入力ライブラリのインスタンス
+  const disp = () => {
+    setKeyCandidate(keygraph.key_candidate());
+    setKeyDone(keygraph.key_done());
+  };
+
+  // モンスター攻撃のハンドラー除去
+  const stopHandler = () => {
+    if (monsterAtack.current) {
+      clearInterval(monsterAtack.current);
+      monsterAtack.current = null;
+    }
+    if (typeHandler.current) {
+      document.removeEventListener("keydown", typeHandler.current);
+      typeHandler.current = null;
+    }
+  };
 
   useEffect(() => {
     // HPが0以下になるとgame_stop()
     if (hp <= 0) {
-      game_over();
+      game_stop();
+      setLoseModal(true);
     }
     // ホーム画面でのキーイベント
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Space") {
         if (!playing) {
           game_start();
+          console.log("反応しています");
         }
       }
       if (e.code === "Escape") {
@@ -97,11 +92,10 @@ function Page() {
 
   // 文章書き換え(f)
   const fill_new = () => {
-    const randomIndex = Math.floor(Math.random() * sentences.length);
-    const randomSentence = sentences[randomIndex];
-    filled.current = "";
-    text.current = randomSentence.main;
-    unfilled.current = randomSentence.sub;
+    const index = Math.floor(Math.random() * sentences.length);
+    keygraph.build(sentences[index].kana);
+    setKanjiText(sentences[index].kanji);
+    disp();
   };
 
   // ゲームストップ(f)
@@ -113,51 +107,16 @@ function Page() {
     setHp(100);
     setPrevMonster(monster);
     setMonster(null);
-
     setAttackDisplay(false);
-    // モンスターの攻撃をストップ
-    if (damageHandler.current) {
-      document.removeEventListener("keydown", damageHandler.current);
-      damageHandler.current = null;
-    }
-    // タイピングによる攻撃をストップ
-    if (monsterAtack.current) {
-      clearInterval(monsterAtack.current);
-      monsterAtack.current = null;
-    }
-  };
 
-  // ゲームオーバー(f)
-  const game_over = () => {
-    setPlaying(false);
-    text.current = "";
-    filled.current = "";
-    unfilled.current = "";
-    setHp(100);
-    setPrevMonster(monster);
-    setMonster(null);
-
-    setLoseModal(true);
-    setAttackDisplay(false);
-    // モンスターの攻撃をストップ
-    if (damageHandler.current) {
-      document.removeEventListener("keydown", damageHandler.current);
-      damageHandler.current = null;
-    }
-    // タイピングによる攻撃をストップ
-    if (monsterAtack.current) {
-      clearInterval(monsterAtack.current);
-      monsterAtack.current = null;
-    }
+    stopHandler();
   };
 
   // テキストの表示(f)
   const write = (_text: string) => {
     return new Promise<void>((resolve) => {
       setTypeSpace(true);
-      text.current = _text;
-      unfilled.current = "";
-      filled.current = "";
+      setKanjiText(_text);
       const damageHandler = (e: KeyboardEvent) => {
         if (e.code === "Space") {
           document.removeEventListener("keydown", damageHandler);
@@ -177,7 +136,6 @@ function Page() {
       setMonsterHp(_monster.hp);
       fill_new();
 
-      // 待機
       setTimeout(() => {}, 1000); //出現アニメ時間
 
       // モンスターの定期的な攻撃
@@ -191,51 +149,38 @@ function Page() {
       }, _monster.duration);
 
       // ダメージ処理のハンドラ
-      damageHandler.current = (e: KeyboardEvent) => {
-        if (e.key === unfilled.current.charAt(0)) {
+      typeHandler.current = (e: KeyboardEvent) => {
+        const isNextKey = keygraph.next(e.key);
+        if (isNextKey) {
           // 正解のタイプ数を++
           setCurrentType((prev) => prev + 1);
           setMonsterHp((prevHp) => {
             // 正解ならHPを減らして、Filledを移動
             const newHp = prevHp - 1;
-            const newFilled = filled.current + unfilled.current.charAt(0);
-            const newUnfilled = unfilled.current.slice(1);
-
-            filled.current = newFilled;
-            unfilled.current = newUnfilled;
-
-            // 未入力が無くなると、新しい文
-            if (unfilled.current.length <= 0) {
-              fill_new();
-            }
 
             // 敵HPが無くなると、win関数
             if (newHp <= 0) {
               setAttackDisplay(false);
-              // モンスターの攻撃をストップ
-              if (damageHandler.current) {
-                document.removeEventListener("keydown", damageHandler.current);
-                damageHandler.current = null;
-              }
-              // タイピングによる攻撃をストップ
-              if (monsterAtack.current) {
-                clearInterval(monsterAtack.current);
-                monsterAtack.current = null;
-              }
+              stopHandler();
+
               win().then(resolve);
             }
             return newHp;
           });
-        }
-        if (e.key !== unfilled.current.charAt(0)) {
+        } else if (!isNextKey) {
           // 不正解ならHPを-2する
           setHp((prev) => prev - 1);
           // 不正解のタイプ数を++
           setWrongType((prev) => prev + 1);
         }
+
+        if (keygraph.is_finished()) {
+          fill_new();
+        }
+        disp();
       };
 
-      document.addEventListener("keydown", damageHandler.current);
+      document.addEventListener("keydown", typeHandler.current);
     });
   };
 
@@ -246,6 +191,11 @@ function Page() {
         setMonsterHp(0);
         setPrevMonster(monster);
         setMonster(null);
+        stopHandler();
+
+        setKanjiText("");
+        setKeyCandidate("");
+        setKeyDone("");
         resolve(); // モンスターが消えた
       }, 0); // 消えるアニメ実装
     });
@@ -263,7 +213,7 @@ function Page() {
     await write("リリッポを倒した！");
     await write("次に出てくる敵に対策しよう");
     await write("タイピングで倒すことができます");
-    await write("敵によって攻撃の頻度とダメージが異なります");
+    await write("ミスをするとHPが減ってしまいます");
     await fight(tokotoko);
     await fight(torubo);
   };
@@ -291,9 +241,9 @@ function Page() {
             )}
             <MonsterDisplay monster={monster} monsterHp={monsterHp} />
             <TextDisplay
-              text={text}
-              filled={filled}
-              unfilled={unfilled}
+              keyCandidate={keyCandidate}
+              keyDone={keyDone}
+              kanjiText={kanjiText}
               typeSpace={typeSpcae}
             />
           </div>
