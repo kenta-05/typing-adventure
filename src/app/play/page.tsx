@@ -8,6 +8,7 @@ import AttackDisplay from "../components/small/AttackDisplay";
 import LoseModal from "../components/middle/LoseModal";
 import keygraph from "../lib/keygraph";
 import sentences from "../sentences.json";
+import FightRight from "../components/big/FightRight";
 
 function Page() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -26,9 +27,9 @@ function Page() {
   const [loseModal, setLoseModal] = useState<boolean>(false); // 敗北時モーダルの表示/非表示
   const [currentType, setCurrentType] = useState<number>(0); // 正解のタイプ数
   const [wrongType, setWrongType] = useState<number>(0); // 不正解のタイプ数
+  const [stageNum, setStageNum] = useState<string>("stage-1"); // 現在のステージ
 
   const [kanjiText, setKanjiText] = useState<string>("スペースキーでスタート"); // 現在の漢字込みテキスト
-
   const [keyCandidate, setKeyCandidate] = useState(""); // 未入力
   const [keyDone, setKeyDone] = useState(""); // 既入力
   // キーの複数入力ライブラリのインスタンス
@@ -220,7 +221,7 @@ function Page() {
 
   return (
     <>
-      <div className="flex pt-32 bg-gray-400 h-screen shadow-xl">
+      <div className="flex pt-28 bg-gray-400 h-screen shadow-xl">
         <div className="bg-gray-100 w-4/5 h-144 mx-8 flex justify-center relative">
           {loseModal && (
             <LoseModal
@@ -231,7 +232,9 @@ function Page() {
               wrongType={wrongType}
             />
           )}
-          <div className="bg-stage1-bg bg-cover w-full flex flex-col justify-center items-center relative z-0">
+          <div
+            className={`bg-${stageNum} bg-cover w-full flex flex-col justify-center items-center relative z-0`}
+          >
             <HpBar hp={hp} />
             {attackDisplay && (
               <AttackDisplay
@@ -248,13 +251,7 @@ function Page() {
             />
           </div>
         </div>
-        <div className="bg-gray-100 w-1/5 h-144 mr-8 flex justify-center">
-          <img
-            src="/sotetu.png"
-            alt="Avatar"
-            className="w-20 h-20 rounded-full"
-          />
-        </div>
+        <FightRight />
       </div>
     </>
   );

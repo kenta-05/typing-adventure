@@ -11,7 +11,16 @@ module.exports = {
         mochiypop: ["Mochiy Pop P One", "sans-serif"],
       },
       backgroundImage: {
-        "stage1-bg": "url('/game-asset/stage1.png')",
+        "stage-1": "url('/background/stage-1.jpg')",
+        "stage-2": "url('/background/stage-2.jpg')",
+        "stage-3": "url('/background/stage-3.jpg')",
+        "stage-4": "url('/background/stage-4.jpg')",
+        "stage-5": "url('/background/stage-5.jpg')",
+        "stage-6": "url('/background/stage-6.jpg')",
+        "stage-7": "url('/background/stage-7.jpg')",
+        "stage-8": "url('/background/stage-8.jpg')",
+        "stage-9": "url('/background/stage-9.jpg')",
+        "stage-10": "url('/background/stage-10.jpg')",
       },
       width: {
         120: "30rem",
