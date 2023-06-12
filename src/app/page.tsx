@@ -5,10 +5,10 @@ export default function Home() {
   return (
     <>
       <main>
-        <div className="space-x-8 px-8 flex pt-24 h-screen bg-gray-400 shadow-xl">
+        <div className="space-x-8 px-8 flex pt-16 h-screen bg-gray-400 shadow-xl">
           <div className="bg-gray-100 w-[64rem] h-144 flex justify-center relative">
             <div className="space-y-20 flex flex-col justify-center items-center">
-              <h1 className="text-6xl">タイピング冒険者</h1>
+              <h1 className="text-6xl overflow-y-hidden">タイピング冒険者</h1>
               <Link href="/play">
                 <button className="text-5xl bg-blue-500 px-6 py-2 text-white">
                   ゲームスタート

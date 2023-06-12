@@ -60,7 +60,7 @@ function GameDisplay() {
       if (e.code === "Space") {
         e.preventDefault(); // スクロールを防ぐ
         if (!playing) {
-          game_start();
+          game_start_1();
           console.log("反応しています");
         }
       }
@@ -83,9 +83,9 @@ function GameDisplay() {
     const positions = [
       { top: "130px", left: "25px" },
       { top: "200px", left: "25px" },
-      { top: "130px", left: "610px" },
-      { top: "200px", left: "610px" },
-      { top: "270px", left: "610px" },
+      { top: "130px", left: "580px" },
+      { top: "200px", left: "580px" },
+      { top: "270px", left: "580px" },
     ];
     const randomIndex = Math.floor(Math.random() * positions.length);
     attackPosition.current = positions[randomIndex];
@@ -107,7 +107,7 @@ function GameDisplay() {
     setMonster(null);
     setAttackDisplay(false);
 
-    setKanjiText("スペースキーでスタート");
+    setKanjiText("");
     setKeyCandidate("");
     setKeyDone("");
     stopHandler();
@@ -207,7 +207,7 @@ function GameDisplay() {
   const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 3, 5000);
   const torubo = new Monster("トルボ", 300, "torubo", "突進", 3, 5000);
   // ゲーム進行(f)
-  const game_start = async () => {
+  const game_start_1 = async () => {
     setPlaying(true);
     text.current = "";
     await delay(200);
@@ -221,32 +221,40 @@ function GameDisplay() {
   };
 
   return (
-    <div className="bg-gray-100 w-[64rem] h-144 flex justify-center relative">
-      {loseModal && (
-        <LoseModal
-          prevMonster={prevMonster}
-          setLoseModal={setLoseModal}
-          game_start={game_start}
-          currentType={currentType}
-          wrongType={wrongType}
-        />
-      )}
-      <div
-        className={`bg-${stageNum} bg-cover w-full flex flex-col justify-center items-center relative z-0`}
-      >
-        <HpBar hp={hp} />
-        {attackDisplay && (
-          <AttackDisplay attackPosition={attackPosition} monster={monster} />
+    <>
+      {/* <div className="absolute bg-gray-200 w-screen h-screen"></div> */}
+
+      <div className="bg-gray-100 w-[64rem] h-144 flex justify-center relative overflow-y-hidden">
+        {loseModal && (
+          <LoseModal
+            prevMonster={prevMonster}
+            setLoseModal={setLoseModal}
+            currentType={currentType}
+            wrongType={wrongType}
+          />
         )}
-        <MonsterDisplay monster={monster} monsterHp={monsterHp} />
-        <TextDisplay
-          keyCandidate={keyCandidate}
-          keyDone={keyDone}
-          kanjiText={kanjiText}
-          typeSpace={typeSpcae}
-        />
+        <div
+          style={{
+            backgroundImage: `url(/background/${stageNum}.jpg)`,
+          }}
+          className={
+            "bg-cover w-full flex flex-col justify-center items-center relative z-0 overflow-y-hidden"
+          }
+        >
+          <HpBar hp={hp} />
+          {attackDisplay && (
+            <AttackDisplay attackPosition={attackPosition} monster={monster} />
+          )}
+          <MonsterDisplay monster={monster} monsterHp={monsterHp} />
+          <TextDisplay
+            keyCandidate={keyCandidate}
+            keyDone={keyDone}
+            kanjiText={kanjiText}
+            typeSpace={typeSpcae}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

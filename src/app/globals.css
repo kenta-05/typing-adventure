@@ -6,4 +6,6 @@
 
 * {
   user-select: none;
+  overflow-x: hidden;
+  /* overflow-y: hidden; */
 }

@@ -8,7 +8,7 @@ interface Props {
 
 function MonsterDisplay({ monster, monsterHp }: Props) {
   return (
-    <div className="w-full h-full flex justify-center items-end">
+    <div className="w-full h-full flex justify-center items-end overflow-y-hidden">
       {monster && (
         <div className="mb-12">
           <img
@@ -16,16 +16,16 @@ function MonsterDisplay({ monster, monsterHp }: Props) {
             src={`/opponents/${monster.image}.png`}
             alt="モンスター"
           />
-          <div className="w-56 mb-3 h-6 bg-slate-200 rounded-sm">
+          <div className="w-56 mb-3 h-6 bg-slate-200 rounded-sm overflow-y-hidden">
             <div
-              className="flex items-center h-6 bg-red-600 rounded-sm text-2xl font-bold pl-1"
+              className="flex items-center h-6 bg-red-600 rounded-sm text-2xl font-bold pl-1 overflow-y-hidden"
               style={{
                 width: `${monster ? (monsterHp / monster.hp) * 100 : 0}%`,
               }}
             >
               <p className="text-white">{monsterHp}</p>
             </div>
-            <p className="mt-1 text-2xl font-bold">{monster.name}</p>
+            <p className="text-2xl font-bold">{monster.name}</p>
           </div>
         </div>
       )}

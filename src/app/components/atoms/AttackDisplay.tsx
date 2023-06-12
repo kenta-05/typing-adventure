@@ -9,7 +9,7 @@ interface Props {
 function AttackDisplay({ attackPosition, monster }: Props) {
   return (
     <div
-      className="absolute px-1 bg-slate-100 border-black font-bold border-4 text-4xl rounded-md"
+      className="absolute px-1 bg-slate-100 border-black font-bold border-4 text-4xl rounded-md overflow-y-hidden"
       style={{
         top: attackPosition.current!.top,
         left: attackPosition.current!.left,

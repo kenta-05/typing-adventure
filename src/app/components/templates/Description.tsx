@@ -2,7 +2,7 @@ import React from "react";
 
 function Description() {
   return (
-    <div className="space-y-6 px-4 py-5 bg-gray-300 w-[58rem] border-2 border-black rounded-lg">
+    <div className="space-y-6 px-4 py-5 bg-gray-300 w-[57rem] border-2 border-black rounded-lg">
       <div>
         <h2 className="border-b-2 pb-1 border-black font-bold text-lg">
           タイピング冒険記とは
