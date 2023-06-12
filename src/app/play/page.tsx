@@ -8,7 +8,7 @@ import Link from "next/link";
 function Page() {
   return (
     <>
-      <div className="px-8 pt-16 pb-12 flex flex-col bg-gray-400 min-h-screen shadow-xl">
+      <div className="relative px-8 pt-16 pb-12 flex flex-col bg-gray-400 min-h-screen shadow-xl">
         <Link
           href="/"
           className="text-lg absolute top-5 left-5 hover: underline"
