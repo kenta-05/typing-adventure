@@ -208,7 +208,7 @@ function Page() {
   const game_start = async () => {
     setPlaying(true);
     text.current = "";
-    await delay(600);
+    await delay(200);
     await fight(ririppo);
     await write("リリッポを倒した！");
     await write("次に出てくる敵に対策しよう");
