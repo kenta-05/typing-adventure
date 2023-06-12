@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Monster } from "../../class";
 import MonsterDisplay from "../../components/organisms/MonsterDisplay";
@@ -101,14 +102,14 @@ function GameDisplay() {
   // ゲームストップ(f)
   const game_stop = () => {
     setPlaying(false);
-    text.current = "";
-    filled.current = "";
-    unfilled.current = "";
     setHp(100);
     setPrevMonster(monster);
     setMonster(null);
     setAttackDisplay(false);
 
+    setKanjiText("スペースキーでスタート");
+    setKeyCandidate("");
+    setKeyDone("");
     stopHandler();
   };
 
@@ -192,6 +193,7 @@ function GameDisplay() {
         setPrevMonster(monster);
         setMonster(null);
         stopHandler();
+        setAttackDisplay(false);
 
         setKanjiText("");
         setKeyCandidate("");
