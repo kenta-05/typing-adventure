@@ -31,6 +31,10 @@ module.exports = {
         144: "37rem",
         320: "80rem",
       },
+      colors: {
+        twitter: "#0796ed",
+        "twitter-hover": "#096dab",
+      },
     },
   },
 };

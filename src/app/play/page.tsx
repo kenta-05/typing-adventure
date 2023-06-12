@@ -8,7 +8,7 @@ import AttackDisplay from "../components/small/AttackDisplay";
 import LoseModal from "../components/middle/LoseModal";
 import keygraph from "../lib/keygraph";
 import sentences from "../sentences.json";
-import FightRight from "../components/big/FightRight";
+import RightDesplay from "../components/big/RightDesplay";
 
 function Page() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -202,7 +202,7 @@ function Page() {
     });
   };
 
-  const ririppo = new Monster("リリッポ", 30, "ririppo", "つつく", 2, 3000);
+  const ririppo = new Monster("リリッポ", 55, "ririppo", "つつく", 2, 3000);
   const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 3, 5000);
   const torubo = new Monster("トルボ", 300, "torubo", "突進", 3, 5000);
   // ゲーム進行(f)
@@ -221,37 +221,39 @@ function Page() {
 
   return (
     <>
-      <div className="flex pt-28 bg-gray-400 h-screen shadow-xl">
-        <div className="bg-gray-100 w-4/5 h-144 mx-8 flex justify-center relative">
-          {loseModal && (
-            <LoseModal
-              prevMonster={prevMonster}
-              setLoseModal={setLoseModal}
-              game_start={game_start}
-              currentType={currentType}
-              wrongType={wrongType}
-            />
-          )}
-          <div
-            className={`bg-${stageNum} bg-cover w-full flex flex-col justify-center items-center relative z-0`}
-          >
-            <HpBar hp={hp} />
-            {attackDisplay && (
-              <AttackDisplay
-                attackPosition={attackPosition}
-                monster={monster}
+      <div className="flex flex-col pt-28 bg-gray-400 h-screen shadow-xl">
+        <div className="flex">
+          <div className="bg-gray-100 w-4/5 h-144 mx-8 flex justify-center relative">
+            {loseModal && (
+              <LoseModal
+                prevMonster={prevMonster}
+                setLoseModal={setLoseModal}
+                game_start={game_start}
+                currentType={currentType}
+                wrongType={wrongType}
               />
             )}
-            <MonsterDisplay monster={monster} monsterHp={monsterHp} />
-            <TextDisplay
-              keyCandidate={keyCandidate}
-              keyDone={keyDone}
-              kanjiText={kanjiText}
-              typeSpace={typeSpcae}
-            />
+            <div
+              className={`bg-${stageNum} bg-cover w-full flex flex-col justify-center items-center relative z-0`}
+            >
+              <HpBar hp={hp} />
+              {attackDisplay && (
+                <AttackDisplay
+                  attackPosition={attackPosition}
+                  monster={monster}
+                />
+              )}
+              <MonsterDisplay monster={monster} monsterHp={monsterHp} />
+              <TextDisplay
+                keyCandidate={keyCandidate}
+                keyDone={keyDone}
+                kanjiText={kanjiText}
+                typeSpace={typeSpcae}
+              />
+            </div>
           </div>
+          <RightDesplay />
         </div>
-        <FightRight />
       </div>
     </>
   );

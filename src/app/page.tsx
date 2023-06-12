@@ -1,10 +1,11 @@
 import Link from "next/link";
+import RightDesplay from "./components/big/RightDesplay";
 
 export default function Home() {
   return (
     <>
       <main>
-        <div className="flex pt-32 h-screen bg-gray-400 shadow-xl">
+        <div className="flex pt-28 h-screen bg-gray-400 shadow-xl">
           <div className=" bg-gray-100 w-4/5 h-144 mx-8 flex justify-center">
             <div className="space-y-20 flex flex-col justify-center items-center">
               <h1 className="text-6xl">タイピング冒険者</h1>
@@ -26,13 +27,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="bg-gray-100 w-1/5 h-144 mr-8 flex justify-center">
-            <img
-              src="/sotetu.png"
-              alt="Avatar"
-              className="w-20 h-20 rounded-full"
-            />
-          </div>
+          <RightDesplay />
         </div>
       </main>
     </>
