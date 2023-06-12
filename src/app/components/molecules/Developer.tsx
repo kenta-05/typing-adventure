@@ -7,7 +7,7 @@ function Developer() {
       <div className="bg-gray-500">開発者情報</div>
       <div className="flex items-center bg-slate-600 p-2 space-x-2">
         <img
-          src="/sotetu.png"
+          src="/main/sotetu.png"
           alt="Avatar"
           className="w-16 h-16 rounded-full"
         />

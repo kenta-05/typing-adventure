@@ -11,6 +11,8 @@ module.exports = {
         mochiypop: ["Mochiy Pop P One", "sans-serif"],
       },
       backgroundImage: {
+        main: "url('/main/background.png')",
+
         "stage-1": "url('/background/stage-1.jpg')",
         "stage-2": "url('/background/stage-2.jpg')",
         "stage-3": "url('/background/stage-3.jpg')",

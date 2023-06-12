@@ -1,5 +1,5 @@
 import React from "react";
-import RankPlayer from "../small/RankPlayer";
+import RankPlayer from "../molecules/RankPlayer";
 
 function Ranking() {
   return (
