@@ -12,6 +12,7 @@ module.exports = {
       },
       backgroundImage: {
         main: "url('/main/background.png')",
+        home: "url('/main/home.png')",
 
         "stage-1": "url('/background/stage-1.jpg')",
         "stage-2": "url('/background/stage-2.jpg')",
@@ -40,7 +41,11 @@ module.exports = {
         base: "#fffcf5",
         first: "#ffca47",
         second: "#fff2d8",
-        third: "#718cb0",
+        third: "#dbad3b",
+      },
+      fontFamily: {
+        noto: ["Noto Sans JP", "sans-serif"],
+        dot: ["DotGothic16", "sans-serif"],
       },
     },
   },

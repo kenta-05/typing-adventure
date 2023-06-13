@@ -111,7 +111,7 @@ function GameDisplay() {
     setMonster(null);
     setAttackDisplay(false);
 
-    setKanjiText("");
+    setKanjiText("スペースキーでスタート");
     setKeyCandidate("");
     setKeyDone("");
     stopHandler();
