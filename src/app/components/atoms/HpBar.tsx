@@ -12,7 +12,7 @@ function HpBar({ hp }: Props) {
           className="flex items-center h-8 bg-red-600 rounded-sm text-2xl font-bold pl-1"
           style={{ width: `${hp}%` }}
         >
-          <p className="text-white">{hp}</p>
+          <p className="overflow-y-hidden text-white">{hp}</p>
         </div>
       </div>
     </div>

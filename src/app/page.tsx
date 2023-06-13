@@ -10,7 +10,7 @@ export default function Home() {
             <div className="space-y-20 flex flex-col justify-center items-center">
               <h1 className="text-6xl overflow-y-hidden">タイピング冒険者</h1>
               <Link href="/play">
-                <button className="text-5xl bg-blue-500 px-6 py-2 text-white">
+                <button className="text-[2.4rem] bg-blue-500 px-6 py-2 text-white">
                   ゲームスタート
                 </button>
               </Link>

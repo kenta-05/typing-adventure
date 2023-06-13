@@ -4,15 +4,15 @@ import { BsTwitter } from "react-icons/bs";
 function Developer() {
   return (
     <div>
-      <div className="bg-gray-500">開発者情報</div>
-      <div className="flex items-center bg-slate-600 p-2 space-x-2">
+      <div className="bg-first">開発者情報</div>
+      <div className="flex items-center bg-second p-2 space-x-2">
         <img
           src="/main/sotetu.png"
           alt="Avatar"
-          className="w-16 h-16 rounded-full"
+          className="w-16 h-16 rounded-full shadow-lg"
         />
         <div>
-          <p className="text-white text-xl font-bold">ソテツ</p>
+          <p className="text-black text-xl font-bold">ソテツ</p>
           <div className="flex items-center mt-1">
             <a
               href="https://twitter.com/sotetu79"

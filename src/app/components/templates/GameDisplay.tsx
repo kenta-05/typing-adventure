@@ -222,8 +222,6 @@ function GameDisplay() {
 
   return (
     <>
-      {/* <div className="absolute bg-gray-200 w-screen h-screen"></div> */}
-
       <div className="bg-gray-100 w-[64rem] h-144 flex justify-center relative overflow-y-hidden">
         {loseModal && (
           <LoseModal

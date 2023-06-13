@@ -2,7 +2,7 @@ import React from "react";
 
 function RankPlayer() {
   return (
-    <div className="py-2 bg-slate-600 border-b border-gray-200">
+    <div className="py-2 bg-second border-b border-gray-200">
       <div className="flex justify-between px-1">
         <div className="flex">
           <p>1:</p>

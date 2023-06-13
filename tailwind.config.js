@@ -36,6 +36,11 @@ module.exports = {
       colors: {
         twitter: "#0796ed",
         "twitter-hover": "#096dab",
+
+        base: "#fffcf5",
+        first: "#ffb500",
+        second: "#fff2d8",
+        third: "#718cb0",
       },
     },
   },

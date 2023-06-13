@@ -23,7 +23,7 @@ function MonsterDisplay({ monster, monsterHp }: Props) {
                 width: `${monster ? (monsterHp / monster.hp) * 100 : 0}%`,
               }}
             >
-              <p className="text-white">{monsterHp}</p>
+              <p className="overflow-y-hidden text-white">{monsterHp}</p>
             </div>
             <p className="text-2xl font-bold">{monster.name}</p>
           </div>

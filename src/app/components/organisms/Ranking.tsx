@@ -4,8 +4,8 @@ import RankPlayer from "../molecules/RankPlayer";
 
 function Ranking() {
   return (
-    <div className="overflow-y-auto">
-      <div className="bg-gray-500">ランキング</div>
+    <div className="max-h-[30.1rem]">
+      <div className="bg-first text-black">ランキング</div>
       <RankPlayer />
       <RankPlayer />
       <RankPlayer />
