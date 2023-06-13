@@ -38,7 +38,7 @@ module.exports = {
         "twitter-hover": "#096dab",
 
         base: "#fffcf5",
-        first: "#ffb500",
+        first: "#ffca47",
         second: "#fff2d8",
         third: "#718cb0",
       },

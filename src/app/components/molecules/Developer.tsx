@@ -28,7 +28,7 @@ function Developer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button className="ml-2 px-1 py-1 bg-gray-800 text-white rounded-md text-md transition hover:bg-twitter-hover">
+              <button className="ml-2 px-1 py-1 bg-gray-500 text-white rounded-md text-md transition hover:bg-gray-700">
                 プロフィール
               </button>
             </a>

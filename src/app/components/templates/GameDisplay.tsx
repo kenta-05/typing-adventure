@@ -26,7 +26,9 @@ function GameDisplay() {
   const [loseModal, setLoseModal] = useState<boolean>(false); // 敗北時モーダルの表示/非表示
   const [currentType, setCurrentType] = useState<number>(0); // 正解のタイプ数
   const [wrongType, setWrongType] = useState<number>(0); // 不正解のタイプ数
+
   const [stageNum, setStageNum] = useState<string>("stage-1"); // 現在のステージ
+  const [courseModal, setCourseModal] = useState<boolean>(false); // コース選択モーダルの表示/非表示
 
   const [kanjiText, setKanjiText] = useState<string>("スペースキーでスタート"); // 現在の漢字込みテキスト
   const [keyCandidate, setKeyCandidate] = useState(""); // 未入力
@@ -239,6 +241,21 @@ function GameDisplay() {
             "bg-cover w-full flex flex-col justify-center items-center relative z-0 overflow-y-hidden"
           }
         >
+          {/* コース選択 */}
+          {courseModal && (
+            <div className="items-center bg-white rounded-md absolute top-20 p-6 flex flex-col justify-between space-y-2">
+              <button className="w-[26rem] h-20 flex items-center justify-center bg-second text-[1.8rem] border-2 border-black rounded-md transition hover:bg-first">
+                草原コース
+              </button>
+              <button className="w-[26rem] h-20 flex items-center justify-center bg-second text-[1.8rem] border-2 border-black rounded-md transition hover:bg-first">
+                火山コース
+              </button>
+              <button className="w-[26rem] h-20 flex items-center justify-center bg-second text-[1.8rem] border-2 border-black rounded-md transition hover:bg-first">
+                海洋コース
+              </button>
+            </div>
+          )}
+
           <HpBar hp={hp} />
           {attackDisplay && (
             <AttackDisplay attackPosition={attackPosition} monster={monster} />
