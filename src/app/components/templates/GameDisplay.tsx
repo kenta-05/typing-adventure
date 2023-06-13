@@ -19,7 +19,9 @@ function GameDisplay() {
   const text = useRef("スペースキーでスタート"); // 基本的なテキスト+問題文
   const unfilled = useRef(""); // 未入力ローマ字
   const filled = useRef(""); // 入力済みローマ字
-  const attackPosition = useRef({ top: "", left: "" }); // アタックモーダルの位置
+  const attackPosition = useRef<
+    { top: string; left: string } | { top: string; right: string }
+  >({ top: "", left: "" }); // アタックモーダルの位置
   const [typeSpcae, setTypeSpace] = useState<boolean>(false); // 「スペースで進む」の表示/非表示
   const monsterAtack = useRef<NodeJS.Timeout | null>(null); // モンスター攻撃時タイマー
   const typeHandler = useRef<((e: KeyboardEvent) => void) | null>(null); // 攻撃時ハンドラー
@@ -85,9 +87,9 @@ function GameDisplay() {
     const positions = [
       { top: "130px", left: "25px" },
       { top: "200px", left: "25px" },
-      { top: "130px", left: "580px" },
-      { top: "200px", left: "580px" },
-      { top: "270px", left: "580px" },
+      { top: "130px", right: "25px" },
+      { top: "200px", right: "25px" },
+      { top: "270px", right: "25px" },
     ];
     const randomIndex = Math.floor(Math.random() * positions.length);
     attackPosition.current = positions[randomIndex];
@@ -224,7 +226,10 @@ function GameDisplay() {
 
   return (
     <>
-      <div className="bg-gray-100 w-[64rem] h-144 flex justify-center relative overflow-y-hidden">
+      <div
+        className="bg-gray-100 flex justify-center relative overflow-y-hidden
+        w-[64rem] h-144"
+      >
         {loseModal && (
           <LoseModal
             prevMonster={prevMonster}

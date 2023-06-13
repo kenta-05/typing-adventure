@@ -19,11 +19,17 @@ function TextDisplay({ keyCandidate, keyDone, kanjiText, typeSpace }: Props) {
         </div>
       )}
       <div className="flex">
-        <h2 className="text-[3rem] overflow-y-hidden">{kanjiText}</h2>
+        <h2 className="px-2 text-[2.5rem] lg:text-[3rem] overflow-y-hidden">
+          {kanjiText}
+        </h2>
       </div>
       <div className="flex">
-        <p className="text-[1.85rem] text-red-400">{keyDone}</p>
-        <p className="text-[1.85rem]">{keyCandidate}</p>
+        <p className="text-[1.4rem] lg:text-[1.85rem] text-red-400 overflow-y-hidden">
+          {keyDone}
+        </p>
+        <p className="text-[1.4rem] lg:text-[1.85rem] overflow-y-hidden">
+          {keyCandidate}
+        </p>
       </div>
     </div>
   );

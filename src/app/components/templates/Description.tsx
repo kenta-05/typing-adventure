@@ -2,7 +2,7 @@ import React from "react";
 
 function Description() {
   return (
-    <div className="space-y-6 px-4 py-5 bg-second w-[57rem] border-2 border-black rounded-lg">
+    <div className="flex flex-col items-start w-[64rem] space-y-6 px-4 py-5 bg-second border-2 border-black rounded-lg">
       <div>
         <h2 className="border-b-2 pb-1 border-black font-bold text-lg">
           タイピング冒険記とは
@@ -18,9 +18,9 @@ function Description() {
           戦闘システムについて
         </h2>
         <p className="">
-          1タイピングにつき1ダメージを敵に与えられ、敵のHPを削りきると撃破です
+          1タイピングにつき敵に1ダメージを与え、敵のHPを削りきると撃破です
           <br />
-          プレイヤーのHPはミスタイプと定期的なモンスターの攻撃によって減っていくため、速度と正確性の両方が求められます
+          プレイヤーのHPはミスタイプと敵の攻撃によって減っていくため、速度と正確性の両方が求められます
         </p>
       </div>
       <div>
