@@ -207,6 +207,23 @@ function GameDisplay() {
     });
   };
 
+  const appear = (_monster: Monster) => {
+    return new Promise<void>((resolve) => {
+      setTypeSpace(true);
+      setMonster(_monster);
+      setMonsterHp(_monster.hp);
+      setKanjiText(`${_monster.name}が現れた！`);
+      const damageHandler = (e: KeyboardEvent) => {
+        if (e.code === "Space") {
+          document.removeEventListener("keydown", damageHandler);
+          setTypeSpace(false);
+          resolve();
+        }
+      };
+      document.addEventListener("keydown", damageHandler);
+    });
+  };
+
   const ririppo = new Monster("リリッポ", 55, "ririppo", "つつく", 2, 3000);
   const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 3, 5000);
   const torubo = new Monster("トルボ", 300, "torubo", "突進", 3, 5000);
@@ -215,6 +232,9 @@ function GameDisplay() {
     setPlaying(true);
     text.current = "";
     await delay(200);
+    await write("冒険の始まりです");
+    await write("タイピングで前に進んでいきましょう");
+    await appear(ririppo);
     await fight(ririppo);
     await write("リリッポを倒した！");
     await write("次に出てくる敵に対策しよう");
