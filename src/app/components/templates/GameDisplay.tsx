@@ -30,6 +30,7 @@ function GameDisplay() {
   const [stageNum, setStageNum] = useState<string>("stage-1"); // 現在のステージ
   const [courseModal, setCourseModal] = useState<boolean>(false); // コース選択モーダルの表示/非表示
 
+  const [text, setText] = useState<string>("");
   const [kanjiText, setKanjiText] = useState<string>("スペースキーでスタート"); // 現在の漢字込みテキスト
   const [keyCandidate, setKeyCandidate] = useState(""); // 未入力
   const [keyDone, setKeyDone] = useState(""); // 既入力
@@ -95,6 +96,7 @@ function GameDisplay() {
 
   // 文章書き換え(f)
   const fill_new = () => {
+    setText("");
     const index = Math.floor(Math.random() * sentences.length);
     keygraph.build(sentences[index].kana);
     setKanjiText(sentences[index].kanji);
@@ -111,6 +113,7 @@ function GameDisplay() {
     setIsFight(false);
 
     setKanjiText("スペースキーでスタート");
+    setText("");
     setKeyCandidate("");
     setKeyDone("");
     stopHandler();
@@ -120,7 +123,8 @@ function GameDisplay() {
   const write = (_text: string) => {
     return new Promise<void>((resolve) => {
       setTypeSpace(true);
-      setKanjiText(_text);
+      setKanjiText("");
+      setText(_text);
       const damageHandler = (e: KeyboardEvent) => {
         if (e.code === "Space") {
           document.removeEventListener("keydown", damageHandler);
@@ -210,6 +214,7 @@ function GameDisplay() {
 
   const appear = (_monster: Monster) => {
     return new Promise<void>((resolve) => {
+      setText("");
       setTypeSpace(true);
       setMonster(_monster);
       setMonsterHp(_monster.hp);
@@ -231,18 +236,19 @@ function GameDisplay() {
   // ゲーム進行(f)
   const game_start = async () => {
     setPlaying(true);
-    await delay(200);
-    await write("冒険の始まりです");
-    await write("タイピングで前に進んでいきましょう");
+    await delay(400);
+    await write("冒険の始まりだ");
+    await write("戦闘の勝敗はタイピング力によって決まる！");
+    await write("ミスをするとHPが減ってしまうし");
+    await write("遅いと攻撃をたくさん食らってしまう");
+    await write("高スコアを目指して頑張ろう");
     await appear(ririppo);
     await write("(スペースキーで戦闘が開始します)");
     await fight(ririppo);
     await write("リリッポを倒した！");
-    await write("次に出てくる敵に対策しよう");
-    await write("タイピングで倒すことができます");
-    await write("ミスをするとHPが減ってしまいます");
-    await fight(tokotoko);
-    await fight(torubo);
+    await write("その調子！");
+    await write("先へ進もう");
+    await appear(torubo);
   };
 
   return (
@@ -291,6 +297,7 @@ function GameDisplay() {
             keyCandidate={keyCandidate}
             keyDone={keyDone}
             kanjiText={kanjiText}
+            text={text}
             typeSpace={typeSpcae}
             isFight={isFight}
           />

@@ -4,6 +4,7 @@ interface Props {
   keyCandidate: string;
   keyDone: string;
   kanjiText: string | undefined;
+  text: string;
   typeSpace: boolean;
   isFight: boolean;
 }
@@ -12,6 +13,7 @@ function TextDisplay({
   keyCandidate,
   keyDone,
   kanjiText,
+  text,
   typeSpace,
   isFight,
 }: Props) {
@@ -29,9 +31,12 @@ function TextDisplay({
         </div>
       )}
       <div className="flex">
-        <h2 className="px-2 text-[2.5rem] lg:text-[3rem] overflow-y-hidden">
+        <p className="pl-4 text-[2rem] lg:text-[2.5rem] overflow-y-hidden">
+          {text}
+        </p>
+        <p className="pl-4 text-[2.5rem] lg:text-[3rem] overflow-y-hidden">
           {kanjiText}
-        </h2>
+        </p>
       </div>
       <div className="flex">
         <p className="text-[1.4rem] lg:text-[1.85rem] text-red-400 overflow-y-hidden">
