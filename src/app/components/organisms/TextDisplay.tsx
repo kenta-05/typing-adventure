@@ -5,12 +5,22 @@ interface Props {
   keyDone: string;
   kanjiText: string | undefined;
   typeSpace: boolean;
+  isFight: boolean;
 }
 
-function TextDisplay({ keyCandidate, keyDone, kanjiText, typeSpace }: Props) {
+function TextDisplay({
+  keyCandidate,
+  keyDone,
+  kanjiText,
+  typeSpace,
+  isFight,
+}: Props) {
   return (
     <div
-      className="relative flex flex-col justify-center items-center border-2 border-black opacity-80 rounded-md h-64 mb-2 border-spacing-2 bg-slate-200"
+      className={`relative flex flex-col justify-center items-center
+      border-[0.23rem] opacity-80 rounded-md h-64 mb-2
+      border-spacing-2 bg-slate-200
+      ${isFight ? "border-red-600" : "border-black"}`}
       style={{ width: "98%" }}
     >
       {typeSpace && (

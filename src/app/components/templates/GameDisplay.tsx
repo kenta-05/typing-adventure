@@ -11,14 +11,12 @@ import sentences from "../../sentences.json";
 
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
+  const [isFight, setIsFight] = useState<boolean>(false);
   const [hp, setHp] = useState<number>(100); // プレイヤーのHP
   const [monster, setMonster] = useState<Monster | null>(null); // 現在セットされているモンスター
   const [prevMonster, setPrevMonster] = useState<Monster | null>(null); // 限界戦っていたモンスター
   const [monsterHp, setMonsterHp] = useState<number>(0); // 上記モンスターのHP
   const [attackDisplay, setAttackDisplay] = useState<boolean>(false); // モンスターの攻撃文字の表示/非表示
-  const text = useRef("スペースキーでスタート"); // 基本的なテキスト+問題文
-  const unfilled = useRef(""); // 未入力ローマ字
-  const filled = useRef(""); // 入力済みローマ字
   const attackPosition = useRef<
     { top: string; left: string } | { top: string; right: string }
   >({ top: "", left: "" }); // アタックモーダルの位置
@@ -64,7 +62,7 @@ function GameDisplay() {
       if (e.code === "Space") {
         e.preventDefault(); // スクロールを防ぐ
         if (!playing) {
-          game_start_1();
+          game_start();
           console.log("反応しています");
         }
       }
@@ -76,7 +74,7 @@ function GameDisplay() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [playing, unfilled, filled, hp]);
+  }, [playing, hp]);
 
   // 指定した時間、待機(f)
   const delay = (ms: number) =>
@@ -110,6 +108,7 @@ function GameDisplay() {
     setPrevMonster(monster);
     setMonster(null);
     setAttackDisplay(false);
+    setIsFight(false);
 
     setKanjiText("スペースキーでスタート");
     setKeyCandidate("");
@@ -137,6 +136,7 @@ function GameDisplay() {
   const fight = (_monster: Monster) => {
     return new Promise<void>((resolve) => {
       // 戦闘開始の下準備
+      setIsFight(true);
       setMonster(_monster);
       setMonsterHp(_monster.hp);
       fill_new();
@@ -202,6 +202,7 @@ function GameDisplay() {
         setKanjiText("");
         setKeyCandidate("");
         setKeyDone("");
+        setIsFight(false);
         resolve(); // モンスターが消えた
       }, 0); // 消えるアニメ実装
     });
@@ -228,13 +229,13 @@ function GameDisplay() {
   const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 3, 5000);
   const torubo = new Monster("トルボ", 300, "torubo", "突進", 3, 5000);
   // ゲーム進行(f)
-  const game_start_1 = async () => {
+  const game_start = async () => {
     setPlaying(true);
-    text.current = "";
     await delay(200);
     await write("冒険の始まりです");
     await write("タイピングで前に進んでいきましょう");
     await appear(ririppo);
+    await write("(スペースキーで戦闘が開始します)");
     await fight(ririppo);
     await write("リリッポを倒した！");
     await write("次に出てくる敵に対策しよう");
@@ -291,6 +292,7 @@ function GameDisplay() {
             keyDone={keyDone}
             kanjiText={kanjiText}
             typeSpace={typeSpcae}
+            isFight={isFight}
           />
         </div>
       </div>

@@ -12,7 +12,7 @@ function Developer() {
           className="w-16 h-16 rounded-full shadow-lg"
         />
         <div>
-          <p className="text-black text-xl font-bold">ソテツ</p>
+          <p className="text-black text-2.4rem font-bold">ソテツ</p>
           <div className="flex items-center mt-1">
             <a
               href="https://twitter.com/sotetu79"
