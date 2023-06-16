@@ -12,10 +12,11 @@ import sentences from "../../sentences.json";
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
   const [isFight, setIsFight] = useState<boolean>(false);
-  const [hp, setHp] = useState<number>(1000); // プレイヤーのHP
+  const [hp, setHp] = useState<number>(500); // プレイヤーのHP
   const [monster, setMonster] = useState<Monster | null>(null); // 現在セットされているモンスター
   const [item, setItem] = useState<string>(""); // 現在セットされているアイテム
-  const [prevMonster, setPrevMonster] = useState<Monster | null>(null); // 限界戦っていたモンスター
+  const [prevMonster, setPrevMonster] = useState<Monster | null>(null); // 前回戦っていたモンスター
+  const damage = useRef(1); // 現在の攻撃力
   const [monsterHp, setMonsterHp] = useState<number>(0); // 上記モンスターのHP
   const [attackDisplay, setAttackDisplay] = useState<boolean>(false); // モンスターの攻撃文字の表示/非表示
   const attackPosition = useRef<
@@ -166,7 +167,7 @@ function GameDisplay() {
           setCurrentType((prev) => prev + 1);
           setMonsterHp((prevHp) => {
             // 正解ならHPを減らして、Filledを移動
-            const newHp = prevHp - 1;
+            const newHp = prevHp - damage.current;
 
             // 敵HPが無くなると、win関数
             if (newHp <= 0) {
@@ -178,8 +179,8 @@ function GameDisplay() {
             return newHp;
           });
         } else if (!isNextKey) {
-          // 不正解ならHPを-10する
-          setHp((prev) => prev - 10);
+          // 不正解ならHPを-9する
+          setHp((prev) => prev - 9);
           // 不正解のタイプ数を++
           setWrongType((prev) => prev + 1);
         }
@@ -252,7 +253,7 @@ function GameDisplay() {
     setItem("");
   };
 
-  const slime = new Monster("スライム", 15, "slime", "たいあたり", 12, 2500);
+  const slime = new Monster("スライム", 25, "slime", "たいあたり", 15, 2500);
   const yakarabati = new Monster(
     "ヤカラバチ",
     35,
@@ -261,34 +262,53 @@ function GameDisplay() {
     25,
     3500
   );
+  const ririppo = new Monster("リリッポ", 80, "ririppo", "つつく", 5, 1000);
+  const torubo = new Monster("トルボ", 170, "torubo", "突進", 30, 3000);
   const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 2, 6000);
   const miku = new Monster("ミク", 200, "miku", "超能力", 4, 10000);
   const mememe = new Monster("メメメ", 200, "mememe", "まもめみ", 2, 5000);
-  const ririppo = new Monster("リリッポ", 55, "ririppo", "つつく", 2, 3000);
-  const torubo = new Monster("トルボ", 300, "torubo", "突進", 3, 5000);
   // ゲーム進行(f)
   const game_start = async () => {
     setPlaying(true);
     await delay(400);
+
     await write("冒険の始まりだ");
     await write("戦闘の勝敗はタイピング力によって決まる！");
     await write("ミスをするとHPが減ってしまうし");
     await write("遅いと攻撃をたくさん食らってしまう");
     await write("高スコアを目指して頑張ろう");
+
     await appear(slime);
     await write("(スペースキーで戦闘が開始します)");
     await fight(slime);
     await write("スライムを倒した！");
+
     await write("その調子！");
     await write("先へ進もう");
+
     await appear(yakarabati);
     await write("(スペースキーで戦闘が開始します)");
     await fight(yakarabati);
     await write("ヤカラバチを倒した！");
+
     await write("あ！");
     await find("sword", "鉄の剣を発見した！");
     await write("攻撃力が 1→2 しました");
+    damage.current = 2;
     unfind();
+
+    await write("先へ進もう");
+    await appear(ririppo);
+    await write("小ダメージで何度も攻撃してくる鳥です");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(ririppo);
+
+    await write("先へ進もう");
+    await appear(torubo);
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(torubo);
+
+    await write("(スペースキーで戦闘が開始します)");
   };
 
   return (
