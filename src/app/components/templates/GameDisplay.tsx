@@ -70,7 +70,7 @@ function GameDisplay() {
         }
       }
       if (e.code === "Escape") {
-        game_stop();
+        window.location.reload();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -107,18 +107,17 @@ function GameDisplay() {
 
   // ゲームストップ(f)
   const game_stop = () => {
-    window.location.reload();
-    // setPlaying(false);
-    // setHp(1000);
-    // setPrevMonster(monster);
-    // setMonster(null);
-    // setAttackDisplay(false);
-    // setIsFight(false);
-    // setKanjiText("スペースキーでスタート");
-    // setText("");
-    // setKeyCandidate("");
-    // setKeyDone("");
-    // stopHandler();
+    setPlaying(false);
+    setHp(1000);
+    setPrevMonster(monster);
+    setMonster(null);
+    setAttackDisplay(false);
+    setIsFight(false);
+    setKanjiText("スペースキーでスタート");
+    setText("");
+    setKeyCandidate("");
+    setKeyDone("");
+    stopHandler();
   };
 
   // テキストの表示(f)
@@ -253,17 +252,18 @@ function GameDisplay() {
     setItem("");
   };
 
-  const slime = new Monster("スライム", 25, "slime", "たいあたり", 15, 2500);
+  const slime = new Monster("スライム", 25, "slime", "たいあたり", 10, 1800);
   const yakarabati = new Monster(
     "ヤカラバチ",
     35,
     "yakarabati",
     "刺す",
-    25,
-    3500
+    20,
+    2500
   );
   const ririppo = new Monster("リリッポ", 80, "ririppo", "つつく", 5, 1000);
-  const torubo = new Monster("トルボ", 170, "torubo", "突進", 30, 3000);
+  const torubo = new Monster("トルボ", 170, "torubo", "突進", 27, 3200);
+  const buruton = new Monster("ブルトン", 240, "buruton", "激怒", 30, 3000);
   const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 2, 6000);
   const miku = new Monster("ミク", 200, "miku", "超能力", 4, 10000);
   const mememe = new Monster("メメメ", 200, "mememe", "まもめみ", 2, 5000);
@@ -299,16 +299,30 @@ function GameDisplay() {
 
     await write("先へ進もう");
     await appear(ririppo);
-    await write("小ダメージで何度も攻撃してくる鳥です");
+    await write("小ダメージで何度も攻撃してくる鳥だ");
     await write("(スペースキーで戦闘が開始します)");
     await fight(ririppo);
+    await write("リリッポを倒した！");
 
     await write("先へ進もう");
     await appear(torubo);
     await write("(スペースキーで戦闘が開始します)");
     await fight(torubo);
+    await write("トルボを倒した！");
 
+    await write("先へ進もう");
+    setStageNum("stage-2");
+    await write("沼地だ");
+    await write("敵も強くなってくるだろう");
+
+    await appear(buruton);
     await write("(スペースキーで戦闘が開始します)");
+    await fight(buruton);
+    await write("ブルトンを倒した！");
+    await write("なるべく正確に素早く撃破することでHPを温存しよう");
+    await write("この世界には三体のドラゴンがいると言われていて");
+    await write("彼らを倒すことが目標なのだ");
+    await write("さて、先へ進もう");
   };
 
   return (
