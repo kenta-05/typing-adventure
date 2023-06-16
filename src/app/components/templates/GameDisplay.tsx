@@ -231,6 +231,10 @@ function GameDisplay() {
     });
   };
 
+  const cure = (points: number) => {
+    setHp((prev) => prev + points);
+  };
+
   const find = (item: string, _text: string) => {
     return new Promise<void>((resolve) => {
       setTypeSpace(true);
@@ -309,8 +313,13 @@ function GameDisplay() {
     await write("(スペースキーで戦闘が開始します)");
     await fight(torubo);
     await write("トルボを倒した！");
-
     await write("先へ進もう");
+
+    await find("portion1", "回復薬を発見した");
+    cure(100);
+    await write("HPを100回復した");
+    unfind();
+
     setStageNum("stage-2");
     await write("沼地だ");
     await write("敵も強くなってくるだろう");
