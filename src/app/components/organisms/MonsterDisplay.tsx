@@ -4,9 +4,10 @@ import React from "react";
 interface Props {
   monster: Monster | null;
   monsterHp: number;
+  item: string;
 }
 
-function MonsterDisplay({ monster, monsterHp }: Props) {
+function MonsterDisplay({ monster, monsterHp, item }: Props) {
   return (
     <div className="w-full h-full flex justify-center items-end overflow-y-hidden">
       {monster && (
@@ -27,6 +28,11 @@ function MonsterDisplay({ monster, monsterHp }: Props) {
             </div>
           </div>
           <p className="text-[1.5rem] font-bold">{monster.name}</p>
+        </div>
+      )}
+      {item && (
+        <div className="mb-8">
+          <img className="w-64" src={`/item/${item}.png`} alt="アイテム" />
         </div>
       )}
     </div>

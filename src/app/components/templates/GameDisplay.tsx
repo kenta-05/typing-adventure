@@ -12,8 +12,9 @@ import sentences from "../../sentences.json";
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
   const [isFight, setIsFight] = useState<boolean>(false);
-  const [hp, setHp] = useState<number>(100); // プレイヤーのHP
+  const [hp, setHp] = useState<number>(1000); // プレイヤーのHP
   const [monster, setMonster] = useState<Monster | null>(null); // 現在セットされているモンスター
+  const [item, setItem] = useState<string>(""); // 現在セットされているアイテム
   const [prevMonster, setPrevMonster] = useState<Monster | null>(null); // 限界戦っていたモンスター
   const [monsterHp, setMonsterHp] = useState<number>(0); // 上記モンスターのHP
   const [attackDisplay, setAttackDisplay] = useState<boolean>(false); // モンスターの攻撃文字の表示/非表示
@@ -105,18 +106,18 @@ function GameDisplay() {
 
   // ゲームストップ(f)
   const game_stop = () => {
-    setPlaying(false);
-    setHp(100);
-    setPrevMonster(monster);
-    setMonster(null);
-    setAttackDisplay(false);
-    setIsFight(false);
-
-    setKanjiText("スペースキーでスタート");
-    setText("");
-    setKeyCandidate("");
-    setKeyDone("");
-    stopHandler();
+    window.location.reload();
+    // setPlaying(false);
+    // setHp(1000);
+    // setPrevMonster(monster);
+    // setMonster(null);
+    // setAttackDisplay(false);
+    // setIsFight(false);
+    // setKanjiText("スペースキーでスタート");
+    // setText("");
+    // setKeyCandidate("");
+    // setKeyDone("");
+    // stopHandler();
   };
 
   // テキストの表示(f)
@@ -177,8 +178,8 @@ function GameDisplay() {
             return newHp;
           });
         } else if (!isNextKey) {
-          // 不正解ならHPを-2する
-          setHp((prev) => prev - 1);
+          // 不正解ならHPを-10する
+          setHp((prev) => prev - 10);
           // 不正解のタイプ数を++
           setWrongType((prev) => prev + 1);
         }
@@ -230,8 +231,40 @@ function GameDisplay() {
     });
   };
 
+  const find = (item: string, _text: string) => {
+    return new Promise<void>((resolve) => {
+      setTypeSpace(true);
+      setKanjiText("");
+      setText(_text);
+      setItem(item);
+      const damageHandler = (e: KeyboardEvent) => {
+        if (e.code === "Space") {
+          document.removeEventListener("keydown", damageHandler);
+          setTypeSpace(false);
+          resolve();
+        }
+      };
+      document.addEventListener("keydown", damageHandler);
+    });
+  };
+
+  const unfind = () => {
+    setItem("");
+  };
+
+  const slime = new Monster("スライム", 15, "slime", "たいあたり", 12, 2500);
+  const yakarabati = new Monster(
+    "ヤカラバチ",
+    35,
+    "yakarabati",
+    "刺す",
+    25,
+    3500
+  );
+  const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 2, 6000);
+  const miku = new Monster("ミク", 200, "miku", "超能力", 4, 10000);
+  const mememe = new Monster("メメメ", 200, "mememe", "まもめみ", 2, 5000);
   const ririppo = new Monster("リリッポ", 55, "ririppo", "つつく", 2, 3000);
-  const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 3, 5000);
   const torubo = new Monster("トルボ", 300, "torubo", "突進", 3, 5000);
   // ゲーム進行(f)
   const game_start = async () => {
@@ -242,13 +275,20 @@ function GameDisplay() {
     await write("ミスをするとHPが減ってしまうし");
     await write("遅いと攻撃をたくさん食らってしまう");
     await write("高スコアを目指して頑張ろう");
-    await appear(ririppo);
+    await appear(slime);
     await write("(スペースキーで戦闘が開始します)");
-    await fight(ririppo);
-    await write("リリッポを倒した！");
+    await fight(slime);
+    await write("スライムを倒した！");
     await write("その調子！");
     await write("先へ進もう");
-    await appear(torubo);
+    await appear(yakarabati);
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(yakarabati);
+    await write("ヤカラバチを倒した！");
+    await write("あ！");
+    await find("sword", "鉄の剣を発見した！");
+    await write("攻撃力が 1→2 しました");
+    unfind();
   };
 
   return (
@@ -292,7 +332,7 @@ function GameDisplay() {
           {attackDisplay && (
             <AttackDisplay attackPosition={attackPosition} monster={monster} />
           )}
-          <MonsterDisplay monster={monster} monsterHp={monsterHp} />
+          <MonsterDisplay monster={monster} monsterHp={monsterHp} item={item} />
           <TextDisplay
             keyCandidate={keyCandidate}
             keyDone={keyDone}
