@@ -38,6 +38,9 @@ module.exports = {
         twitter: "#0796ed",
         "twitter-hover": "#096dab",
 
+        brown: "#D1B37D",
+        "brown-dark": "#ba9f6e",
+
         base: "#fffcf5",
         first: "#ffca47",
         second: "#fff2d8",

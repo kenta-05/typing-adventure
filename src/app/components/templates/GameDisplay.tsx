@@ -8,6 +8,7 @@ import AttackDisplay from "../../components/atoms/AttackDisplay";
 import LoseModal from "../../components/molecules/LoseModal";
 import keygraph from "../../lib/keygraph";
 import sentences from "../../sentences.json";
+import CourseModal from "../organisms/CourseModal";
 
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -29,7 +30,7 @@ function GameDisplay() {
   const [currentType, setCurrentType] = useState<number>(0); // 正解のタイプ数
   const [wrongType, setWrongType] = useState<number>(0); // 不正解のタイプ数
 
-  const [stageNum, setStageNum] = useState<string>("stage-1"); // 現在のステージ
+  const [stage, setStage] = useState<string>("stage-1"); // 現在のステージ
   const [courseModal, setCourseModal] = useState<boolean>(false); // コース選択モーダルの表示/非表示
 
   const [text, setText] = useState<string>("");
@@ -256,21 +257,41 @@ function GameDisplay() {
     setItem("");
   };
 
-  const slime = new Monster("スライム", 25, "slime", "たいあたり", 10, 1800);
+  // 画面を暗くする関数
+  const darkenScreen = () => {
+    const overlay = document.createElement("div");
+    overlay.classList.add("screen-overlay");
+    document.body.appendChild(overlay);
+  };
+
+  // 画面を明るく戻す関数
+  const lightenScreen = () => {
+    const overlay = document.querySelector(".screen-overlay");
+    if (overlay) {
+      document.body.removeChild(overlay);
+    }
+  };
+
+  const slime = new Monster("スライム", 25, "slime", "たいあたり", 8, 3000);
   const yakarabati = new Monster(
     "ヤカラバチ",
     35,
     "yakarabati",
     "刺す",
-    20,
-    2500
+    14,
+    3200
   );
-  const ririppo = new Monster("リリッポ", 80, "ririppo", "つつく", 5, 1000);
-  const torubo = new Monster("トルボ", 170, "torubo", "突進", 27, 3200);
-  const buruton = new Monster("ブルトン", 240, "buruton", "激怒", 30, 3000);
-  const tokotoko = new Monster("トコトコ", 200, "tokotoko", "かむ", 2, 6000);
-  const miku = new Monster("ミク", 200, "miku", "超能力", 4, 10000);
-  const mememe = new Monster("メメメ", 200, "mememe", "まもめみ", 2, 5000);
+  const ririppo = new Monster("リリッポ", 80, "ririppo", "つつく", 3, 1200);
+  const torubo = new Monster("トルボ", 140, "torubo", "突進", 17, 3500);
+  const buruton = new Monster("ブルトン", 170, "buruton", "激怒", 19, 3200);
+  const baranda = new Monster(
+    "バランビルダ",
+    250,
+    "baranbiruda",
+    "呪い",
+    30,
+    3000
+  );
   // ゲーム進行(f)
   const game_start = async () => {
     setPlaying(true);
@@ -284,7 +305,7 @@ function GameDisplay() {
 
     await appear(slime);
     await write("(スペースキーで戦闘が開始します)");
-    await fight(slime);
+    // await fight(slime);
     await write("スライムを倒した！");
 
     await write("その調子！");
@@ -292,7 +313,7 @@ function GameDisplay() {
 
     await appear(yakarabati);
     await write("(スペースキーで戦闘が開始します)");
-    await fight(yakarabati);
+    // await fight(yakarabati);
     await write("ヤカラバチを倒した！");
 
     await write("あ！");
@@ -305,34 +326,59 @@ function GameDisplay() {
     await appear(ririppo);
     await write("小ダメージで何度も攻撃してくる鳥だ");
     await write("(スペースキーで戦闘が開始します)");
-    await fight(ririppo);
+    // await fight(ririppo);
     await write("リリッポを倒した！");
 
     await write("先へ進もう");
     await appear(torubo);
     await write("(スペースキーで戦闘が開始します)");
-    await fight(torubo);
+    // await fight(torubo);
     await write("トルボを倒した！");
     await write("先へ進もう");
 
     await find("portion1", "回復薬を発見した");
     cure(100);
     await write("HPを100回復した");
+    await write("先へ進もう");
     unfind();
 
-    setStageNum("stage-2");
+    setStage("stage-2");
     await write("沼地だ");
     await write("敵も強くなってくるだろう");
 
     await appear(buruton);
     await write("(スペースキーで戦闘が開始します)");
-    await fight(buruton);
+    // await fight(buruton);
     await write("ブルトンを倒した！");
     await write("なるべく正確に素早く撃破することでHPを温存しよう");
     await write("この世界には三体のドラゴンがいると言われていて");
-    await write("彼らを倒すことが目標なのだ");
+    await write("彼らを倒すことが目標だ");
     await write("さて、先へ進もう");
+
+    setStage("stage-2-dark");
+    await write("まずい");
+    await write("あたりが暗くなってきた");
+    await write("あ！");
+    await appear(baranda);
+    await write("こいつは強敵だ");
+    await write("ここが山場");
+    await write("勝とう");
+    await write("(スペースキーで戦闘が開始します)");
+    // await fight(baranda);
+    await write("バランビルダを倒した！");
+
+    setStage("stage-2");
+    await write("あたりが明るくなった");
+    await write("先へ進もう");
+    await write("分かれ道だ");
+    await write("どの方向に進もう？");
+    setCourseModal(true);
+    darkenScreen();
   };
+
+  const factory_course = async () => {};
+  const desert_course = async () => {};
+  const marine_course = async () => {};
 
   return (
     <>
@@ -350,7 +396,7 @@ function GameDisplay() {
         )}
         <div
           style={{
-            backgroundImage: `url(/background/${stageNum}.jpg)`,
+            backgroundImage: `url(/background/${stage}.jpg)`,
           }}
           className={
             "bg-cover w-full flex flex-col justify-center items-center relative z-0 overflow-y-hidden"
@@ -358,17 +404,11 @@ function GameDisplay() {
         >
           {/* コース選択 */}
           {courseModal && (
-            <div className="items-center bg-white rounded-md absolute top-20 p-6 flex flex-col justify-between space-y-2">
-              <button className="w-[26rem] h-20 flex items-center justify-center bg-second text-[1.8rem] border-2 border-black rounded-md transition hover:bg-first">
-                草原コース
-              </button>
-              <button className="w-[26rem] h-20 flex items-center justify-center bg-second text-[1.8rem] border-2 border-black rounded-md transition hover:bg-first">
-                火山コース
-              </button>
-              <button className="w-[26rem] h-20 flex items-center justify-center bg-second text-[1.8rem] border-2 border-black rounded-md transition hover:bg-first">
-                海洋コース
-              </button>
-            </div>
+            <CourseModal
+              factory_course={factory_course}
+              desert_course={desert_course}
+              marine_course={marine_course}
+            />
           )}
 
           <HpBar hp={hp} />
