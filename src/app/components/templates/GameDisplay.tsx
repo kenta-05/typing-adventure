@@ -259,24 +259,24 @@ function GameDisplay() {
     setItem("");
   };
 
-  const slime = new Monster("スライム", 25, "slime", "たいあたり", 8, 3000);
+  const slime = new Monster("スライム", 35, "slime", "たいあたり", 7, 3000);
   const yakarabati = new Monster(
     "ヤカラバチ",
-    35,
+    40,
     "yakarabati",
     "刺す",
-    14,
+    12,
     3200
   );
-  const ririppo = new Monster("リリッポ", 80, "ririppo", "つつく", 3, 1200);
-  const torubo = new Monster("トルボ", 140, "torubo", "突進", 17, 3500);
+  const ririppo = new Monster("リリッポ", 100, "ririppo", "つつく", 3, 1200);
+  const torubo = new Monster("トルボ", 180, "torubo", "突進", 14, 3500);
   const buruton = new Monster("ブルトン", 170, "buruton", "激怒", 19, 3200);
   const baranda = new Monster(
     "バランビルダ",
-    250,
+    275,
     "baranbiruda",
     "呪い",
-    30,
+    27,
     3000
   );
   // ゲーム進行(f)
@@ -292,7 +292,7 @@ function GameDisplay() {
 
     await appear(slime);
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(slime);
+    await fight(slime);
     await write("スライムを倒した！");
 
     await write("その調子！");
@@ -300,7 +300,7 @@ function GameDisplay() {
 
     await appear(yakarabati);
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(yakarabati);
+    await fight(yakarabati);
     await write("ヤカラバチを倒した！");
 
     await write("あ！");
@@ -313,13 +313,13 @@ function GameDisplay() {
     await appear(ririppo);
     await write("小ダメージで何度も攻撃してくる鳥だ");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(ririppo);
+    await fight(ririppo);
     await write("リリッポを倒した！");
 
     await write("先へ進もう");
     await appear(torubo);
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(torubo);
+    await fight(torubo);
     await write("トルボを倒した！");
     await write("先へ進もう");
 
@@ -335,7 +335,7 @@ function GameDisplay() {
 
     await appear(buruton);
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(buruton);
+    await fight(buruton);
     await write("ブルトンを倒した！");
     await write("なるべく正確に素早く撃破することでHPを温存しよう");
     await write("この世界には三体のドラゴンがいると言われていて");
@@ -351,7 +351,7 @@ function GameDisplay() {
     await write("ここが山場");
     await write("勝とう");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(baranda);
+    await fight(baranda);
     await write("バランビルダを倒した！");
 
     setStage("stage-2");
@@ -371,8 +371,16 @@ function GameDisplay() {
     setStage("stage-5");
   };
 
-  const garagara = new Monster("ガラガラ", 170, "garagara", "激突", 12, 3200);
-  const korio = new Monster("コリオ", 350, "korio", "ちゅんちゅん", 24, 3000);
+  const garagara = new Monster("ガラガラ", 210, "garagara", "激突", 10, 3200);
+  const korio = new Monster("コリオ", 310, "korio", "ちゅんちゅん", 15, 3000);
+  const wyvernChild = new Monster(
+    "ワイバーンの幼生",
+    465,
+    "wyvernChild",
+    "ぼぼぼぼぼ",
+    25,
+    3000
+  );
   const desert_course = async () => {
     setCourseModal(false);
     setStage("stage-4");
@@ -383,7 +391,7 @@ function GameDisplay() {
     await appear(garagara);
     await write("HPは高いが攻撃力は低いぞ");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(garagara);
+    await fight(garagara);
     await write("ガラガラを倒した！");
     await write("お！");
     await find("bronze_sword", "銀の剣だ！");
@@ -394,8 +402,32 @@ function GameDisplay() {
     await appear(korio);
     await write("見た目はかわいいがHPは高いぞ");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(korio);
+    await fight(korio);
     await write("コリオを倒した！");
+
+    setStage("stage-6-dark");
+    await write("あれ？");
+    await write("あたりの様子がおかしい…");
+    await write("…");
+    await write("…あ！");
+    await appear(wyvernChild);
+    await write("伝説のドラゴンの内の1匹だが");
+    await write("まだ幼生のようだ");
+    await write("こちらと戦闘しようとしている…");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(wyvernChild);
+    await write("ワイバーンの幼生を倒した！");
+    await write("遠くの空へ逃げていく…");
+    await write("あたりが元に戻った");
+    setStage("stage-6");
+    await find("fire", "ワイバーンの炎の欠片を見つけた");
+    damage.current = 4;
+    await write("攻撃力が 3→4 しました");
+    await find("portion1", "ドラゴンの息吹を見つけた");
+    cure(150);
+    await write("HPを150回復した");
+    await write("次のステージは火山エリアだ");
+    await write("先へ進もう…");
   };
 
   const marine_course = async () => {
