@@ -130,6 +130,7 @@ function GameDisplay() {
       const damageHandler = (e: KeyboardEvent) => {
         if (e.code === "Space") {
           document.removeEventListener("keydown", damageHandler);
+          setText("");
           setTypeSpace(false);
           resolve();
         }
@@ -246,6 +247,7 @@ function GameDisplay() {
         if (e.code === "Space") {
           document.removeEventListener("keydown", damageHandler);
           setTypeSpace(false);
+          setItem("");
           resolve();
         }
       };
@@ -255,21 +257,6 @@ function GameDisplay() {
 
   const unfind = () => {
     setItem("");
-  };
-
-  // 画面を暗くする関数
-  const darkenScreen = () => {
-    const overlay = document.createElement("div");
-    overlay.classList.add("screen-overlay");
-    document.body.appendChild(overlay);
-  };
-
-  // 画面を明るく戻す関数
-  const lightenScreen = () => {
-    const overlay = document.querySelector(".screen-overlay");
-    if (overlay) {
-      document.body.removeChild(overlay);
-    }
   };
 
   const slime = new Monster("スライム", 25, "slime", "たいあたり", 8, 3000);
@@ -317,7 +304,7 @@ function GameDisplay() {
     await write("ヤカラバチを倒した！");
 
     await write("あ！");
-    await find("sword", "鉄の剣を発見した！");
+    await find("iron_sword", "鉄の剣を発見した！");
     await write("攻撃力が 1→2 しました");
     damage.current = 2;
     unfind();
@@ -369,16 +356,52 @@ function GameDisplay() {
 
     setStage("stage-2");
     await write("あたりが明るくなった");
-    await write("先へ進もう");
-    await write("分かれ道だ");
+    await write("あ！");
+    await find("portion1", "回復薬を落としたぞ");
+    cure(150);
+    await write("HPが150回復した");
+    await write("よし、先へ進もう");
+    await write("お、分かれ道だ");
     await write("どの方向に進もう？");
     setCourseModal(true);
-    darkenScreen();
   };
 
-  const factory_course = async () => {};
-  const desert_course = async () => {};
-  const marine_course = async () => {};
+  const factory_course = async () => {
+    setCourseModal(false);
+    setStage("stage-5");
+  };
+
+  const garagara = new Monster("ガラガラ", 170, "garagara", "激突", 12, 3200);
+  const korio = new Monster("コリオ", 350, "korio", "ちゅんちゅん", 24, 3000);
+  const desert_course = async () => {
+    setCourseModal(false);
+    setStage("stage-4");
+    await write("砂漠地帯だ");
+    await write("空気が乾燥している…");
+    await write("…あ！");
+
+    await appear(garagara);
+    await write("HPは高いが攻撃力は低いぞ");
+    await write("(スペースキーで戦闘が開始します)");
+    // await fight(garagara);
+    await write("ガラガラを倒した！");
+    await write("お！");
+    await find("bronze_sword", "銀の剣だ！");
+    damage.current = 3;
+    await write("攻撃力が 2→3 しました");
+    await write("先へ進もう");
+
+    await appear(korio);
+    await write("見た目はかわいいがHPは高いぞ");
+    await write("(スペースキーで戦闘が開始します)");
+    // await fight(korio);
+    await write("コリオを倒した！");
+  };
+
+  const marine_course = async () => {
+    setCourseModal(false);
+    setStage("stage-9");
+  };
 
   return (
     <>
