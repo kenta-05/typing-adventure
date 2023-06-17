@@ -298,13 +298,17 @@ function GameDisplay() {
     await write("先へ進もう");
 
     await appear(yakarabati);
+    await write("この一帯で一番大きい女王バチだ");
     await write("(スペースキーで戦闘が開始します)");
     await fight(yakarabati);
     await write("ヤカラバチを倒した！");
+    await write("近隣の住民から感謝されるだろう");
+    await write("…");
 
     await write("あ！");
     await find("iron_sword", "鉄の剣を発見した！");
     await write("攻撃力が 1→2 しました");
+    await write("これはラッキーだ");
     damage.current = 2;
     unfind();
 
@@ -326,7 +330,7 @@ function GameDisplay() {
     await write("(スペースキーで戦闘が開始します)");
     await fight(torubo);
     await write("トルボを倒した！");
-    await find("portion_green", "回復薬を発見した");
+    await find("portion_green", "トルボは回復薬を落とした");
     cure(50);
     await write("HPを50回復した");
     await write("先へ進もう");
@@ -341,7 +345,7 @@ function GameDisplay() {
     await write("あ！");
     await appear(baranda);
     await write("こいつは強敵だ");
-    await write("ここが山場");
+    await write("数々の勇者がここで倒れてきた");
     await write("勝とう");
     await write("(スペースキーで戦闘が開始します)");
     await fight(baranda);
