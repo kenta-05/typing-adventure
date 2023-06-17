@@ -269,14 +269,13 @@ function GameDisplay() {
     3200
   );
   const ririppo = new Monster("リリッポ", 100, "ririppo", "つつく", 3, 1200);
-  const torubo = new Monster("トルボ", 180, "torubo", "突進", 14, 3500);
-  const buruton = new Monster("ブルトン", 170, "buruton", "激怒", 19, 3200);
+  const torubo = new Monster("トルボ", 140, "torubo", "突進", 19, 3500);
   const baranda = new Monster(
     "バランビルダ",
     275,
     "baranbiruda",
     "呪い",
-    27,
+    32,
     3000
   );
   // ゲーム進行(f)
@@ -315,31 +314,23 @@ function GameDisplay() {
     await write("(スペースキーで戦闘が開始します)");
     await fight(ririppo);
     await write("リリッポを倒した！");
-
-    await write("先へ進もう");
-    await appear(torubo);
-    await write("(スペースキーで戦闘が開始します)");
-    await fight(torubo);
-    await write("トルボを倒した！");
-    await write("先へ進もう");
-
-    await find("portion_green", "回復薬を発見した");
-    cure(100);
-    await write("HPを100回復した");
-    await write("先へ進もう");
-    unfind();
+    await write("なるべく正確に素早く撃破することでHPを温存しよう");
+    await write("この世界には三体のドラゴンがいると言われていて");
+    await write("彼らを倒すことが目標だ");
 
     setStage("stage-2");
     await write("沼地だ");
     await write("敵も強くなってくるだろう");
 
-    await appear(buruton);
+    await appear(torubo);
     await write("(スペースキーで戦闘が開始します)");
-    await fight(buruton);
-    await write("ブルトンを倒した！");
-    await write("なるべく正確に素早く撃破することでHPを温存しよう");
-    await write("この世界には三体のドラゴンがいると言われていて");
-    await write("彼らを倒すことが目標だ");
+    await fight(torubo);
+    await write("トルボを倒した！");
+    await find("portion_green", "回復薬を発見した");
+    cure(50);
+    await write("HPを50回復した");
+    await write("先へ進もう");
+    unfind();
     await write("さて、先へ進もう");
 
     setStage("stage-2-dark");
@@ -411,7 +402,6 @@ function GameDisplay() {
     await write("…あ！");
 
     await appear(garagara);
-    await write("HPは高いが攻撃力は低いぞ");
     await write("(スペースキーで戦闘が開始します)");
     await fight(garagara);
     await write("ガラガラを倒した！");
@@ -491,7 +481,7 @@ function GameDisplay() {
     cure(150);
     await write("HPを150回復した");
 
-    await write("ボムジキルの倒した音が響き渡る");
+    await write("ボムジキルの倒れこむ音が響き渡る");
     await write("地面が揺れている…");
     await write("恐ろしい轟音が鳴った");
     await write("…");
