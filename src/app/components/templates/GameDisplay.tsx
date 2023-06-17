@@ -323,7 +323,7 @@ function GameDisplay() {
     await write("トルボを倒した！");
     await write("先へ進もう");
 
-    await find("portion1", "回復薬を発見した");
+    await find("portion_green", "回復薬を発見した");
     cure(100);
     await write("HPを100回復した");
     await write("先へ進もう");
@@ -343,6 +343,8 @@ function GameDisplay() {
     await write("さて、先へ進もう");
 
     setStage("stage-2-dark");
+    await write("…");
+    await write("…あれ？");
     await write("まずい");
     await write("あたりが暗くなってきた");
     await write("あ！");
@@ -357,7 +359,7 @@ function GameDisplay() {
     setStage("stage-2");
     await write("あたりが明るくなった");
     await write("あ！");
-    await find("portion1", "回復薬を落としたぞ");
+    await find("portion_green", "回復薬を落としたぞ");
     cure(150);
     await write("HPが150回復した");
     await write("よし、先へ進もう");
@@ -378,9 +380,29 @@ function GameDisplay() {
     465,
     "wyvernChild",
     "ぼぼぼぼぼ",
-    25,
+    27,
     3000
   );
+  const moegame = new Monster("モエガメ", 270, "moegame", "火炎放射", 13, 4000);
+  const bi = new Monster("び", 395, "bi", "びびび", 20, 3000);
+  const bomuzikiru = new Monster(
+    "ボムジキル",
+    435,
+    "bomuzikiru",
+    "暴れまわる",
+    22,
+    3300
+  );
+  const wyvern = new Monster("ワイバーン", 575, "wyvern", "灼熱熱波", 45, 2000);
+  const invincible_slime = new Monster(
+    "無敵スライム君",
+    10000,
+    "slime",
+    "ぷにぷに",
+    10,
+    3000
+  );
+
   const desert_course = async () => {
     setCourseModal(false);
     setStage("stage-4");
@@ -399,13 +421,7 @@ function GameDisplay() {
     await write("攻撃力が 2→3 しました");
     await write("先へ進もう");
 
-    await appear(korio);
-    await write("見た目はかわいいがHPは高いぞ");
-    await write("(スペースキーで戦闘が開始します)");
-    await fight(korio);
-    await write("コリオを倒した！");
-
-    setStage("stage-6-dark");
+    setStage("stage-4-dark");
     await write("あれ？");
     await write("あたりの様子がおかしい…");
     await write("…");
@@ -418,16 +434,87 @@ function GameDisplay() {
     await fight(wyvernChild);
     await write("ワイバーンの幼生を倒した！");
     await write("遠くの空へ逃げていく…");
+    setStage("stage-4");
     await write("あたりが元に戻った");
-    setStage("stage-6");
-    await find("fire", "ワイバーンの炎の欠片を見つけた");
+    await find("fire_red", "ワイバーンの炎の欠片を見つけた");
     damage.current = 4;
     await write("攻撃力が 3→4 しました");
-    await find("portion1", "ドラゴンの息吹を見つけた");
+    await find("portion_red", "ドラゴンの息吹を見つけた");
     cure(150);
     await write("HPを150回復した");
-    await write("次のステージは火山エリアだ");
+    await write("もうすぐで火山地帯につくぞ");
     await write("先へ進もう…");
+
+    appear(moegame);
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(moegame);
+    await write("モエガメを倒した！");
+    await write("よし、先へ進もう");
+    await write("ここから先は、より暑くなっていく");
+
+    setStage("stage-6");
+    await write("…");
+    await write("火山地帯だ");
+    await write("焼けるような暑さだ…");
+    await appear(korio);
+    await write("見た目はかわいいがHPは高いぞ");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(korio);
+    await write("コリオを倒した！");
+
+    await appear(bi);
+    await write("普段はマグマの中で暮らしているモンスターだ");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(bi);
+    await write("びを倒した！");
+    await find("portion_green", "あ、回復薬だ");
+    cure(65);
+    await write("HPを65回復した");
+
+    await write("さて、先へ進もう");
+    await write("どんどん深く進んでいく…");
+    setStage("stage-6-dark");
+    await write("あたりが暗くなってきた");
+    await write("ここが火山の最深部だ");
+
+    await write("あ！");
+    await appear(bomuzikiru);
+    await write("火山地帯最深部の番人だ");
+    await write("こちらを睨んでいる…");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(bomuzikiru);
+    await write("ボムジキルを倒した！");
+    await find("fire_blue", "ボムジキルの炎の欠片を見つけた");
+    damage.current = 6;
+    await write("攻撃力が 4→6 しました");
+    await find("portion_special", "ボムジキルのエキスを見つけた");
+    cure(150);
+    await write("HPを150回復した");
+
+    await write("ボムジキルの倒した音が響き渡る");
+    await write("地面が揺れている…");
+    await write("恐ろしい轟音が鳴った");
+    await write("…");
+
+    await write("…あ！");
+    await appear(wyvern);
+    await write("さっきより成長している…");
+    await write("ワイバーンは怒りに燃えているようだ");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(wyvern);
+    await write("ワイバーンを倒した！");
+    await write("ワイバーンの巨大な体が崩れ落ち、静寂が戻ってきた…");
+    await write("…");
+    await write("ゲームクリア！");
+
+    await write("まさかラスボスを倒すとは…");
+    await write("開発者はここまで想定していませんでした…");
+    await write("では");
+    await write("念のため用意している「無敵スライム君」がいるので");
+    await write("そいつと戦って追加のスコア測定してください");
+    appear(invincible_slime);
+    await write("(スペースキーで戦闘が開始します)");
+    fight(invincible_slime);
   };
 
   const marine_course = async () => {
