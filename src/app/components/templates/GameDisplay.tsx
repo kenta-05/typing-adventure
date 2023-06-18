@@ -30,7 +30,7 @@ function GameDisplay() {
   const [currentType, setCurrentType] = useState<number>(0); // 正解のタイプ数
   const [wrongType, setWrongType] = useState<number>(0); // 不正解のタイプ数
 
-  const [stage, setStage] = useState<string>("stage-1"); // 現在のステージ
+  const [stage, setStage] = useState<string>("stage-plains"); // 現在のステージ
   const [courseModal, setCourseModal] = useState<boolean>(false); // コース選択モーダルの表示/非表示
 
   const [text, setText] = useState<string>("");
@@ -381,7 +381,7 @@ function GameDisplay() {
     await write("この世界には三体のドラゴンがいると言われていて");
     await write("彼らを倒すことが目標だ");
 
-    setStage("stage-2");
+    setStage("stage-swaps");
     await write("沼地だ");
     await write("敵も強くなってくるだろう");
 
@@ -396,7 +396,7 @@ function GameDisplay() {
     unfind();
     await write("さて、先へ進もう");
 
-    setStage("stage-2-dark");
+    setStage("stage-swaps-dark");
     await write("…");
     await write("…あれ？");
     await write("まずい");
@@ -410,7 +410,7 @@ function GameDisplay() {
     await fight(baranda);
     await write("バランビルダを倒した！");
 
-    setStage("stage-2");
+    setStage("stage-swaps");
     await write("あたりが明るくなった");
     await write("あ！");
     await find("portion_green", "回復薬を落としたぞ");
@@ -424,7 +424,7 @@ function GameDisplay() {
 
   const factory_course = async () => {
     setCourseModal(false);
-    setStage("stage-5");
+    setStage("stage-factory");
     await write("工場だ");
     await write("空気は冷えている");
 
@@ -479,7 +479,7 @@ function GameDisplay() {
     await write("？？？を倒した！");
 
     await write("先へ進もう");
-    setStage("stage-5-dark");
+    setStage("stage-factory-dark");
     await write("…");
     await write("暗い");
     await write("工場の最深部のようだ");
@@ -492,13 +492,13 @@ function GameDisplay() {
     await write("…");
     await write("ボタンを押した");
     await write("もう一度ボタンを押した");
-    setStage("stage-5-light");
+    setStage("stage-factory-light");
     await write("あ！");
     await write("機械が光り出した！！");
     await write("…");
     await write("……！！！！！！！");
 
-    setStage("stage-10");
+    setStage("stage-universe");
     await write("宇宙だ");
     await write("宇宙に飛ばされてしまった");
     await write("周りは星々で満ちている");
@@ -558,7 +558,7 @@ function GameDisplay() {
 
   const desert_course = async () => {
     setCourseModal(false);
-    setStage("stage-4");
+    setStage("stage-desert");
     await write("砂漠地帯だ");
     await write("空気が乾燥している…");
     await write("…あ！");
@@ -574,7 +574,7 @@ function GameDisplay() {
     await write("攻撃力が 2→3 しました");
     await write("先へ進もう");
 
-    setStage("stage-4-dark");
+    setStage("stage-desert-dark");
     await write("あれ？");
     await write("あたりの様子がおかしい…");
     await write("…");
@@ -587,7 +587,7 @@ function GameDisplay() {
     await fight(wyvernChild);
     await write("ワイバーンの幼生を倒した！");
     await write("遠くの空へ逃げていく…");
-    setStage("stage-4");
+    setStage("stage-desert");
     await write("あたりが元に戻った");
     await find("fire_red", "ワイバーンの炎の欠片を見つけた");
     damage.current = 4;
@@ -605,7 +605,7 @@ function GameDisplay() {
     await write("よし、先へ進もう");
     await write("ここから先は、より暑くなっていく");
 
-    setStage("stage-6");
+    setStage("stage-volcano");
     await write("…");
     await write("火山地帯だ");
     await write("焼けるような暑さだ…");
@@ -626,7 +626,7 @@ function GameDisplay() {
 
     await write("さて、先へ進もう");
     await write("どんどん深く進んでいく…");
-    setStage("stage-6-dark");
+    setStage("stage-volcano-dark");
     await write("あたりが暗くなってきた");
     await write("ここが火山の最深部だ");
 
@@ -674,9 +674,9 @@ function GameDisplay() {
     fight(invincible_slime);
   };
 
-  const marine_course = async () => {
+  const ocean_course = async () => {
     setCourseModal(false);
-    setStage("stage-9");
+    setStage("stage-ocean");
   };
 
   return (
@@ -706,7 +706,7 @@ function GameDisplay() {
             <CourseModal
               factory_course={factory_course}
               desert_course={desert_course}
-              marine_course={marine_course}
+              ocean_course={ocean_course}
             />
           )}
 

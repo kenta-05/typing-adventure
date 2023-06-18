@@ -3,10 +3,10 @@ import React from "react";
 interface Props {
   factory_course: () => void;
   desert_course: () => void;
-  marine_course: () => void;
+  ocean_course: () => void;
 }
 
-function CourseModal({ factory_course, desert_course, marine_course }: Props) {
+function CourseModal({ factory_course, desert_course, ocean_course }: Props) {
   return (
     <div className="items-center bg-white rounded-md absolute top-20 p-6 flex flex-col justify-between space-y-2">
       <button
@@ -22,7 +22,7 @@ function CourseModal({ factory_course, desert_course, marine_course }: Props) {
         砂漠コース
       </button>
       <button
-        onClick={marine_course}
+        onClick={ocean_course}
         className="w-[26rem] h-20 flex items-center justify-center bg-indigo-300 text-[1.8rem] border-2 border-black rounded-md transition hover:bg-indigo-400"
       >
         海洋コース
