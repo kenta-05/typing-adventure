@@ -478,6 +478,7 @@ function GameDisplay() {
     await write("？？？を倒した！");
 
     await write("先へ進もう");
+    setStage("stage-5-dark");
     await write("…");
     await write("暗い");
     await write("工場の最深部のようだ");
@@ -495,6 +496,63 @@ function GameDisplay() {
     await write("機械が光り出した！！");
     await write("…");
     await write("……！！！！！！！");
+
+    setStage("stage-space");
+    await write("宇宙だ");
+    await write("宇宙に飛ばされてしまった");
+    await write("周りは星々で満ちている");
+    await appear(kureiina);
+    await write("宇宙馬だ");
+    await write("(スペースキーで戦闘が開始します)");
+    await write("クレイイナを倒した！");
+    await find("portion_green", "あ、回復薬だ");
+    cure(65);
+    await write("HPを65回復した");
+
+    await write("クレイイナの甲高い声が響いた");
+    await write("よし、先へ進もう");
+    await write("…");
+    await write("あ！");
+    appear(miku);
+    await write("ミクは宇宙に住むドラゴンの守護神だ");
+    await write("これ以上進むには");
+    await write("ミクを倒さなければならない");
+    await write("ミクはこちらを睨んでいる…");
+    await write("(スペースキーで戦闘が開始します)");
+    fight(miku);
+    await write("ミクを倒した！");
+    await write("ミクは粒子となって消えてしまった…");
+    await find("crystal", "ミクの魂を手に入れた");
+    damage.current = 6;
+    await write("攻撃力が 4→6 しました");
+    await find("star", "星屑を手に入れた");
+    cure(150);
+    await write("HPを150回復した");
+
+    await write("…");
+    await write("重々しい羽音が聞こえる");
+    await write("周囲の星が光り出した");
+    await appear(griffon);
+    await write("凛とした表情でコチラを見つめている…！");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(griffon);
+    await write("グリフォンを倒した！");
+    await write("星たちは輝きを失ってしまった");
+    await write("…");
+    await write("ゲームクリア！");
+
+    await write("まさかラスボスを倒すとは…");
+    await write("開発者はここまで想定していませんでした…");
+    await write("…");
+    await write("……");
+    await write("…");
+    await write("………");
+    await write("…では");
+    await write("念のため用意している「無敵スライム君」がいるので…");
+    await write("そいつと戦って追加のスコア測定してください…");
+    appear(invincible_slime);
+    await write("(スペースキーで戦闘が開始します)");
+    fight(invincible_slime);
   };
 
   const desert_course = async () => {
