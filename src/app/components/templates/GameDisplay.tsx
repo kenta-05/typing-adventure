@@ -278,6 +278,65 @@ function GameDisplay() {
     32,
     3000
   );
+  const garagara = new Monster("ガラガラ", 210, "garagara", "激突", 10, 3200);
+  const korio = new Monster("コリオ", 310, "korio", "ちゅんちゅん", 15, 3000);
+  const wyvernChild = new Monster(
+    "ワイバーンの幼生",
+    465,
+    "wyvernChild",
+    "ぼぼぼぼぼ",
+    27,
+    3000
+  );
+  const moegame = new Monster("モエガメ", 270, "moegame", "火炎放射", 13, 4000);
+  const bi = new Monster("び", 395, "bi", "びびび", 20, 3000);
+  const bomuzikiru = new Monster(
+    "ボムジキル",
+    435,
+    "bomuzikiru",
+    "暴れまわる",
+    22,
+    3300
+  );
+  const wyvern = new Monster("ワイバーン", 750, "wyvern", "灼熱熱波", 45, 2000);
+  const invincible_slime = new Monster(
+    "無敵スライム君",
+    10000,
+    "slime",
+    "ぷにぷに",
+    10,
+    3000
+  );
+
+  const pimo = new Monster("ピモ", 210, "pimo", "電気ショック", 10, 3200);
+  const temi_ru = new Monster("テミール", 310, "temi_ru", "電磁法", 15, 3000);
+  const siromaro = new Monster(
+    "しろまろ",
+    465,
+    "siromaro",
+    "かみつき",
+    27,
+    3000
+  );
+  const question = new Monster("？？？", 270, "question", "でんじは", 13, 4000);
+  const kureiina = new Monster(
+    "クレイイナ",
+    395,
+    "kureiina",
+    "スターマグナム",
+    20,
+    3000
+  );
+  const miku = new Monster("ミク", 435, "miku", "◇〇☆△", 22, 3300);
+  const griffon = new Monster(
+    "グリフォン",
+    750,
+    "griffon",
+    "疾風破烈斬",
+    45,
+    2000
+  );
+
   // ゲーム進行(f)
   const game_start = async () => {
     setPlaying(true);
@@ -366,37 +425,77 @@ function GameDisplay() {
   const factory_course = async () => {
     setCourseModal(false);
     setStage("stage-5");
-  };
+    await write("工場だ");
+    await write("空気は冷えている");
 
-  const garagara = new Monster("ガラガラ", 210, "garagara", "激突", 10, 3200);
-  const korio = new Monster("コリオ", 310, "korio", "ちゅんちゅん", 15, 3000);
-  const wyvernChild = new Monster(
-    "ワイバーンの幼生",
-    465,
-    "wyvernChild",
-    "ぼぼぼぼぼ",
-    27,
-    3000
-  );
-  const moegame = new Monster("モエガメ", 270, "moegame", "火炎放射", 13, 4000);
-  const bi = new Monster("び", 395, "bi", "びびび", 20, 3000);
-  const bomuzikiru = new Monster(
-    "ボムジキル",
-    435,
-    "bomuzikiru",
-    "暴れまわる",
-    22,
-    3300
-  );
-  const wyvern = new Monster("ワイバーン", 575, "wyvern", "灼熱熱波", 45, 2000);
-  const invincible_slime = new Monster(
-    "無敵スライム君",
-    10000,
-    "slime",
-    "ぷにぷに",
-    10,
-    3000
-  );
+    await write("あ！");
+    await write("機械の部品が動き出した");
+    await write("コチラへ向かってくる…");
+    await appear(pimo);
+    await write("戦う気のようだ");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(pimo);
+    await write("ピモを倒した！");
+    await write("お！");
+    await find("light", "部品の一部を落としていった");
+    damage.current = 3;
+    await write("攻撃力が 2→3 しました");
+    await write("先へ進もう");
+
+    await write("…");
+    await write("…！！");
+    await appear(temi_ru);
+    await write("機械に操られているようだ…");
+    await fight(temi_ru);
+    await write("テミールを倒した！");
+    await find("fire_red", "電気の欠片を落とした");
+    damage.current = 4;
+    await write("攻撃力が 3→4 しました");
+    await find("portion_green", "回復薬を落とした");
+    cure(150);
+    await write("HPを150回復した");
+
+    await write("あれ");
+    await write("倒したテミールがまだ生きている…");
+    await write("あ！");
+    await write("中から本体が出てきた！");
+    await appear(siromaro);
+    await write("弱っている");
+    await write("だが怒っているようだ…");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(siromaro);
+    await write("しろまろを倒した！");
+
+    await write("先へ進もう");
+    await write("…");
+    await write("…！");
+    await appear(question);
+    await write("機械が動いたり");
+    await write("操られたりしていたのも");
+    await write("こいつが原因のようだ");
+    await fight(question);
+    await write("(スペースキーで戦闘が開始します)");
+    await write("？？？を倒した！");
+
+    await write("先へ進もう");
+    await write("…");
+    await write("暗い");
+    await write("工場の最深部のようだ");
+    await write("…");
+    await write("あれ");
+    await write("よくわからない機械がある");
+    await write("触ってみようかな…");
+    await write("…");
+    await write("レバーを動かした");
+    await write("…");
+    await write("ボタンを押した");
+    await write("もう一度ボタンを押した");
+    setStage("stage-5-light");
+    await write("あ！");
+    await write("機械が光り出した！！");
+    await write("…");
+    await write("……！！！！！！！");
+  };
 
   const desert_course = async () => {
     setCourseModal(false);
@@ -406,6 +505,7 @@ function GameDisplay() {
     await write("…あ！");
 
     await appear(garagara);
+    await write("岩でできた怪物だ");
     await write("(スペースキーで戦闘が開始します)");
     await fight(garagara);
     await write("ガラガラを倒した！");
@@ -503,9 +603,13 @@ function GameDisplay() {
 
     await write("まさかラスボスを倒すとは…");
     await write("開発者はここまで想定していませんでした…");
-    await write("では");
-    await write("念のため用意している「無敵スライム君」がいるので");
-    await write("そいつと戦って追加のスコア測定してください");
+    await write("…");
+    await write("……");
+    await write("…");
+    await write("………");
+    await write("…では");
+    await write("念のため用意している「無敵スライム君」がいるので…");
+    await write("そいつと戦って追加のスコア測定してください…");
     appear(invincible_slime);
     await write("(スペースキーで戦闘が開始します)");
     fight(invincible_slime);
