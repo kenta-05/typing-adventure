@@ -279,7 +279,6 @@ function GameDisplay() {
     3000
   );
   const garagara = new Monster("ガラガラ", 210, "garagara", "激突", 10, 3200);
-  const korio = new Monster("コリオ", 310, "korio", "ちゅんちゅん", 15, 3000);
   const wyvernChild = new Monster(
     "ワイバーンの幼生",
     465,
@@ -288,6 +287,7 @@ function GameDisplay() {
     27,
     3000
   );
+  const korio = new Monster("コリオ", 310, "korio", "ちゅんちゅん", 15, 3000);
   const moegame = new Monster("モエガメ", 270, "moegame", "火炎放射", 13, 4000);
   const bi = new Monster("び", 395, "bi", "びびび", 20, 3000);
   const bomuzikiru = new Monster(
@@ -309,20 +309,20 @@ function GameDisplay() {
   );
 
   const pimo = new Monster("ピモ", 210, "pimo", "電気ショック", 10, 3200);
-  const temi_ru = new Monster("テミール", 310, "temi_ru", "電磁法", 15, 3000);
+  const temi_ru = new Monster("テミール", 465, "siromaro", "電磁法", 27, 3000);
   const siromaro = new Monster(
     "しろまろ",
-    465,
-    "siromaro",
+    310,
+    "temi_ru",
     "かみつき",
-    27,
+    15,
     3000
   );
   const question = new Monster("？？？", 270, "question", "でんじは", 13, 4000);
-  const kureiina = new Monster(
-    "クレイイナ",
+  const kureina = new Monster(
+    "クレイナ",
     395,
-    "kureiina",
+    "kureina",
     "スターマグナム",
     20,
     3000
@@ -443,7 +443,8 @@ function GameDisplay() {
     await write("先へ進もう");
 
     await write("…");
-    await write("…！！");
+    await write("…ん？");
+    await write("あ！！");
     await appear(temi_ru);
     await write("機械に操られているようだ…");
     await fight(temi_ru);
@@ -497,15 +498,15 @@ function GameDisplay() {
     await write("…");
     await write("……！！！！！！！");
 
-    setStage("stage-space");
+    setStage("stage-10");
     await write("宇宙だ");
     await write("宇宙に飛ばされてしまった");
     await write("周りは星々で満ちている");
-    await appear(kureiina);
+    await appear(kureina);
     await write("宇宙馬だ");
     await write("(スペースキーで戦闘が開始します)");
     await write("クレイイナを倒した！");
-    await find("portion_green", "あ、回復薬だ");
+    await find("start", "あ、星屑だ");
     cure(65);
     await write("HPを65回復した");
 
