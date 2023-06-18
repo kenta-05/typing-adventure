@@ -309,11 +309,11 @@ function GameDisplay() {
   );
 
   const pimo = new Monster("ピモ", 210, "pimo", "電気ショック", 10, 3200);
-  const temi_ru = new Monster("テミール", 465, "siromaro", "電磁法", 27, 3000);
+  const temi_ru = new Monster("テミール", 465, "temi_ru", "電磁法", 27, 3000);
   const siromaro = new Monster(
     "しろまろ",
     310,
-    "temi_ru",
+    "siromaro",
     "かみつき",
     15,
     3000
@@ -350,7 +350,7 @@ function GameDisplay() {
 
     await appear(slime);
     await write("(スペースキーで戦闘が開始します)");
-    await fight(slime);
+    // await fight(slime);
     await write("スライムを倒した！");
 
     await write("その調子！");
@@ -359,10 +359,9 @@ function GameDisplay() {
     await appear(yakarabati);
     await write("この一帯で一番大きい女王バチだ");
     await write("(スペースキーで戦闘が開始します)");
-    await fight(yakarabati);
+    // await fight(yakarabati);
     await write("ヤカラバチを倒した！");
     await write("近隣の住民から感謝されるだろう");
-    await write("…");
 
     await write("あ！");
     await find("iron_sword", "鉄の剣を発見した！");
@@ -375,7 +374,7 @@ function GameDisplay() {
     await appear(ririppo);
     await write("小ダメージで何度も攻撃してくる鳥だ");
     await write("(スペースキーで戦闘が開始します)");
-    await fight(ririppo);
+    // await fight(ririppo);
     await write("リリッポを倒した！");
     await write("なるべく正確に素早く撃破することでHPを温存しよう");
     await write("この世界には三体のドラゴンがいると言われていて");
@@ -387,7 +386,7 @@ function GameDisplay() {
 
     await appear(torubo);
     await write("(スペースキーで戦闘が開始します)");
-    await fight(torubo);
+    // await fight(torubo);
     await write("トルボを倒した！");
     await find("portion_green", "トルボは回復薬を落とした");
     cure(50);
@@ -407,7 +406,7 @@ function GameDisplay() {
     await write("数々の勇者がここで倒れてきた");
     await write("勝とう");
     await write("(スペースキーで戦闘が開始します)");
-    await fight(baranda);
+    // await fight(baranda);
     await write("バランビルダを倒した！");
 
     setStage("stage-swaps");
@@ -434,7 +433,7 @@ function GameDisplay() {
     await appear(pimo);
     await write("戦う気のようだ");
     await write("(スペースキーで戦闘が開始します)");
-    await fight(pimo);
+    // await fight(pimo);
     await write("ピモを倒した！");
     await write("お！");
     await find("light", "部品の一部を落としていった");
@@ -447,9 +446,9 @@ function GameDisplay() {
     await write("あ！！");
     await appear(temi_ru);
     await write("機械に操られているようだ…");
-    await fight(temi_ru);
+    // await fight(temi_ru);
     await write("テミールを倒した！");
-    await find("fire_red", "電気の欠片を落とした");
+    await find("thunder", "電気の欠片を落とした");
     damage.current = 4;
     await write("攻撃力が 3→4 しました");
     await find("portion_green", "回復薬を落とした");
@@ -464,25 +463,27 @@ function GameDisplay() {
     await write("弱っている");
     await write("だが怒っているようだ…");
     await write("(スペースキーで戦闘が開始します)");
-    await fight(siromaro);
+    // await fight(siromaro);
     await write("しろまろを倒した！");
 
+    await write("工場内は静まり返った…");
     await write("先へ進もう");
     await write("…");
-    await write("…！");
+    await write("…ん？");
+    await write("あ！");
     await appear(question);
     await write("機械が動いたり");
     await write("操られたりしていたのも");
     await write("こいつが原因のようだ");
-    await fight(question);
     await write("(スペースキーで戦闘が開始します)");
+    // await fight(question);
     await write("？？？を倒した！");
 
     await write("先へ進もう");
     setStage("stage-factory-dark");
     await write("…");
     await write("暗い");
-    await write("工場の最深部のようだ");
+    await write("ここが工場の最深部のようだ");
     await write("…");
     await write("あれ");
     await write("よくわからない機械がある");
@@ -499,14 +500,17 @@ function GameDisplay() {
     await write("……！！！！！！！");
 
     setStage("stage-universe");
+    await write("…");
+    await write("ここは…");
     await write("宇宙だ");
     await write("宇宙に飛ばされてしまった");
     await write("周りは星々で満ちている");
     await appear(kureina);
     await write("宇宙馬だ");
     await write("(スペースキーで戦闘が開始します)");
+    await fight(kureina);
     await write("クレイイナを倒した！");
-    await find("start", "あ、星屑だ");
+    await find("star", "あ、星屑だ");
     cure(65);
     await write("HPを65回復した");
 
@@ -514,13 +518,13 @@ function GameDisplay() {
     await write("よし、先へ進もう");
     await write("…");
     await write("あ！");
-    appear(miku);
+    await appear(miku);
     await write("ミクは宇宙に住むドラゴンの守護神だ");
     await write("これ以上進むには");
     await write("ミクを倒さなければならない");
     await write("ミクはこちらを睨んでいる…");
     await write("(スペースキーで戦闘が開始します)");
-    fight(miku);
+    await fight(miku);
     await write("ミクを倒した！");
     await write("ミクは粒子となって消えてしまった…");
     await find("crystal", "ミクの魂を手に入れた");
