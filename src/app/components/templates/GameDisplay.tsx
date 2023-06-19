@@ -67,7 +67,6 @@ function GameDisplay() {
         e.preventDefault(); // スクロールを防ぐ
         if (!playing) {
           game_start();
-          console.log("反応しています");
         }
       }
       if (e.code === "Escape") {
@@ -108,7 +107,7 @@ function GameDisplay() {
 
   // ゲームストップ(f)
   const game_stop = () => {
-    setPlaying(false);
+    // setPlaying(false);
     setHp(1000);
     setPrevMonster(monster);
     setMonster(null);
@@ -720,7 +719,7 @@ function GameDisplay() {
     await write("…");
     await write("…あ！");
     await appear(zakiraru);
-    await write("この一帯の生態系の頂点の生き物");
+    await write("この海の生態系の頂点だ…");
     await write("なわばりに入ってしまったようだ");
     await write("激怒している");
     await write("(スペースキーで戦闘が開始します)");
