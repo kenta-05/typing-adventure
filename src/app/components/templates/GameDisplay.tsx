@@ -299,15 +299,6 @@ function GameDisplay() {
     3300
   );
   const wyvern = new Monster("ワイバーン", 750, "wyvern", "灼熱熱波", 45, 2000);
-  const invincible_slime = new Monster(
-    "無敵スライム君",
-    10000,
-    "slime",
-    "ぷにぷに",
-    10,
-    3000
-  );
-
   const pimo = new Monster("ピモ", 210, "pimo", "電気ショック", 10, 3200);
   const temi_ru = new Monster("テミール", 465, "temi_ru", "電磁法", 27, 3000);
   const siromaro = new Monster(
@@ -336,6 +327,35 @@ function GameDisplay() {
     45,
     2000
   );
+  const kodora = new Monster("コドラ", 210, "kodora", "泡ぶくぶく", 10, 3200);
+  const zakiraru = new Monster("ザキラル", 465, "zakiraru", "水斬撃", 27, 3000);
+  const odoshio = new Monster(
+    "オドシオ",
+    310,
+    "odoshio",
+    "スクリュー砲",
+    15,
+    3000
+  );
+  const sentori = new Monster("セントリ", 270, "sentori", "つつく", 13, 4000);
+  const seziru = new Monster("セジル", 395, "seziru", "冷殴", 20, 3000);
+  const buzerere = new Monster(
+    "ブゼレレ",
+    435,
+    "buzerere",
+    "アイスダッシュ",
+    22,
+    3300
+  );
+  const kione = new Monster("グリフォン", 750, "griffon", "氷龍凍絶", 45, 2000);
+  const invincible_slime = new Monster(
+    "無敵スライム君",
+    10000,
+    "slime",
+    "ぷにぷに",
+    10,
+    3000
+  );
 
   // ゲーム進行(f)
   const game_start = async () => {
@@ -350,7 +370,7 @@ function GameDisplay() {
 
     await appear(slime);
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(slime);
+    await fight(slime);
     await write("スライムを倒した！");
 
     await write("その調子！");
@@ -359,7 +379,7 @@ function GameDisplay() {
     await appear(yakarabati);
     await write("この一帯で一番大きい女王バチだ");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(yakarabati);
+    await fight(yakarabati);
     await write("ヤカラバチを倒した！");
     await write("近隣の住民から感謝されるだろう");
 
@@ -374,7 +394,7 @@ function GameDisplay() {
     await appear(ririppo);
     await write("小ダメージで何度も攻撃してくる鳥だ");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(ririppo);
+    await fight(ririppo);
     await write("リリッポを倒した！");
     await write("なるべく正確に素早く撃破することでHPを温存しよう");
     await write("この世界には三体のドラゴンがいると言われていて");
@@ -386,7 +406,7 @@ function GameDisplay() {
 
     await appear(torubo);
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(torubo);
+    await fight(torubo);
     await write("トルボを倒した！");
     await find("portion_green", "トルボは回復薬を落とした");
     cure(50);
@@ -406,7 +426,7 @@ function GameDisplay() {
     await write("数々の勇者がここで倒れてきた");
     await write("勝とう");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(baranda);
+    await fight(baranda);
     await write("バランビルダを倒した！");
 
     setStage("stage-swaps");
@@ -433,7 +453,7 @@ function GameDisplay() {
     await appear(pimo);
     await write("戦う気のようだ");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(pimo);
+    await fight(pimo);
     await write("ピモを倒した！");
     await write("お！");
     await find("light", "部品の一部を落としていった");
@@ -446,7 +466,7 @@ function GameDisplay() {
     await write("あ！！");
     await appear(temi_ru);
     await write("機械に操られているようだ…");
-    // await fight(temi_ru);
+    await fight(temi_ru);
     await write("テミールを倒した！");
     await find("thunder", "電気の欠片を落とした");
     damage.current = 4;
@@ -463,7 +483,7 @@ function GameDisplay() {
     await write("弱っている");
     await write("だが怒っているようだ…");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(siromaro);
+    await fight(siromaro);
     await write("しろまろを倒した！");
 
     await write("工場内は静まり返った…");
@@ -476,7 +496,7 @@ function GameDisplay() {
     await write("操られたりしていたのも");
     await write("こいつが原因のようだ");
     await write("(スペースキーで戦闘が開始します)");
-    // await fight(question);
+    await fight(question);
     await write("？？？を倒した！");
 
     await write("先へ進もう");
@@ -573,7 +593,7 @@ function GameDisplay() {
     await fight(garagara);
     await write("ガラガラを倒した！");
     await write("お！");
-    await find("bronze_sword", "銀の剣だ！");
+    await find("bronze_sword", "銅の剣だ！");
     damage.current = 3;
     await write("攻撃力が 2→3 しました");
     await write("先へ進もう");
@@ -681,6 +701,122 @@ function GameDisplay() {
   const ocean_course = async () => {
     setCourseModal(false);
     setStage("stage-ocean");
+
+    await write("海洋地帯だ");
+    await write("魚たちが泳いでいる…");
+    await write("…あ！");
+
+    await appear(kodora);
+    await write("コチラを睨みつけている");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(kodora);
+    await write("コドラを倒した！");
+    await write("あ！");
+    await find("ocean_sword", "海洋の剣だ！");
+    damage.current = 3;
+    await write("攻撃力が 2→3 しました");
+    await write("先へ進もう");
+
+    await write("…");
+    await write("…あ！");
+    await appear(zakiraru);
+    await write("この一帯の生態系の頂点の生き物");
+    await write("なわばりに入ってしまったようだ");
+    await write("激怒している");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(zakiraru);
+    await write("ザキラルを倒した！");
+    await write("お！");
+    await find("yumi", "弓を手に入れた");
+    damage.current = 4;
+    await write("攻撃力が 3→4 しました");
+    await find("cocktail_blue", "ザキラルのエキスを見つけた");
+    await write("ごくごく…");
+    await write("…");
+    await write("苦い");
+    cure(150);
+    await write("HPを150回復した");
+    await write("先へ進もう…");
+
+    await appear(odoshio);
+    await write("潜水用に作られた機械獣だ");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(odoshio);
+    await write("オドシオを倒した！");
+    await write("よし、先へ進もう");
+    await write("ようやく陸地に上がれるぞ…");
+
+    setStage("stage-frozen");
+    await write("…");
+    await write("氷結地帯だ");
+    await write("凍てつくような寒さだ…");
+    await write("あ！");
+    await appear(sentori);
+    await write("寒い地域に住む魚だ");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(sentori);
+    await write("セントリを倒した！");
+
+    await appear(seziru);
+    await write("普段は氷の中に住んでいる");
+    await write("元々は鳥だった");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(seziru);
+    await write("セジルを倒した！");
+    await find("portion_green", "あ、回復薬だ");
+    cure(65);
+    await write("HPを65回復した");
+
+    await write("さて、先へ進もう");
+    await write("どんどん深く進んでいく…");
+    setStage("stage-frozen-dark");
+    await write("吹雪が強くなってきた");
+    await write("ここが氷結地帯の最深部だ");
+
+    await write("あ！");
+    await appear(buzerere);
+    await write("この地帯のドラゴンの番人だ");
+    await write("あたりの吹雪はより一層強くなった");
+    await write("ブゼレレは戦う気だ…");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(buzerere);
+    await write("ブゼレレを倒した！");
+    await find("buzerere_piece", "ブゼレレの蹄の欠片");
+    damage.current = 6;
+    await write("攻撃力が 4→6 しました");
+    await find("portion_blue", "ブゼレレのエキスを見つけた");
+    cure(150);
+    await write("HPを150回復した");
+
+    await write("ボムジキルの倒れこむ音が響き渡る");
+    await write("地面が揺れている…");
+    await write("恐ろしい轟音が鳴った");
+    await write("…");
+
+    await write("…あ！");
+    await appear(kione);
+    await write("さっきより成長している…");
+    await write("ワイバーンは怒りに燃えているようだ");
+    await write("(スペースキーで戦闘が開始します)");
+    await fight(kione);
+    await write("キオネを倒した！");
+    await write("キオネのうなり声が響き渡った");
+    await write("静寂が戻る…");
+    await write("…");
+    await write("ゲームクリア！");
+
+    await write("まさかラスボスを倒すとは…");
+    await write("開発者はここまで想定していませんでした…");
+    await write("…");
+    await write("……");
+    await write("…");
+    await write("………");
+    await write("…では");
+    await write("念のため用意している「無敵スライム君」がいるので…");
+    await write("そいつと戦って追加のスコア測定してください…");
+    appear(invincible_slime);
+    await write("(スペースキーで戦闘が開始します)");
+    fight(invincible_slime);
   };
 
   return (
