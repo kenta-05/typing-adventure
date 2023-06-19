@@ -25,12 +25,14 @@ function Description() {
       </div>
       <div>
         <h2 className="border-b-2 pb-1 border-black font-bold text-lg">
-          スコアについて
+          スコアによるランキングについて
         </h2>
         <p className="">
           正しくタイピング出来た数がそのままスコアに反映されます
           <br />
           タイピングが上手いとより長くプレイできるため、スコアも伸びていきます
+          <br />
+          途中分岐点がありますが、どの選択肢を選んでも難易度は変わりません
         </p>
       </div>
     </div>
