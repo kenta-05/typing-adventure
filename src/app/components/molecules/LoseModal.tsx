@@ -1,6 +1,7 @@
 import { Monster } from "@/app/class";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { User } from "firebase/auth";
 
 interface Props {
   prevMonster: Monster | null;
@@ -15,6 +16,8 @@ function loseModal({
   currentType,
   wrongType,
 }: Props) {
+  const [user, setUser] = useState<User | null>(null);
+
   return (
     <div className="bg-gray-500 bg-opacity-50 absolute inset-0 flex items-center justify-center z-10">
       <div className="rounded-xl p-4 w-[28rem] flex flex-col justify-center items-center bg-base">
@@ -28,8 +31,12 @@ function loseModal({
         <div className="bg-second p-2 w-full rounded-sm mt-4 flex justify-between items-end">
           <div>
             <p className="text-[1.5rem] mb-4 font-bold">スコア:{currentType}</p>
-            <p className="text-lg">正確なタイプ数:{currentType}</p>
+            <p className="text-lg">正解のタイプ数:{currentType}</p>
             <p className="text-lg">ミスタイプ数:{wrongType}</p>
+            <p className="text-lg">
+              正解率:
+              {((currentType / (currentType + wrongType)) * 100).toFixed(2)}%
+            </p>
           </div>
           <img
             className="w-24 h-24 mr-3"
