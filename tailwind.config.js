@@ -42,6 +42,8 @@ module.exports = {
         "brown-dark": "#ba9f6e",
 
         base: "#fffcf5",
+        "base-hover": "#edeae4",
+
         first: "#ffca47",
         second: "#fff2d8",
         third: "#dbad3b",

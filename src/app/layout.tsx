@@ -1,6 +1,7 @@
 import Link from "next/link";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { FirebaseProvider } from "./providers/FirebaseProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}
       >
-        <div className="w-320">{children}</div>
+        <FirebaseProvider>
+          <div className="w-320">{children}</div>
+        </FirebaseProvider>
       </body>
     </html>
   );
