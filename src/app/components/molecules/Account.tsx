@@ -3,20 +3,17 @@ import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 import {
   Auth,
   AuthProvider,
-  GoogleAuthProvider,
   User,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import React, { useContext, useEffect, useState } from "react";
-import { BsTwitter } from "react-icons/bs";
+import React, { useContext } from "react";
 
 function Account() {
   const firebaseContext = useContext(FirebaseContext);
   if (!firebaseContext) {
     throw new Error("FirebaseContext is null");
   }
-
   const {
     auth,
     provider,

@@ -50,7 +50,7 @@ function loseModal({
               onClick={() => {
                 setLoseModal(false);
               }}
-              className="bg-first p-2 rounded-sm transition-all 
+              className="bg-first px-4 py-2 rounded-sm transition-all 
               hover:bg-third"
             >
               ホーム画面へ
