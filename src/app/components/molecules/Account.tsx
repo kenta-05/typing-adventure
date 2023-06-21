@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 import {
   Auth,
@@ -8,6 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import React, { useContext } from "react";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 
 function Account() {
   const firebaseContext = useContext(FirebaseContext);
@@ -18,10 +20,12 @@ function Account() {
     auth,
     provider,
     user,
+    myScore,
   }: {
     auth: Auth;
     provider: AuthProvider;
     user: User | null;
+    myScore: number;
   } = firebaseContext;
 
   const signInWithGoogle = () => {
@@ -35,7 +39,6 @@ function Account() {
         });
     }
   };
-
   const signOutWithGoogle = () => {
     signOut(auth)
       .then(() => {
@@ -53,9 +56,14 @@ function Account() {
         {user ? (
           <>
             <div className="h-20 flex flex-col bg-second space-x-2 space-y-1 pt-1">
-              <p className="text-lg overflow-y-hidden pl-1">
-                現在のハイスコア:
-              </p>
+              <div className="flex">
+                <p className="text-lg overflow-y-hidden pl-1">
+                  現在のハイスコア:
+                </p>
+                <p className="text-xl overflow-y-hidden pl-1 text-red-500 font-bold">
+                  {myScore}
+                </p>
+              </div>
               <div className="flex overflow-y-hidden items-center justify-between">
                 <div className="flex items-center">
                   <img
