@@ -1,22 +1,30 @@
 import { Monster } from "@/app/class";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { User } from "firebase/auth";
+import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 
 interface Props {
   prevMonster: Monster | null;
   setLoseModal: React.Dispatch<React.SetStateAction<boolean>>;
-  currentType: number;
+  currectType: number;
   wrongType: number;
 }
 
 function loseModal({
   prevMonster,
   setLoseModal,
-  currentType,
+  currectType,
   wrongType,
 }: Props) {
+  const firebaseContext = useContext(FirebaseContext || {});
+  if (!firebaseContext) {
+    return;
+  }
+  const { myScore }: { myScore: number } = firebaseContext;
   const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {}, []);
 
   return (
     <div className="bg-gray-500 bg-opacity-50 absolute inset-0 flex items-center justify-center z-10">
@@ -30,12 +38,19 @@ function loseModal({
         </div>
         <div className="bg-second p-2 w-full rounded-sm mt-4 flex justify-between items-end">
           <div>
-            <p className="text-[1.5rem] mb-4 font-bold">スコア:{currentType}</p>
-            <p className="text-lg">正解のタイプ数:{currentType}</p>
+            <div className="mb-4 flex items-center">
+              <p className="text-[1.5rem] font-bold">スコア:{currectType}</p>
+              {currectType > myScore && (
+                <p className="text-[1.15rem] pl-2 font-bold text-red-500">
+                  (ハイスコア!)
+                </p>
+              )}
+            </div>
+            <p className="text-lg">正解のタイプ数:{currectType}</p>
             <p className="text-lg">ミスタイプ数:{wrongType}</p>
             <p className="text-lg">
               正解率:
-              {((currentType / (currentType + wrongType)) * 100).toFixed(2)}%
+              {((currectType / (currectType + wrongType)) * 100).toFixed(2)}%
             </p>
           </div>
           <img

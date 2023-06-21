@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
 import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 import {
   Auth,
@@ -14,7 +13,7 @@ import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 function Account() {
   const firebaseContext = useContext(FirebaseContext);
   if (!firebaseContext) {
-    throw new Error("FirebaseContext is null");
+    return;
   }
   const {
     auth,

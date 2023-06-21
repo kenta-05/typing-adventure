@@ -27,7 +27,7 @@ function GameDisplay() {
   const monsterAtack = useRef<NodeJS.Timeout | null>(null); // モンスター攻撃時タイマー
   const typeHandler = useRef<((e: KeyboardEvent) => void) | null>(null); // 攻撃時ハンドラー
   const [loseModal, setLoseModal] = useState<boolean>(false); // 敗北時モーダルの表示/非表示
-  const [currentType, setCurrentType] = useState<number>(0); // 正解のタイプ数
+  const [currectType, setCurrectType] = useState<number>(0); // 正解のタイプ数
   const [wrongType, setWrongType] = useState<number>(0); // 不正解のタイプ数
 
   const [stage, setStage] = useState<string>("stage-plains"); // 現在のステージ
@@ -164,7 +164,7 @@ function GameDisplay() {
         const isNextKey = keygraph.next(e.key);
         if (isNextKey) {
           // 正解のタイプ数を++
-          setCurrentType((prev) => prev + 1);
+          setCurrectType((prev) => prev + 1);
           setMonsterHp((prevHp) => {
             // 正解ならHPを減らして、Filledを移動
             const newHp = prevHp - damage.current;
@@ -828,7 +828,7 @@ function GameDisplay() {
           <LoseModal
             prevMonster={prevMonster}
             setLoseModal={setLoseModal}
-            currentType={currentType}
+            currectType={currectType}
             wrongType={wrongType}
           />
         )}
