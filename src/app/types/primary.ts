@@ -1,3 +1,6 @@
-export interface user {
-  score: number;
+export interface GameUser {
+  username: string;
+  highscore: number;
+  monstername: string;
+  uid: string;
 }

@@ -75,7 +75,8 @@ function GameDisplay() {
 
       // ドキュメントを更新
       updateDoc(userDoc, {
-        score: currectType,
+        monstername: monster?.name,
+        highscore: currectType,
       })
         .then(() => {
           console.log("ハイスコアを更新しました");

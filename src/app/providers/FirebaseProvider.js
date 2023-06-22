@@ -49,7 +49,12 @@ export function FirebaseProvider({ children }) {
 
         if (!docSnap.exists()) {
           // ドキュメントが存在しない場合、新たに作成
-          await setDoc(userDocRef, { score: 0 });
+          await setDoc(userDocRef, {
+            username: user.displayName,
+            highscore: 0,
+            monstername: "",
+            uid: user.uid,
+          });
         }
 
         const unsubscribeSnapshot = onSnapshot(
@@ -57,7 +62,7 @@ export function FirebaseProvider({ children }) {
           (doc) => {
             const data = doc.data();
             if (data) {
-              setHighscore(data.score);
+              setHighscore(data.highscore);
             }
           }
         );
