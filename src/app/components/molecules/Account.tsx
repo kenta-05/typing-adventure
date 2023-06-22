@@ -19,12 +19,12 @@ function Account() {
     auth,
     provider,
     user,
-    myScore,
+    highscore,
   }: {
     auth: Auth;
     provider: AuthProvider;
     user: User | null;
-    myScore: number;
+    highscore: number;
   } = firebaseContext;
 
   const signInWithGoogle = () => {
@@ -60,7 +60,7 @@ function Account() {
                   現在のハイスコア:
                 </p>
                 <p className="text-xl overflow-y-hidden pl-1 text-red-500 font-bold">
-                  {myScore}
+                  {highscore || "----"}
                 </p>
               </div>
               <div className="flex overflow-y-hidden items-center justify-between">

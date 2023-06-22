@@ -26,7 +26,7 @@ export function FirebaseProvider({ children }) {
   const [auth, setAuth] = useState(null);
   const [provider, setProvider] = useState(null);
   const [user, setUser] = useState(null);
-  const [myScore, setMyScore] = useState(null);
+  const [highscore, setHighscore] = useState(null);
 
   useEffect(() => {
     // Firebaseのアプリケーションを初期化します
@@ -57,7 +57,7 @@ export function FirebaseProvider({ children }) {
           (doc) => {
             const data = doc.data();
             if (data) {
-              setMyScore(data.score);
+              setHighscore(data.score);
             }
           }
         );
@@ -69,7 +69,7 @@ export function FirebaseProvider({ children }) {
   }, []);
 
   return (
-    <FirebaseContext.Provider value={{ auth, provider, user, myScore }}>
+    <FirebaseContext.Provider value={{ auth, provider, user, highscore }}>
       {children}
     </FirebaseContext.Provider>
   );

@@ -9,6 +9,7 @@ interface Props {
   setLoseModal: React.Dispatch<React.SetStateAction<boolean>>;
   currectType: number;
   wrongType: number;
+  prevScore: number;
 }
 
 function loseModal({
@@ -16,15 +17,13 @@ function loseModal({
   setLoseModal,
   currectType,
   wrongType,
+  prevScore,
 }: Props) {
   const firebaseContext = useContext(FirebaseContext || {});
   if (!firebaseContext) {
     return;
   }
-  const { myScore }: { myScore: number } = firebaseContext;
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {}, []);
+  const { highscore }: { highscore: number } = firebaseContext;
 
   return (
     <div className="bg-gray-500 bg-opacity-50 absolute inset-0 flex items-center justify-center z-10">
@@ -40,9 +39,9 @@ function loseModal({
           <div>
             <div className="mb-4 flex items-center">
               <p className="text-[1.5rem] font-bold">スコア:{currectType}</p>
-              {currectType > myScore && (
-                <p className="text-[1.15rem] pl-2 font-bold text-red-500">
-                  (ハイスコア!)
+              {currectType > prevScore && (
+                <p className="text-[1.1rem] pl-2 font-bold text-red-500">
+                  (ハイスコア更新！)
                 </p>
               )}
             </div>

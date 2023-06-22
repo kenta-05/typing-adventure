@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Monster } from "../../class";
 import MonsterDisplay from "../../components/organisms/MonsterDisplay";
 import TextDisplay from "../../components/organisms/TextDisplay";
@@ -9,6 +9,9 @@ import LoseModal from "../../components/molecules/LoseModal";
 import keygraph from "../../lib/keygraph";
 import sentences from "../../sentences.json";
 import CourseModal from "../organisms/CourseModal";
+import { FirebaseContext } from "@/app/providers/FirebaseProvider";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import { User } from "firebase/auth";
 
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -29,6 +32,7 @@ function GameDisplay() {
   const [loseModal, setLoseModal] = useState<boolean>(false); // 敗北時モーダルの表示/非表示
   const [currectType, setCurrectType] = useState<number>(0); // 正解のタイプ数
   const [wrongType, setWrongType] = useState<number>(0); // 不正解のタイプ数
+  const [prevScore, setPrevScore] = useState<number>(0);
 
   const [stage, setStage] = useState<string>("stage-plains"); // 現在のステージ
   const [courseModal, setCourseModal] = useState<boolean>(false); // コース選択モーダルの表示/非表示
@@ -55,11 +59,40 @@ function GameDisplay() {
     }
   };
 
+  // contextでハイスコアを取得
+  const firebaseContext = useContext(FirebaseContext || {});
+  if (!firebaseContext) {
+    return;
+  }
+  const { user, highscore }: { user: User; highscore: number } =
+    firebaseContext;
+
+  // 現在のスコアがハイスコアを超えていた場合、更新する関数
+  const scoreUpdate = () => {
+    if (highscore < currectType) {
+      setPrevScore(highscore);
+      const db = getFirestore();
+      const userDoc = doc(db, "users", user.uid);
+
+      // ドキュメントを更新
+      updateDoc(userDoc, {
+        score: currectType,
+      })
+        .then(() => {
+          console.log("ハイスコアを更新しました");
+        })
+        .catch((error) => {
+          console.error("ハイスコア更新に失敗しました: ", error);
+        });
+    }
+  };
+
   useEffect(() => {
     // HPが0以下になるとgame_stop()
     if (hp <= 0) {
       game_stop();
       setLoseModal(true);
+      scoreUpdate();
     }
     // ホーム画面でのキーイベント
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -297,7 +330,7 @@ function GameDisplay() {
     22,
     3300
   );
-  const wyvern = new Monster("ワイバーン", 750, "wyvern", "灼熱熱波", 45, 2000);
+  const wyvern = new Monster("ワイバーン", 999, "wyvern", "灼熱熱波", 52, 1400);
   const pimo = new Monster("ピモ", 210, "pimo", "電気ショック", 10, 3200);
   const temi_ru = new Monster("テミール", 465, "temi_ru", "電磁法", 27, 3000);
   const siromaro = new Monster(
@@ -320,11 +353,11 @@ function GameDisplay() {
   const miku = new Monster("ミク", 435, "miku", "◇〇☆△", 22, 3300);
   const griffon = new Monster(
     "グリフォン",
-    750,
+    999,
     "griffon",
     "疾風破烈斬",
-    45,
-    2000
+    52,
+    1400
   );
   const kodora = new Monster("コドラ", 210, "kodora", "泡ぶくぶく", 10, 3200);
   const zakiraru = new Monster("ザキラル", 465, "zakiraru", "水斬撃", 27, 3000);
@@ -346,7 +379,7 @@ function GameDisplay() {
     22,
     3300
   );
-  const kione = new Monster("グリフォン", 750, "griffon", "氷龍凍絶", 45, 2000);
+  const kione = new Monster("キオネ", 999, "griffon", "氷龍凍絶", 52, 1400);
   const invincible_slime = new Monster(
     "無敵スライム君",
     10000,
@@ -830,6 +863,7 @@ function GameDisplay() {
             setLoseModal={setLoseModal}
             currectType={currectType}
             wrongType={wrongType}
+            prevScore={prevScore}
           />
         )}
         <div
