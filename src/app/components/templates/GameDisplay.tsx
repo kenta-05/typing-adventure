@@ -70,7 +70,6 @@ function GameDisplay() {
   // 現在のスコアがハイスコアを超えていた場合、更新する関数
   const scoreUpdate = () => {
     if (highscore < currectType) {
-      setPrevScore(highscore);
       const db = getFirestore();
       const userDoc = doc(db, "users", user.uid);
 
@@ -91,8 +90,9 @@ function GameDisplay() {
     // HPが0以下になるとgame_stop()
     if (hp <= 0) {
       game_stop();
-      setLoseModal(true);
+      setPrevScore(highscore);
       scoreUpdate();
+      setLoseModal(true);
     }
     // ホーム画面でのキーイベント
     const handleKeyDown = (e: KeyboardEvent) => {
