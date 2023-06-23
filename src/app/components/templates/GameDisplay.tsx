@@ -12,6 +12,7 @@ import CourseModal from "../organisms/CourseModal";
 import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { User } from "firebase/auth";
+import { Howl, Howler } from "howler";
 
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -58,6 +59,17 @@ function GameDisplay() {
       typeHandler.current = null;
     }
   };
+
+  // 音声ファイルの定義
+  const typeSound = new Howl({
+    src: ["/sounds/typeSound.mp3"],
+  });
+  const missTypeSound = new Howl({
+    src: ["/sounds/missTypeSound.mp3"],
+  });
+  const monsterAtackSound = new Howl({
+    src: ["/audio/sound.mp3"],
+  });
 
   // contextでハイスコアを取得
   const firebaseContext = useContext(FirebaseContext || {});
@@ -197,7 +209,8 @@ function GameDisplay() {
       typeHandler.current = (e: KeyboardEvent) => {
         const isNextKey = keygraph.next(e.key);
         if (isNextKey) {
-          // 正解のタイプ数を++
+          // 正解の場合
+          typeSound.play();
           setCurrectType((prev) => prev + 1);
           setMonsterHp((prevHp) => {
             // 正解ならHPを減らして、Filledを移動
@@ -213,9 +226,9 @@ function GameDisplay() {
             return newHp;
           });
         } else if (!isNextKey) {
-          // 不正解ならHPを-9する
+          // 不正解の場合
+          missTypeSound.play();
           setHp((prev) => prev - 9);
-          // 不正解のタイプ数を++
           setWrongType((prev) => prev + 1);
         }
 

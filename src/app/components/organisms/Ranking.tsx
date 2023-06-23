@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import RankPlayer from "../molecules/RankPlayer";
 import {
-  DocumentData,
   collection,
   getFirestore,
   limit,
@@ -41,14 +40,6 @@ function Ranking() {
     <div className="max-h-[30.1rem] min-w-full">
       <div className="bg-first text-black">ランキング</div>
       {loading && (
-        // <div
-        //   className="flex justify-center h-screen pt-16"
-        //   aria-label="読み込み中"
-        // >
-        //   <div className="animate-ping h-3 w-3 bg-first rounded-full"></div>
-        //   <div className="animate-ping h-3 w-3 bg-first rounded-full mx-7"></div>
-        //   <div className="animate-ping h-3 w-3 bg-first rounded-full"></div>
-        // </div>
         <div
           className="flex justify-center h-screen pt-4"
           aria-label="読み込み中"
