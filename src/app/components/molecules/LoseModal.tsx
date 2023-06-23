@@ -21,7 +21,7 @@ function loseModal({
 }: Props) {
   const firebaseContext = useContext(FirebaseContext || {});
   if (!firebaseContext) {
-    return;
+    return null;
   }
   const { highscore }: { highscore: number } = firebaseContext;
 
