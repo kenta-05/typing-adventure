@@ -28,7 +28,7 @@ function GameDisplay() {
     { top: string; left: string } | { top: string; right: string }
   >({ top: "", left: "" }); // アタックモーダルの位置
   const [typeSpcae, setTypeSpace] = useState<boolean>(false); // 「スペースで進む」の表示/非表示
-  const monsterAtack = useRef<NodeJS.Timeout | null>(null); // モンスター攻撃時タイマー
+  const monsterAttack = useRef<NodeJS.Timeout | null>(null); // モンスター攻撃時タイマー
   const typeHandler = useRef<((e: KeyboardEvent) => void) | null>(null); // 攻撃時ハンドラー
   const [loseModal, setLoseModal] = useState<boolean>(false); // 敗北時モーダルの表示/非表示
   const [currectType, setCurrectType] = useState<number>(0); // 正解のタイプ数
@@ -37,6 +37,7 @@ function GameDisplay() {
 
   const [stage, setStage] = useState<string>("stage-plains"); // 現在のステージ
   const [courseModal, setCourseModal] = useState<boolean>(false); // コース選択モーダルの表示/非表示
+  const [isSound, setIsSound] = useState(true);
 
   const [text, setText] = useState<string>("");
   const [kanjiText, setKanjiText] = useState<string>("スペースキーでスタート"); // 現在の漢字込みテキスト
@@ -50,9 +51,9 @@ function GameDisplay() {
 
   // モンスター攻撃のハンドラー除去
   const stopHandler = () => {
-    if (monsterAtack.current) {
-      clearInterval(monsterAtack.current);
-      monsterAtack.current = null;
+    if (monsterAttack.current) {
+      clearInterval(monsterAttack.current);
+      monsterAttack.current = null;
     }
     if (typeHandler.current) {
       document.removeEventListener("keydown", typeHandler.current);
@@ -62,13 +63,24 @@ function GameDisplay() {
 
   // 音声ファイルの定義
   const typeSound = new Howl({
-    src: ["/sounds/typeSound.mp3"],
+    src: ["/sounds/type.mp3"],
+    volume: 0.7,
   });
   const missTypeSound = new Howl({
-    src: ["/sounds/missTypeSound.mp3"],
+    src: ["/sounds/missType.mp3"],
+    volume: 0.7,
   });
-  const monsterAtackSound = new Howl({
-    src: ["/audio/sound.mp3"],
+  const monsterAttackSound = new Howl({
+    src: ["/sounds/monsterAttack.mp3"],
+  });
+  const findSound = new Howl({
+    src: ["/sounds/find.mp3"],
+  });
+  const cureSound = new Howl({
+    src: ["/sounds/cure.mp3"],
+  });
+  const textSound = new Howl({
+    src: ["/sounds/text.mp3"],
   });
 
   // contextでハイスコアを取得
@@ -177,6 +189,7 @@ function GameDisplay() {
           document.removeEventListener("keydown", damageHandler);
           setText("");
           setTypeSpace(false);
+          textSound.play();
           resolve();
         }
       };
@@ -196,12 +209,13 @@ function GameDisplay() {
       setTimeout(() => {}, 1000); //出現アニメ時間
 
       // モンスターの定期的な攻撃
-      monsterAtack.current = setInterval(() => {
+      monsterAttack.current = setInterval(() => {
         modalLocate();
         setAttackDisplay(true);
         setTimeout(function () {
           setAttackDisplay(false);
         }, 900);
+        monsterAttackSound.play();
         setHp((prevHp) => prevHp - _monster.damage);
       }, _monster.duration);
 
@@ -210,7 +224,9 @@ function GameDisplay() {
         const isNextKey = keygraph.next(e.key);
         if (isNextKey) {
           // 正解の場合
-          typeSound.play();
+          if (isSound) {
+            typeSound.play();
+          }
           setCurrectType((prev) => prev + 1);
           setMonsterHp((prevHp) => {
             // 正解ならHPを減らして、Filledを移動
@@ -227,7 +243,9 @@ function GameDisplay() {
           });
         } else if (!isNextKey) {
           // 不正解の場合
-          missTypeSound.play();
+          if (isSound) {
+            missTypeSound.play();
+          }
           setHp((prev) => prev - 9);
           setWrongType((prev) => prev + 1);
         }
@@ -272,6 +290,7 @@ function GameDisplay() {
         if (e.code === "Space") {
           document.removeEventListener("keydown", damageHandler);
           setTypeSpace(false);
+          textSound.play();
           resolve();
         }
       };
@@ -280,10 +299,16 @@ function GameDisplay() {
   };
 
   const cure = (points: number) => {
+    if (isSound) {
+      cureSound.play();
+    }
     setHp((prev) => prev + points);
   };
 
   const find = (item: string, _text: string) => {
+    if (isSound) {
+      findSound.play();
+    }
     return new Promise<void>((resolve) => {
       setTypeSpace(true);
       setKanjiText("");
