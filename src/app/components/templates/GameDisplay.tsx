@@ -182,7 +182,7 @@ function GameDisplay() {
 
   // ゲームストップ(f)
   const game_stop = () => {
-    setHp(1000);
+    setHp(500);
     stopHandler();
     setPrevMonster(monster);
     setMonster(null);
