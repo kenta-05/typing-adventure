@@ -252,6 +252,9 @@ function GameDisplay() {
       // ダメージ処理のハンドラ
       typeHandler.current = (e: KeyboardEvent) => {
         const isNextKey = keygraph.next(e.key);
+        if (e.code === "Escape") {
+          return;
+        }
         if (isNextKey) {
           // 正解の場合
           if (getIsSound()) {
