@@ -13,6 +13,7 @@ import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { Howl, Howler } from "howler";
+import Link from "next/link";
 
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -89,7 +90,7 @@ function GameDisplay() {
   // contextでハイスコアを取得
   const firebaseContext = useContext(FirebaseContext || {});
   if (!firebaseContext) {
-    return;
+    return null;
   }
   const { user, highscore }: { user: User; highscore: number } =
     firebaseContext;
@@ -169,6 +170,7 @@ function GameDisplay() {
   // ゲームストップ(f)
   const game_stop = () => {
     setHp(1000);
+    stopHandler();
     setPrevMonster(monster);
     setMonster(null);
     setAttackDisplay(false);
@@ -177,7 +179,6 @@ function GameDisplay() {
     setText("");
     setKeyCandidate("");
     setKeyDone("");
-    stopHandler();
   };
 
   // 完了ボタン時に発動(f)
@@ -904,9 +905,17 @@ function GameDisplay() {
 
   return (
     <>
+      <Link
+        href="/"
+        onClick={game_stop}
+        className="text-lg absolute top-4 left-4 hover:underline"
+      >
+        ←ホーム画面に戻る
+      </Link>
+
       <div
         className="bg-gray-100 flex justify-center relative overflow-y-hidden
-        w-[64rem] h-144"
+        w-[64rem] h-144 mr-8"
       >
         {loseModal && (
           <LoseModal
