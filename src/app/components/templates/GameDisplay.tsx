@@ -14,6 +14,10 @@ import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { Howl, Howler } from "howler";
 import Link from "next/link";
+import {
+  PiSpeakerSimpleSlashFill,
+  PiSpeakerSimpleLowFill,
+} from "react-icons/pi";
 
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -38,7 +42,9 @@ function GameDisplay() {
 
   const [stage, setStage] = useState<string>("stage-plains"); // 現在のステージ
   const [courseModal, setCourseModal] = useState<boolean>(false); // コース選択モーダルの表示/非表示
+
   const [isSound, setIsSound] = useState(true);
+  const isSoundRef = useRef<boolean>(isSound);
 
   const [text, setText] = useState<string>("");
   const [kanjiText, setKanjiText] = useState<string>("スペースキーでスタート"); // 現在の漢字込みテキスト
@@ -87,6 +93,9 @@ function GameDisplay() {
     src: ["/sounds/start.mp3"],
   });
 
+  // isSoundの取得関数
+  const getIsSound = () => isSoundRef.current;
+
   // contextでハイスコアを取得
   const firebaseContext = useContext(FirebaseContext || {});
   if (!firebaseContext) {
@@ -114,6 +123,10 @@ function GameDisplay() {
         });
     }
   };
+
+  useEffect(() => {
+    isSoundRef.current = isSound;
+  }, [isSound]);
 
   useEffect(() => {
     // HPが0以下になるとgame_stop()
@@ -202,7 +215,9 @@ function GameDisplay() {
           document.removeEventListener("keydown", damageHandler);
           setText("");
           setTypeSpace(false);
-          textSound.play();
+          if (getIsSound()) {
+            textSound.play();
+          }
           resolve();
         }
       };
@@ -228,7 +243,9 @@ function GameDisplay() {
         setTimeout(function () {
           setAttackDisplay(false);
         }, 900);
-        monsterAttackSound.play();
+        if (getIsSound()) {
+          monsterAttackSound.play();
+        }
         setHp((prevHp) => prevHp - _monster.damage);
       }, _monster.duration);
 
@@ -237,7 +254,7 @@ function GameDisplay() {
         const isNextKey = keygraph.next(e.key);
         if (isNextKey) {
           // 正解の場合
-          if (isSound) {
+          if (getIsSound()) {
             typeSound.play();
           }
           setCurrectType((prev) => prev + 1);
@@ -256,7 +273,7 @@ function GameDisplay() {
           });
         } else if (!isNextKey) {
           // 不正解の場合
-          if (isSound) {
+          if (getIsSound()) {
             missTypeSound.play();
           }
           setHp((prev) => prev - 9);
@@ -312,14 +329,14 @@ function GameDisplay() {
   };
 
   const cure = (points: number) => {
-    if (isSound) {
+    if (getIsSound()) {
       cureSound.play();
     }
     setHp((prev) => prev + points);
   };
 
   const find = (item: string, _text: string) => {
-    if (isSound) {
+    if (getIsSound()) {
       findSound.play();
     }
     return new Promise<void>((resolve) => {
@@ -444,7 +461,9 @@ function GameDisplay() {
   // ゲーム進行(f)
   const game_start = async () => {
     setPlaying(true);
-    startSound.play();
+    if (getIsSound()) {
+      startSound.play();
+    }
 
     await write("冒険の始まりだ");
     await write("戦闘の勝敗はタイピング力によって決まる！");
@@ -917,6 +936,23 @@ function GameDisplay() {
         className="bg-gray-100 flex justify-center relative overflow-y-hidden
         w-[64rem] h-144 mr-8"
       >
+        {isSound ? (
+          <PiSpeakerSimpleLowFill
+            className="absolute z-20 top-1 right-1 bg-gray-200 opacity-80 p-1 rounded-full cursor-pointer"
+            size={40}
+            onClick={() => {
+              setIsSound(false);
+            }}
+          />
+        ) : (
+          <PiSpeakerSimpleSlashFill
+            className="absolute z-20 top-1 right-1 bg-gray-200 opacity-80 p-1 rounded-full cursor-pointer"
+            size={40}
+            onClick={() => {
+              setIsSound(true);
+            }}
+          />
+        )}
         {loseModal && (
           <LoseModal
             prevMonster={prevMonster}
