@@ -4,7 +4,7 @@ import { GrMail } from "react-icons/gr";
 
 function Developer() {
   return (
-    <div className="min-w-[18rem] border-2 border-black rounded-lg">
+    <div className="border-2 border-black rounded-lg">
       <div className="bg-first">開発者情報</div>
       <div className="flex items-start bg-second p-2 space-x-2">
         <img

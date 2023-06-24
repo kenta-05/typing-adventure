@@ -4,6 +4,7 @@ import RightDesplay from "../components/templates/RightDesplay";
 import GameDisplay from "../components/templates/GameDisplay";
 import Description from "../components/templates/Description";
 import Developer from "../components/templates/Developer";
+import Article from "../components/templates/Article";
 
 function Page() {
   return (
@@ -14,10 +15,15 @@ function Page() {
             <GameDisplay />
             <RightDesplay />
           </div>
+
           <div className="flex items-start space-x-8 pt-10">
             <Description />
-            <Developer />
+            <div className="min-w-[18rem]">
+              {/* <Article /> */}
+              <Developer />
+            </div>
           </div>
+
           <div className="flex space-x-8 pt-8">
             <div className="min-w-[64rem]"></div>
             <div className="min-w-[18rem]"></div>
