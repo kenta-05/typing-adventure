@@ -17,15 +17,16 @@ function MonsterDisplay({ monster, monsterHp, item }: Props) {
             src={`/opponents/${monster.image}.png`}
             alt="モンスター"
           />
-          <div className="w-56 bg-slate-200 rounded-sm">
+          <div className="w-56 bg-slate-300 rounded-sm relative h-7 flex items-center overflow-y-hidden">
+            <p className="text-white absolute text-[1.5rem] left-1 font-bold overflow-y-hidden">
+              {monsterHp}
+            </p>
             <div
-              className="flex items-center h-6 bg-red-600 rounded-sm text-2xl font-bold pl-1 overflow-y-hidden"
+              className="flex items-center h-7 bg-red-600 rounded-sm pl-1 overflow-y-hidden"
               style={{
                 width: `${monster ? (monsterHp / monster.hp) * 100 : 0}%`,
               }}
-            >
-              <p className="overflow-y-hidden text-white">{monsterHp}</p>
-            </div>
+            ></div>
           </div>
           <p className="text-[1.5rem] font-bold">{monster.name}</p>
         </div>
