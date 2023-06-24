@@ -82,6 +82,9 @@ function GameDisplay() {
   const textSound = new Howl({
     src: ["/sounds/text.mp3"],
   });
+  const startSound = new Howl({
+    src: ["/sounds/start.mp3"],
+  });
 
   // contextでハイスコアを取得
   const firebaseContext = useContext(FirebaseContext || {});
@@ -165,17 +168,26 @@ function GameDisplay() {
 
   // ゲームストップ(f)
   const game_stop = () => {
-    // setPlaying(false);
     setHp(1000);
     setPrevMonster(monster);
     setMonster(null);
     setAttackDisplay(false);
     setIsFight(false);
-    setKanjiText("スペースキーでスタート");
+    setKanjiText("");
     setText("");
     setKeyCandidate("");
     setKeyDone("");
     stopHandler();
+  };
+
+  // 完了ボタン時に発動(f)
+  const game_reset = () => {
+    setLoseModal(false);
+    setPlaying(false);
+    damage.current = 1;
+    setStage("stage-plains");
+    setHp(500);
+    setKanjiText("スペースキーでスタート");
   };
 
   // テキストの表示(f)
@@ -431,7 +443,7 @@ function GameDisplay() {
   // ゲーム進行(f)
   const game_start = async () => {
     setPlaying(true);
-    await delay(400);
+    startSound.play();
 
     await write("冒険の始まりだ");
     await write("戦闘の勝敗はタイピング力によって決まる！");
@@ -903,6 +915,7 @@ function GameDisplay() {
             currectType={currectType}
             wrongType={wrongType}
             prevScore={prevScore}
+            game_reset={game_reset}
           />
         )}
         <div

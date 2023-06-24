@@ -10,6 +10,7 @@ interface Props {
   currectType: number;
   wrongType: number;
   prevScore: number;
+  game_reset: () => void;
 }
 
 function loseModal({
@@ -18,12 +19,12 @@ function loseModal({
   currectType,
   wrongType,
   prevScore,
+  game_reset,
 }: Props) {
   const firebaseContext = useContext(FirebaseContext || {});
   if (!firebaseContext) {
     return null;
   }
-  const { highscore }: { highscore: number } = firebaseContext;
 
   return (
     <div className="bg-gray-500 bg-opacity-50 absolute inset-0 flex items-center justify-center z-10">
@@ -71,9 +72,7 @@ function loseModal({
             </button>
           </Link>
           <button
-            onClick={() => {
-              window.location.reload();
-            }}
+            onClick={game_reset}
             className="bg-first px-8 py-2 rounded-sm transition-all 
               hover:bg-third"
           >
