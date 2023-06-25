@@ -1,7 +1,6 @@
 import { Monster } from "@/app/class";
 import Link from "next/link";
-import React, { useState, useEffect, useContext } from "react";
-import { User } from "firebase/auth";
+import React, { useContext } from "react";
 import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 
 interface Props {
@@ -13,7 +12,7 @@ interface Props {
   game_reset: () => void;
 }
 
-function loseModal({
+function LoseModal({
   prevMonster,
   setLoseModal,
   currectType,
@@ -84,4 +83,4 @@ function loseModal({
   );
 }
 
-export default loseModal;
+export default LoseModal;
