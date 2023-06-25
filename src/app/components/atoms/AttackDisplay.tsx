@@ -11,7 +11,7 @@ interface Props {
 function AttackDisplay({ attackPosition, monster }: Props) {
   return (
     <div
-      className="absolute px-2 bg-slate-100 border-black font-bold border-4 text-[2rem] rounded-md"
+      className="absolute px-2 bg-slate-100 border-black font-bold border-4 text-[2rem] rounded-md z-50"
       style={attackPosition.current || {}}
     >
       {monster?.name}の{monster?.attack}!
