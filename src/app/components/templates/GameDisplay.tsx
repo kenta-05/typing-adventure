@@ -124,34 +124,6 @@ function GameDisplay() {
     }
   };
 
-  useEffect(() => {
-    isSoundRef.current = isSound;
-
-    // HPが0以下になるとgame_stop()
-    if (hp <= 0) {
-      game_stop();
-      setPrevScore(highscore);
-      scoreUpdate();
-      setLoseModal(true);
-    }
-    // ホーム画面でのキーイベント
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Space") {
-        e.preventDefault(); // スクロールを防ぐ
-        if (!playing) {
-          game_start();
-        }
-      }
-      if (e.code === "Escape") {
-        window.location.reload();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [playing, hp, isSound]);
-
   // 指定した時間、待機(f)
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
@@ -465,6 +437,34 @@ function GameDisplay() {
     if (getIsSound()) {
       startSound.play();
     }
+
+    useEffect(() => {
+      isSoundRef.current = isSound;
+
+      // HPが0以下になるとgame_stop()
+      if (hp <= 0) {
+        game_stop();
+        setPrevScore(highscore);
+        scoreUpdate();
+        setLoseModal(true);
+      }
+      // ホーム画面でのキーイベント
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.code === "Space") {
+          e.preventDefault(); // スクロールを防ぐ
+          if (!playing) {
+            game_start();
+          }
+        }
+        if (e.code === "Escape") {
+          window.location.reload();
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }, [playing, hp, isSound, game_start, game_stop, highscore, scoreUpdate]);
 
     await write("冒険の始まりだ");
     await write("戦闘の勝敗はタイピング力によって決まる！");
