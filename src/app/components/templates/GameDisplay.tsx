@@ -106,21 +106,23 @@ function GameDisplay() {
 
   // 現在のスコアがハイスコアを超えていた場合、更新する関数
   const scoreUpdate = () => {
-    if (highscore < currectType) {
-      const db = getFirestore();
-      const userDoc = doc(db, "users", user.uid);
+    if (user) {
+      if (highscore < currectType) {
+        const db = getFirestore();
+        const userDoc = doc(db, "users", user.uid);
 
-      // ドキュメントを更新
-      updateDoc(userDoc, {
-        monstername: monster?.name,
-        highscore: currectType,
-      })
-        .then(() => {
-          console.log("ハイスコアを更新しました");
+        // ドキュメントを更新
+        updateDoc(userDoc, {
+          monstername: monster?.name,
+          highscore: currectType,
         })
-        .catch((error) => {
-          console.error("ハイスコア更新に失敗しました: ", error);
-        });
+          .then(() => {
+            console.log("ハイスコアを更新しました");
+          })
+          .catch((error) => {
+            console.error("ハイスコア更新に失敗しました: ", error);
+          });
+      }
     }
   };
 
