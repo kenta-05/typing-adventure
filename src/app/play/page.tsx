@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 import RightDesplay from "../components/templates/RightDesplay";
 import GameDisplay from "../components/templates/GameDisplay";
 import Description from "../components/templates/Description";
