@@ -374,7 +374,7 @@ function GameDisplay() {
   );
   const ririppo = new Monster("リリッポ", 100, "ririppo", "つつく", 3, 1200);
   const torubo = new Monster("トルボ", 140, "torubo", "突進", 19, 3500);
-  const baranda = new Monster(
+  const baranbiruda = new Monster(
     "バランビルダ",
     275,
     "baranbiruda",
@@ -527,12 +527,12 @@ function GameDisplay() {
     await write("まずい");
     await write("あたりが暗くなってきた");
     await write("あ！");
-    await appear(baranda);
+    await appear(baranbiruda);
     await write("こいつは強敵だ");
     await write("数々の勇者がここで倒れてきた");
     await write("勝とう");
     await write("(スペースキーで戦闘が開始します)");
-    await fight(baranda);
+    await fight(baranbiruda);
     await write("バランビルダを倒した！");
 
     setStage("stage-swaps");
