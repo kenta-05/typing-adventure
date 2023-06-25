@@ -126,9 +126,7 @@ function GameDisplay() {
 
   useEffect(() => {
     isSoundRef.current = isSound;
-  }, [isSound]);
 
-  useEffect(() => {
     // HPが0以下になるとgame_stop()
     if (hp <= 0) {
       game_stop();
@@ -152,7 +150,7 @@ function GameDisplay() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [playing, hp]);
+  }, [playing, hp, isSound]);
 
   // 指定した時間、待機(f)
   const delay = (ms: number) =>
