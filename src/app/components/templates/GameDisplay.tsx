@@ -69,29 +69,25 @@ function GameDisplay() {
   };
 
   // 音声ファイルの定義
-  const typeSound = new Howl({
-    src: ["/sounds/type.mp3"],
-    volume: 0.7,
-  });
-  const missTypeSound = new Howl({
-    src: ["/sounds/missType.mp3"],
-    volume: 0.7,
-  });
-  const monsterAttackSound = new Howl({
-    src: ["/sounds/monsterAttack.mp3"],
-  });
-  const findSound = new Howl({
-    src: ["/sounds/find.mp3"],
-  });
-  const cureSound = new Howl({
-    src: ["/sounds/cure.mp3"],
-  });
-  const textSound = new Howl({
-    src: ["/sounds/text.mp3"],
-  });
-  const startSound = new Howl({
-    src: ["/sounds/start.mp3"],
-  });
+  // const missTypeSound = new Howl({
+  //   src: ["/sounds/missType.mp3"],
+  //   volume: 0.7,
+  // });
+  // const monsterAttackSound = new Howl({
+  //   src: ["/sounds/monsterAttack.mp3"],
+  // });
+  // const findSound = new Howl({
+  //   src: ["/sounds/find.mp3"],
+  // });
+  // const cureSound = new Howl({
+  //   src: ["/sounds/cure.mp3"],
+  // });
+  // const textSound = new Howl({
+  //   src: ["/sounds/text.mp3"],
+  // });
+  // const startSound = new Howl({
+  //   src: ["/sounds/start.mp3"],
+  // });
 
   // isSoundの取得関数
   const getIsSound = () => isSoundRef.current;
@@ -127,6 +123,7 @@ function GameDisplay() {
   };
 
   useEffect(() => {
+    Howler.autoUnlock = true;
     isSoundRef.current = isSound;
 
     // HPが0以下になるとgame_stop()
@@ -216,8 +213,17 @@ function GameDisplay() {
           setText("");
           setTypeSpace(false);
           if (getIsSound()) {
-            textSound.play();
+            try {
+              const textSound = new Howl({
+                src: ["/sounds/text.mp3"],
+                volume: 0.7,
+              });
+              textSound.play();
+            } catch (error) {
+              console.error("Failed to play the text sound: ", error);
+            }
           }
+
           resolve();
         }
       };
@@ -244,8 +250,17 @@ function GameDisplay() {
           setAttackDisplay(false);
         }, 900);
         if (getIsSound()) {
-          monsterAttackSound.play();
+          try {
+            const monsterAttackSound = new Howl({
+              src: ["/sounds/monsterAttack.mp3"],
+              volume: 0.7,
+            });
+            monsterAttackSound.play();
+          } catch (error) {
+            console.error("Failed to play the monster attack sound: ", error);
+          }
         }
+
         setHp((prevHp) => prevHp - _monster.damage);
       }, _monster.duration);
 
@@ -258,7 +273,17 @@ function GameDisplay() {
         if (isNextKey) {
           // 正解の場合
           if (getIsSound()) {
-            typeSound.play();
+            console.log("About to play the typing sound");
+            try {
+              const typeSound = new Howl({
+                src: ["/sounds/type.mp3"],
+                volume: 0.7,
+              });
+              typeSound.play();
+            } catch (error) {
+              console.error("Failed to play the typing sound: ", error);
+            }
+            console.log("Should have played the typing sound");
           }
           setCurrectType((prev) => prev + 1);
           setMonsterHp((prevHp) => {
@@ -277,7 +302,15 @@ function GameDisplay() {
         } else if (!isNextKey) {
           // 不正解の場合
           if (getIsSound()) {
-            missTypeSound.play();
+            try {
+              const missTypeSound = new Howl({
+                src: ["/sounds/missType.mp3"],
+                volume: 0.7,
+              });
+              missTypeSound.play();
+            } catch (error) {
+              console.error("Failed to play the miss type sound: ", error);
+            }
           }
           setHp((prev) => prev - 9);
           setWrongType((prev) => prev + 1);
@@ -323,7 +356,18 @@ function GameDisplay() {
         if (e.code === "Space") {
           document.removeEventListener("keydown", damageHandler);
           setTypeSpace(false);
-          textSound.play();
+          if (getIsSound()) {
+            try {
+              const textSound = new Howl({
+                src: ["/sounds/text.mp3"],
+                volume: 0.7,
+              });
+              textSound.play();
+            } catch (error) {
+              console.error("Failed to play the text sound: ", error);
+            }
+          }
+
           resolve();
         }
       };
@@ -333,15 +377,33 @@ function GameDisplay() {
 
   const cure = (points: number) => {
     if (getIsSound()) {
-      cureSound.play();
+      try {
+        const cureSound = new Howl({
+          src: ["/sounds/cure.mp3"],
+          volume: 0.7,
+        });
+        cureSound.play();
+      } catch (error) {
+        console.error("Failed to play the cure sound: ", error);
+      }
     }
+
     setHp((prev) => prev + points);
   };
 
   const find = (item: string, _text: string) => {
     if (getIsSound()) {
-      findSound.play();
+      try {
+        const cureSound = new Howl({
+          src: ["/sounds/cure.mp3"],
+          volume: 0.7,
+        });
+        cureSound.play();
+      } catch (error) {
+        console.error("Failed to play the cure sound: ", error);
+      }
     }
+
     return new Promise<void>((resolve) => {
       setTypeSpace(true);
       setKanjiText("");
@@ -451,7 +513,7 @@ function GameDisplay() {
     22,
     3300
   );
-  const kione = new Monster("キオネ", 999, "griffon", "氷龍凍絶", 52, 1400);
+  const kione = new Monster("キオネ", 999, "kione", "氷龍凍絶", 52, 1400);
   const invincible_slime = new Monster(
     "無敵スライム君",
     10000,
@@ -465,7 +527,15 @@ function GameDisplay() {
   const game_start = async () => {
     setPlaying(true);
     if (getIsSound()) {
-      startSound.play();
+      try {
+        const startSound = new Howl({
+          src: ["/sounds/start.mp3"],
+          volume: 0.7,
+        });
+        startSound.play();
+      } catch (error) {
+        console.error("Failed to play the start sound: ", error);
+      }
     }
 
     await write("冒険の始まりだ");
