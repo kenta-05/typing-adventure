@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { BsTwitter } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
@@ -7,10 +8,12 @@ function Developer() {
     <div className="border-2 border-black rounded-lg">
       <div className="bg-first">開発者情報</div>
       <div className="flex items-start bg-second p-2 space-x-2">
-        <img
+        <Image
           src="/main/sotetu.png"
           alt="Avatar"
-          className="w-16 h-16 mt-1 rounded-full shadow-lg"
+          className="mt-1 rounded-full shadow-lg"
+          width={64}
+          height={64}
         />
         <div>
           <div className="flex">

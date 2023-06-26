@@ -2,6 +2,7 @@ import { Monster } from "@/app/class";
 import Link from "next/link";
 import React, { useContext } from "react";
 import { FirebaseContext } from "@/app/providers/FirebaseProvider";
+import Image from "next/image";
 
 interface Props {
   prevMonster: Monster | null;
@@ -52,10 +53,12 @@ function LoseModal({
               {((currectType / (currectType + wrongType)) * 100).toFixed(2)}%
             </p>
           </div>
-          <img
-            className="w-24 h-24 mr-3"
+          <Image
             src={`/opponents/${prevMonster?.image}.png`}
             alt="モンスター"
+            width={96}
+            height={96}
+            className="mr-3"
           />
         </div>
         <div className="mt-6 space-x-12">

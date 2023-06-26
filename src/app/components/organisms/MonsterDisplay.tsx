@@ -1,4 +1,5 @@
 import { Monster } from "@/app/class";
+import Image from "next/image";
 import React from "react";
 
 interface Props {
@@ -12,10 +13,11 @@ function MonsterDisplay({ monster, monsterHp, item }: Props) {
     <div className="w-full h-full flex justify-center items-end overflow-y-hidden">
       {monster && (
         <div className="mb-8">
-          <img
-            className="w-64"
+          <Image
             src={`/opponents/${monster.image}.png`}
             alt="モンスター"
+            width={256}
+            height={256}
           />
           <div className="w-56 bg-slate-300 rounded-sm relative h-7 flex items-center overflow-y-hidden">
             <p className="text-white absolute text-[1.5rem] left-1 font-bold overflow-y-hidden">
@@ -33,7 +35,12 @@ function MonsterDisplay({ monster, monsterHp, item }: Props) {
       )}
       {item && (
         <div className="mb-8">
-          <img className="w-64" src={`/item/${item}.png`} alt="アイテム" />
+          <Image
+            src={`/item/${item}.png`}
+            alt="アイテム"
+            width={256}
+            height={256}
+          />
         </div>
       )}
     </div>

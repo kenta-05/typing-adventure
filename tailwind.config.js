@@ -12,6 +12,7 @@ module.exports = {
       },
       backgroundImage: {
         main: "url('/main/background.png')",
+        home: "url('/main/home.png')",
       },
       width: {
         120: "30rem",

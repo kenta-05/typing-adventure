@@ -8,7 +8,7 @@ import {
   signOut,
 } from "firebase/auth";
 import React, { useContext } from "react";
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import Image from "next/image";
 
 function Account() {
   const firebaseContext = useContext(FirebaseContext);
@@ -65,11 +65,15 @@ function Account() {
               </div>
               <div className="flex overflow-y-hidden items-center justify-between">
                 <div className="flex items-center">
-                  <img
-                    src={user.photoURL || "/main/background.png"}
-                    alt="Avatar"
-                    className="w-10 h-10 rounded-full shadow-lg"
-                  />
+                  <div className="w-10 h-10 rounded-full overflow-hidden">
+                    <Image
+                      src={user.photoURL || "/main/background.png"}
+                      alt="Avatar"
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+
                   <p className="text-black text-[1rem] whitespace-nowrap overflow-hidden max-w-[6.9em] text-overflow-ellipsis">
                     {user.displayName}
                   </p>
