@@ -126,6 +126,30 @@ function GameDisplay() {
     Howler.autoUnlock = true;
     isSoundRef.current = isSound;
 
+    // 画像の読み込み
+    const imageUrls = [
+      "/background/stage-desert.jpg",
+      "/background/stage-desert-dark.jpg",
+      "/background/stage-factory.jpg",
+      "/background/stage-factory-dark.jpg",
+      "/background/stage-factory-light.jpg",
+      "/background/stage-frozen.jpg",
+      "/background/stage-frozen-dark.jpg",
+      "/background/stage-ocean.jpg",
+      "/background/stage-plains.jpg",
+      "/background/stage-swaps.jpg",
+      "/background/stage-swaps-dark.jpg",
+      "/background/stage-universe.jpg",
+      "/background/stage-volcano.jpg",
+      "/background/stage-volcano-dark.jpg",
+    ];
+
+    // すべての画像をプリロード
+    imageUrls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+    });
+
     // HPが0以下になるとgame_stop()
     if (hp <= 0) {
       game_stop();
