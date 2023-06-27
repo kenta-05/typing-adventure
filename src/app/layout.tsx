@@ -9,16 +9,16 @@ export const metadata = {
   title: "タイピング冒険記",
   description:
     "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
-  keywords: [
-    "タイピングゲーム",
-    "タイピング練習",
-    "対戦ゲーム",
-    "冒険ゲーム",
-    "無料",
-  ],
+  keywords: ["タイピングゲーム", "タイピング練習", "対戦", "冒険", "無料"],
   author: "ソテツ",
-  image: "/path/to/image.jpg", // ゲームのイメージ画像へのパス
-  url: "https://example.com/typing-game", // ゲームの公式ウェブサイトのURL
+  image: "/main/thumbnail.png",
+  url: "https://typing-adventure.com",
+  type: "website",
+  locale: "ja_JP",
+
+  // Twitter用のメタデータ
+  twitterCard: "summary_large_image",
+  twitterSite: "@sotetu79",
 };
 
 export default function RootLayout({
