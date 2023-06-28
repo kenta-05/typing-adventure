@@ -18,7 +18,6 @@ import {
   PiSpeakerSimpleSlashFill,
   PiSpeakerSimpleLowFill,
 } from "react-icons/pi";
-import ImgFetch from "../ImgFetch";
 
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -998,9 +997,6 @@ function GameDisplay() {
 
   return (
     <>
-      {/* 画像読み込み用コンポーネント */}
-      <ImgFetch />
-
       <Link
         href="/"
         onClick={game_stop}
