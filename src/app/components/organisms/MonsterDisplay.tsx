@@ -18,8 +18,6 @@ function MonsterDisplay({ monster, monsterHp, item }: Props) {
             alt="モンスター"
             width={256}
             height={256}
-            placeholder="blur"
-            blurDataURL="data:image/svg+xml;base64,..."
           />
           <div className="w-56 bg-slate-300 rounded-sm relative h-7 flex items-center overflow-y-hidden">
             <p className="text-white absolute text-[1.5rem] left-1 font-bold overflow-y-hidden">

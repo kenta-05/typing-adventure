@@ -69,27 +69,6 @@ function GameDisplay() {
     }
   };
 
-  // 音声ファイルの定義
-  // const missTypeSound = new Howl({
-  //   src: ["/sounds/missType.mp3"],
-  //   volume: 0.7,
-  // });
-  // const monsterAttackSound = new Howl({
-  //   src: ["/sounds/monsterAttack.mp3"],
-  // });
-  // const findSound = new Howl({
-  //   src: ["/sounds/find.mp3"],
-  // });
-  // const cureSound = new Howl({
-  //   src: ["/sounds/cure.mp3"],
-  // });
-  // const textSound = new Howl({
-  //   src: ["/sounds/text.mp3"],
-  // });
-  // const startSound = new Howl({
-  //   src: ["/sounds/start.mp3"],
-  // });
-
   // isSoundの取得関数
   const getIsSound = () => isSoundRef.current;
 
@@ -395,11 +374,11 @@ function GameDisplay() {
   const find = (item: string, _text: string) => {
     if (getIsSound()) {
       try {
-        const cureSound = new Howl({
-          src: ["/sounds/cure.mp3"],
+        const findSound = new Howl({
+          src: ["/sounds/find.mp3"],
           volume: 0.7,
         });
-        cureSound.play();
+        findSound.play();
       } catch (error) {
         console.error("Failed to play the cure sound: ", error);
       }
@@ -465,7 +444,14 @@ function GameDisplay() {
     22,
     3300
   );
-  const wyvern = new Monster("ワイバーン", 999, "wyvern", "灼熱熱波", 52, 1400);
+  const wyvern = new Monster(
+    "ワイバーン",
+    2000,
+    "wyvern",
+    "灼熱熱波",
+    38,
+    2300
+  );
   const pimo = new Monster("ピモ", 210, "pimo", "電気ショック", 10, 3200);
   const temi_ru = new Monster("テミール", 465, "temi_ru", "電磁法", 27, 3000);
   const siromaro = new Monster(
@@ -488,11 +474,11 @@ function GameDisplay() {
   const miku = new Monster("ミク", 435, "miku", "◇〇☆△", 22, 3300);
   const griffon = new Monster(
     "グリフォン",
-    999,
+    2000,
     "griffon",
     "疾風破烈斬",
-    52,
-    1400
+    38,
+    2300
   );
   const kodora = new Monster("コドラ", 210, "kodora", "泡ぶくぶく", 10, 3200);
   const zakiraru = new Monster("ザキラル", 465, "zakiraru", "水斬撃", 27, 3000);
@@ -514,7 +500,7 @@ function GameDisplay() {
     22,
     3300
   );
-  const kione = new Monster("キオネ", 999, "kione", "氷龍凍絶", 52, 1400);
+  const kione = new Monster("キオネ", 2000, "kione", "氷龍凍絶", 38, 2300);
   const invincible_slime = new Monster(
     "無敵スライム君",
     10000,
@@ -971,7 +957,7 @@ function GameDisplay() {
     cure(150);
     await write("HPを150回復した");
 
-    await write("ボムジキルの倒れこむ音が響き渡る");
+    await write("ブゼレレの倒れこむ音が響き渡る");
     await write("地面が揺れている…");
     await write("恐ろしい轟音が鳴った");
     await write("…");
