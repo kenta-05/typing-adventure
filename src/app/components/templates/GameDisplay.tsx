@@ -41,7 +41,6 @@ function GameDisplay() {
   const [prevScore, setPrevScore] = useState<number>(0);
 
   const [stage, setStage] = useState<string>("stage-plains"); // 現在のステージ
-  const [prevStage, setPrevStage] = useState<string>("stage-plains"); // 現在のステージ
   const [courseModal, setCourseModal] = useState<boolean>(false); // コース選択モーダルの表示/非表示
 
   const [isSound, setIsSound] = useState(true);
@@ -512,7 +511,6 @@ function GameDisplay() {
 
   // ステージ変更(f)
   const changeStage = (newStage: string) => {
-    setPrevStage(stage);
     setStage(newStage);
   };
 
@@ -1031,10 +1029,10 @@ function GameDisplay() {
         )}
         <div
           style={{
-            backgroundImage: `url(/background/${stage}.jpg), url(/background/${prevStage}.jpg)`,
+            backgroundImage: `url(/background/${stage}.jpg)`,
           }}
           className={
-            "bg-cover w-full flex flex-col justify-center items-center relative z-0 overflow-y-hidden"
+            "bg-cover w-full flex flex-col justify-center items-center relative z-0 overflow-y-hidden bg-gray-500"
           }
         >
           {/* コース選択 */}
