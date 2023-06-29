@@ -11,14 +11,14 @@ function Page() {
         <div className="relative px-8 pt-16 pb-12 flex flex-col bg-base min-h-screen shadow-xl">
           <div className="flex">
             <GameDisplay />
-            <RightDesplay />
+            <RightDesplay big={true} />
           </div>
 
           <div className="flex items-start space-x-8 pt-10">
             <Description />
             <div className="min-w-[18rem]">
-              {/* <Article /> */}
               <Developer />
+              <RightDesplay big={false} />
             </div>
           </div>
 
