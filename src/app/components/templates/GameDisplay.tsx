@@ -1000,23 +1000,29 @@ function GameDisplay() {
         className="bg-gray-100 flex justify-center relative overflow-y-hidden
         w-[64rem] h-144 mr-0 lg:mr-8"
       >
-        {isSound ? (
-          <PiSpeakerSimpleLowFill
-            className="absolute z-20 top-1 right-1 bg-gray-200 opacity-80 p-1 rounded-full cursor-pointer"
-            size={40}
-            onClick={() => {
-              setIsSound(false);
-            }}
-          />
-        ) : (
-          <PiSpeakerSimpleSlashFill
-            className="absolute z-20 top-1 right-1 bg-gray-200 opacity-80 p-1 rounded-full cursor-pointer"
-            size={40}
-            onClick={() => {
-              setIsSound(true);
-            }}
-          />
-        )}
+        <div
+          className="absolute z-20 top-1 right-1
+          absolute z-20 top-1 right-1 flex items-center space-x-3"
+        >
+          <div className="text-[1.5rem]">スコア: {currectType}</div>
+          {isSound ? (
+            <PiSpeakerSimpleLowFill
+              className="bg-gray-200 opacity-80 p-1 rounded-full cursor-pointer"
+              size={40}
+              onClick={() => {
+                setIsSound(false);
+              }}
+            />
+          ) : (
+            <PiSpeakerSimpleSlashFill
+              className="bg-gray-200 opacity-80 p-1 rounded-full cursor-pointer"
+              size={40}
+              onClick={() => {
+                setIsSound(true);
+              }}
+            />
+          )}
+        </div>
         {loseModal && (
           <LoseModal
             prevMonster={prevMonster}
