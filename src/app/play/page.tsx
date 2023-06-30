@@ -9,12 +9,15 @@ function Page() {
     <>
       <main>
         <div className="relative px-8 pt-16 pb-12 flex flex-col bg-base min-h-screen shadow-xl">
+          <div className="block bg-orange-300 mb-3 rounded-lg p-1 sm:hidden">
+            当サイトはPCでの利用を想定しています
+          </div>
           <div className="flex">
             <GameDisplay />
             <RightDesplay big={true} />
           </div>
 
-          <div className="flex items-start space-x-8 pt-10">
+          <div className="items-start space-x-0 pt-10 flex flex-col space-y-5 sm:flex-row sm:space-x-8 sm:space-y-0">
             <Description />
             <div className="min-w-[18rem]">
               <Developer />

@@ -2,7 +2,7 @@ import React from "react";
 
 function Description() {
   return (
-    <div className="flex flex-col items-start w-[64rem] space-y-6 pl-4 py-5 bg-second border-2 border-black rounded-lg">
+    <div className="flex flex-col items-start flex-1 space-y-6 px-3 py-5 bg-second border-2 border-black rounded-lg sm:w-[64rem]">
       <div>
         <h2 className="border-b-2 pb-1 border-black font-bold text-lg">
           タイピング冒険記とは

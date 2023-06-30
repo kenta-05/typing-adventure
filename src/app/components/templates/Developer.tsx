@@ -20,16 +20,16 @@ function Developer() {
             <p className="text-black text-2.4rem font-bold">ソテツ</p>
           </div>
           <div className="flex items-center mt-1 space-x-2">
-            <a href="mailto:sotetu79@gmail.com">
-              <button className="p-1 bg-twitter text-white rounded-md text-lg transition hover:bg-twitter-hover">
-                <BsTwitter className="" size={24} />
-              </button>
-            </a>
             <a
               href="https://twitter.com/sotetu79"
               target="_blank"
               rel="noopener noreferrer"
             >
+              <button className="p-1 bg-twitter text-white rounded-md text-lg transition hover:bg-twitter-hover">
+                <BsTwitter className="" size={24} />
+              </button>
+            </a>
+            <a href="mailto:sotetu79@gmail.com">
               <button className="p-1 bg-red-400 text-white rounded-md text-lg transition hover:bg-red-600">
                 <GrMail className="" size={24} color="white" />
               </button>

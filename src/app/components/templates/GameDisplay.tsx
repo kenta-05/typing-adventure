@@ -998,7 +998,7 @@ function GameDisplay() {
 
       <div
         className="bg-gray-100 flex justify-center relative overflow-y-hidden
-        w-[64rem] h-144 mr-8"
+        w-[64rem] h-144 mr-0 lg:mr-8"
       >
         {isSound ? (
           <PiSpeakerSimpleLowFill
