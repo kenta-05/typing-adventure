@@ -12,7 +12,7 @@ export default function Home() {
           <div className="block bg-orange-300 mb-3 rounded-lg p-1 sm:hidden">
             当サイトはPCでの利用を想定しています
           </div>
-          <div className="flex">
+          <div className="flex space-x-0 lg:space-x-8">
             <HomeDisplay />
             <RightDesplay big={true} />
           </div>
