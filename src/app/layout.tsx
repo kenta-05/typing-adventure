@@ -21,8 +21,6 @@ export const metadata: Metadata = {
     url: "https://typing-adventure.com",
   },
   twitter: {
-    card: "summary_large_image",
-    images: ["https://yourwebsite.com/path/to/image.jpg"],
     title: "タイピング冒険記",
     description:
       "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
@@ -42,7 +40,7 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:image"
-          content="https://yourwebsite.com/path/to/image.jpg"
+          content="https://typing-adventure.com/twitter-image.png"
         />
       </Head>
 
