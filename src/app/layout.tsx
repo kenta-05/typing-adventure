@@ -36,13 +36,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <Head>
+      {/* <Head>
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:image"
           content="https://typing-adventure.com/twitter-image.png"
         />
-      </Head>
+      </Head> */}
 
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}
