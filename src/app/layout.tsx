@@ -3,25 +3,31 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { FirebaseProvider } from "./providers/FirebaseProvider";
 import Head from "next/head";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "タイピング冒険記",
   description:
     "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
   keywords: "タイピングゲーム, タイピング練習, 対戦, 冒険, 無料",
-  author: "ソテツ",
-  image: "https://typing-adventure.com/main/thumbnail.png",
-  url: "https://typing-adventure.com",
-  type: "website",
-  locale: "ja_JP",
-
-  // Twitter用のメタデータ
-
-  twitterImage: "https://typing-adventure.com/main/thumbnail.png",
-  twitterCard: "summary_large_image",
-  twitterSite: "@sotetu79",
+  openGraph: {
+    type: "website",
+    title: "タイピング冒険記",
+    description:
+      "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
+    siteName: "タイピング冒険記",
+    url: "https://typing-adventure.com",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "タイピング冒険記",
+    description:
+      "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
+    site: "@sotetu79",
+    creator: "@sotetu79",
+  },
 };
 
 export default function RootLayout({
@@ -31,20 +37,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <Head>
-        <meta property="og:title" content={metadata.title} />
-        <meta property="og:description" content={metadata.description} />
-        <meta property="og:keywords" content={metadata.keywords} />
-        <meta property="og:author" content={metadata.author} />
-        <meta property="og:image" content={metadata.image} />
-        <meta property="og:url" content={metadata.url} />
-        <meta property="og:type" content={metadata.type} />
-        <meta property="og:locale" content={metadata.locale} />
-
-        <meta name="twitter:image" content={metadata.twitterImage} />
-        <meta name="twitterCard" content={metadata.twitterCard} />
-        <meta name="twitterSite" content={metadata.twitterSite} />
-      </Head>
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}
       >
