@@ -27,7 +27,11 @@ export const metadata: Metadata = {
       "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
     site: "@sotetu79",
     creator: "@sotetu79",
-    images: "https://typing-adventure.com/opengraph-image.png",
+    images: [
+      {
+        url: "https://typing-adventure.com/opengraph-image.png",
+      },
+    ],
   },
 };
 
