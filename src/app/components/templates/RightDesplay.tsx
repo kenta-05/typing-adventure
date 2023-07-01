@@ -1,6 +1,6 @@
 import React from "react";
 import Ranking from "../organisms/Ranking";
-import Account from "../molecules/Account";
+import Account from "../organisms/Account";
 
 interface Props {
   big: boolean;

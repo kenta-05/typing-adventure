@@ -26,12 +26,12 @@ function Developer() {
               rel="noopener noreferrer"
             >
               <button className="p-1 bg-twitter text-white rounded-md text-lg transition hover:bg-twitter-hover">
-                <BsTwitter className="" size={24} />
+                <BsTwitter size={24} />
               </button>
             </a>
             <a href="mailto:sotetu79@gmail.com">
               <button className="p-1 bg-red-400 text-white rounded-md text-lg transition hover:bg-red-600">
-                <GrMail className="" size={24} color="white" />
+                <GrMail size={24} color="white" />
               </button>
             </a>
             <a
