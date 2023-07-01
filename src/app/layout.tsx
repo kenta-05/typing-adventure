@@ -12,12 +12,14 @@ export const metadata = {
     "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
   keywords: "タイピングゲーム, タイピング練習, 対戦, 冒険, 無料",
   author: "ソテツ",
-  image: "/main/thumbnail.png",
+  image: "https://typing-adventure.com/main/thumbnail.png",
   url: "https://typing-adventure.com",
   type: "website",
   locale: "ja_JP",
 
   // Twitter用のメタデータ
+
+  twitterImage: "https://typing-adventure.com/main/thumbnail.png",
   twitterCard: "summary_large_image",
   twitterSite: "@sotetu79",
 };
@@ -39,8 +41,9 @@ export default function RootLayout({
         <meta property="og:type" content={metadata.type} />
         <meta property="og:locale" content={metadata.locale} />
 
-        <meta property="og:twitterCard" content={metadata.twitterCard} />
-        <meta property="og:twitterSite" content={metadata.twitterSite} />
+        <meta name="twitter:image" content={metadata.twitterImage} />
+        <meta name="twitterCard" content={metadata.twitterCard} />
+        <meta name="twitterSite" content={metadata.twitterSite} />
       </Head>
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}

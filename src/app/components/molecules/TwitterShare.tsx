@@ -6,8 +6,9 @@ function TwitterShare() {
   return (
     <>
       <TwitterShareButton
-        url={"typing-adventure.com"}
+        url={"https://typing-adventure.com/"}
         title={"タイピング冒険記！"}
+        hashtags={["個人開発"]}
       >
         <div className="bg-twitter text-white flex rounded-md p-1 pl-4 items-center space-x-2 w-[18rem] shadow-xl transition hover:bg-twitter-hover">
           <BsTwitter size={28} />
