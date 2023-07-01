@@ -22,16 +22,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    images: ["https://yourwebsite.com/path/to/image.jpg"],
     title: "タイピング冒険記",
     description:
       "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
     site: "@sotetu79",
     creator: "@sotetu79",
-    images: [
-      {
-        url: "https://typing-adventure.com/opengraph-image.png",
-      },
-    ],
   },
 };
 
@@ -42,6 +38,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
+      <Head>
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:image"
+          content="https://yourwebsite.com/path/to/image.jpg"
+        />
+      </Head>
+
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}
       >
