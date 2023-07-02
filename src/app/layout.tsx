@@ -36,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja">
+    <>
       <Head>
         <meta
           name="twitter:image"
@@ -54,6 +54,6 @@ export default function RootLayout({
           <div className="w-320">{children}</div>
         </FirebaseProvider>
       </body>
-    </html>
+    </>
   );
 }
