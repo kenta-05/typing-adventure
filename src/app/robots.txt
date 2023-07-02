@@ -1,4 +1,6 @@
-User-agent: *
-Disallow:
+User-Agent: *
+Allow: /
+Disallow: /private/
+
 
 Sitemap: https://typing-adventure.com/sitemap.xml
