@@ -37,16 +37,6 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <Head>
-        <meta
-          name="twitter:image"
-          content="https://typing-adventure.com/main/twitter.png"
-        />
-        <meta
-          property="og:image"
-          content="https://typing-adventure.com/main/opengraph.png"
-        />
-      </Head>
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}
       >
