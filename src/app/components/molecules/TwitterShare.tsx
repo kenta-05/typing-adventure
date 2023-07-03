@@ -5,7 +5,7 @@ import { TwitterShareButton } from "react-share";
 function TwitterShare() {
   const shareUrl =
     "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent("タイピング冒険記！") +
+    encodeURIComponent("タイピング冒険記 | RPG風タイピングゲーム") +
     "&url=" +
     encodeURIComponent("https://typing-adventure.com/") +
     "&hashtags=" +
