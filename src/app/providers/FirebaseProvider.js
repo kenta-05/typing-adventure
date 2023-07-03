@@ -54,6 +54,7 @@ export function FirebaseProvider({ children }) {
             highscore: 0,
             monstername: "",
             uid: user.uid,
+            email: user.email,
           });
         }
 

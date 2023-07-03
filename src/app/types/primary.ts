@@ -3,4 +3,5 @@ export interface GameUser {
   highscore: number;
   monstername: string;
   uid: string;
+  email: string;
 }
