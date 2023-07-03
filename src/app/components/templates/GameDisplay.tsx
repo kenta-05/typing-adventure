@@ -1026,7 +1026,6 @@ function GameDisplay() {
         {loseModal && (
           <LoseModal
             prevMonster={prevMonster}
-            setLoseModal={setLoseModal}
             currectType={currectType}
             wrongType={wrongType}
             prevScore={prevScore}

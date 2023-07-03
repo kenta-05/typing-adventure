@@ -6,7 +6,6 @@ import Image from "next/image";
 
 interface Props {
   prevMonster: Monster | null;
-  setLoseModal: React.Dispatch<React.SetStateAction<boolean>>;
   currectType: number;
   wrongType: number;
   prevScore: number;
@@ -15,7 +14,6 @@ interface Props {
 
 function LoseModal({
   prevMonster,
-  setLoseModal,
   currectType,
   wrongType,
   prevScore,
@@ -25,6 +23,18 @@ function LoseModal({
   if (!firebaseContext) {
     return null;
   }
+
+  const shareUrl =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(
+      `タイピング冒険記 | ${prevMonster?.name}に敗北しました…【スコア${
+        prevScore || 0
+      }】`
+    ) +
+    "&url=" +
+    encodeURIComponent("https://typing-adventure.com/") +
+    "&hashtags=" +
+    encodeURIComponent("個人開発");
 
   return (
     <div className="bg-gray-500 bg-opacity-50 absolute inset-0 flex items-center justify-center z-10">
@@ -41,7 +51,7 @@ function LoseModal({
             <div className="mb-4 flex items-center">
               <p className="text-[1.5rem] font-bold">スコア:{currectType}</p>
               {currectType > prevScore && (
-                <p className="text-[1.1rem] pl-2 font-bold text-red-500">
+                <p className="text-[1rem] pl-2 font-bold text-red-500">
                   (ハイスコア更新！)
                 </p>
               )}
@@ -64,18 +74,15 @@ function LoseModal({
         <div className="mt-6 space-x-12">
           <Link href="/">
             <button
-              onClick={() => {
-                setLoseModal(false);
-              }}
-              className="bg-first px-4 py-2 rounded-sm transition-all 
-              hover:bg-third"
+              onClick={() => window.open(shareUrl, "_blank")}
+              className="bg-twitter px-4 py-2 rounded-full transition-all text-white hover:bg-twitter-hover"
             >
-              ホーム画面へ
+              ツイートする
             </button>
           </Link>
           <button
             onClick={game_reset}
-            className="bg-first px-8 py-2 rounded-sm transition-all 
+            className="bg-first px-8 py-2 rounded-full transition-all 
               hover:bg-third"
           >
             完了
