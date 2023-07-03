@@ -23,13 +23,13 @@ export const metadata: Metadata = {
       {
         url: "https://typing-adventure.com/opengraph.png",
         width: 1200,
-        height: 600,
+        height: 630,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["https://typing-adventure.com/opengraph.png"],
+    images: ["https://typing-adventure.com/twitter.png"],
     title: "タイピング冒険記",
     description:
       "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
