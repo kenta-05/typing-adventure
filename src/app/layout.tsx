@@ -20,15 +20,15 @@ export const metadata: Metadata = {
     url: "https://typing-adventure.com",
     images: [
       {
-        url: "https://typing-adventure.com/twitter-image.png",
+        url: "https://typing-adventure.com/opengraph.png",
         width: 1200,
-        height: 600,
+        height: 630,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["https://typing-adventure.com/twitter-image.png"],
+    images: ["https://typing-adventure.com/twitter.png"],
     title: "タイピング冒険記",
     description: "タイピング×冒険の無料ブラウザゲーム",
     site: "@sotetu79",
