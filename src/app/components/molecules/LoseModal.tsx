@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 import Image from "next/image";
+import { BsTwitter } from "react-icons/bs";
 
 interface Props {
   prevMonster: Monster | null;
@@ -71,13 +72,14 @@ function LoseModal({
             className="mr-3"
           />
         </div>
-        <div className="mt-6 space-x-12">
+        <div className="mt-6 space-x-12 flex">
           <Link href="/">
             <button
               onClick={() => window.open(shareUrl, "_blank")}
-              className="bg-twitter px-4 py-2 rounded-full transition-all text-white hover:bg-twitter-hover"
+              className="flex items-center bg-twitter px-4 py-2 rounded-full transition-all text-white hover:bg-twitter-hover"
             >
-              ツイートする
+              <BsTwitter size={20} />
+              <p className="pl-1">ツイートする</p>
             </button>
           </Link>
           <button
