@@ -19,9 +19,17 @@ export const metadata: Metadata = {
       "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
     siteName: "タイピング冒険記",
     url: "https://typing-adventure.com",
+    images: [
+      {
+        url: "https://typing-adventure.com/twitter-image.png",
+        width: 1200,
+        height: 600,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    images: ["https://typing-adventure.com/twitter-image.png"],
     title: "タイピング冒険記",
     description:
       "タイピングしながら敵とバトルして冒険していく無料のタイピングゲームです。面白い対戦をしながら練習にもなります",
