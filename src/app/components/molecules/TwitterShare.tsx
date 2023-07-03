@@ -1,6 +1,5 @@
 "use client";
 import { BsTwitter } from "react-icons/bs";
-import { TwitterShareButton } from "react-share";
 
 function TwitterShare() {
   const shareUrl =

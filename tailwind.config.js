@@ -27,6 +27,9 @@ module.exports = {
         twitter: "#0796ed",
         "twitter-hover": "#096dab",
 
+        facebook: "#3B5998",
+        "facebook-hover": "#2e4678",
+
         brown: "#D1B37D",
         "brown-dark": "#ba9f6e",
 
