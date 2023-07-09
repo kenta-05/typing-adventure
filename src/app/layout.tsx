@@ -42,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <html lang="ja">
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}
       >
@@ -50,6 +50,6 @@ export default function RootLayout({
           <div className="w-320">{children}</div>
         </FirebaseProvider>
       </body>
-    </>
+    </html>
   );
 }
