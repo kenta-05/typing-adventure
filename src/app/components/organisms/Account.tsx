@@ -89,7 +89,7 @@ function Account() {
           </>
         ) : (
           <div className="h-[4.75rem] flex flex-col bg-second p-2 space-y-2">
-            <p>ログインしてランキングに掲載！</p>
+            <p className="overflow-y-hidden">ログインしてランキングに掲載！</p>
             <button
               onClick={signInWithGoogle}
               className="rounded-md w-48 transition bg-base hover:bg-base-hover border-2 border-gray-300 w-40 h-8"
