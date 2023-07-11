@@ -54,7 +54,7 @@ function Account() {
         <div className="bg-first">アカウント</div>
         {user ? (
           <>
-            <div className="h-20 flex flex-col bg-second space-x-2 space-y-1 pt-1">
+            <div className="h-[4.75rem] flex flex-col bg-second space-y-1 pt-1">
               <div className="flex">
                 <p className="text-lg overflow-y-hidden pl-1">
                   現在のハイスコア:
@@ -65,17 +65,17 @@ function Account() {
               </div>
               <div className="flex overflow-y-hidden items-center justify-between">
                 <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full overflow-hidden">
+                  {/* <div className="w-10 h-10 rounded-full overflow-hidden">
                     <Image
                       src={user.photoURL || "/main/background.png"}
                       alt="Avatar"
                       width={40}
                       height={40}
                     />
-                  </div>
+                  </div> */}
 
-                  <p className="text-black text-[1rem] whitespace-nowrap overflow-hidden max-w-[6.9em] text-overflow-ellipsis">
-                    {user.displayName}
+                  <p className="text-black text-xl whitespace-nowrap overflow-hidden max-w-[9.6rem] text-overflow-ellipsis font-bold">
+                    「{user.displayName}」
                   </p>
                 </div>
                 <button
@@ -88,7 +88,7 @@ function Account() {
             </div>
           </>
         ) : (
-          <div className="h-20 flex flex-col bg-second p-2 space-y-2">
+          <div className="h-[4.75rem] flex flex-col bg-second p-2 space-y-2">
             <p>ログインしてランキングに掲載！</p>
             <button
               onClick={signInWithGoogle}
