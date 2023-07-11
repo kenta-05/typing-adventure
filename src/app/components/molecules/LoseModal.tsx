@@ -25,17 +25,21 @@ function LoseModal({
     return null;
   }
 
-  const shareUrl =
-    "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(
-      `タイピング冒険記 | ${prevMonster?.name}に敗北しました…【スコア${
-        prevScore || 0
-      }】`
-    ) +
-    "&url=" +
-    encodeURIComponent("https://typing-adventure.com/") +
-    "&hashtags=" +
-    encodeURIComponent("個人開発");
+  const shareTwitter = () => {
+    const shareUrl =
+      "https://twitter.com/intent/tweet?text=" +
+      encodeURIComponent(
+        `タイピング冒険記 | ${prevMonster?.name}に敗北しました…【スコア${
+          currectType || 0
+        }】`
+      ) +
+      "&url=" +
+      encodeURIComponent("https://typing-adventure.com/") +
+      "&hashtags=" +
+      encodeURIComponent("個人開発");
+
+    window.open(shareUrl, "_blank");
+  };
 
   return (
     <div className="bg-gray-500 bg-opacity-50 absolute inset-0 flex items-center justify-center z-10">
@@ -75,7 +79,7 @@ function LoseModal({
         <div className="mt-6 space-x-12 flex">
           <Link href="/">
             <button
-              onClick={() => window.open(shareUrl, "_blank")}
+              onClick={shareTwitter}
               className="flex items-center bg-twitter px-4 py-2 rounded-full transition-all text-white hover:bg-twitter-hover"
             >
               <BsTwitter size={20} />
