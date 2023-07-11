@@ -177,6 +177,7 @@ function GameDisplay() {
     damage.current = 1;
     setStage("stage-plains");
     setHp(500);
+    setCurrectType(0);
     setKanjiText("スペースキーでスタート");
   };
 
