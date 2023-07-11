@@ -7,13 +7,13 @@ function Developer() {
   return (
     <div className="border-2 border-black rounded-lg">
       <div className="bg-first">開発者情報</div>
-      <div className="flex items-start bg-second p-2 space-x-2">
+      <div className="flex items-start bg-second p-1 space-x-2">
         <Image
           src="/main/sotetu.png"
           alt="Avatar"
           className="mt-1 rounded-full shadow-lg"
-          width={64}
-          height={64}
+          width={60}
+          height={60}
         />
         <div>
           <div className="flex">
@@ -25,16 +25,18 @@ function Developer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button className="p-1 bg-twitter text-white rounded-md text-lg transition hover:bg-twitter-hover">
-                <BsTwitter size={24} />
+              <button className="p-1 bg-twitter text-white rounded-md text-lg transition hover:bg-twitter-hover flex items-center space-x-1 px-2 h-8 overflow-y-hidden">
+                <BsTwitter size={20} />
+                <p className="text-[1.14rem]">Twitter</p>
               </button>
             </a>
             <a href="mailto:sotetu79@gmail.com">
-              <button className="p-1 bg-red-400 text-white rounded-md text-lg transition hover:bg-red-600">
-                <GrMail size={24} color="white" />
+              <button className="p-1 bg-red-400 text-white rounded-md text-lg transition hover:bg-red-600 flex items-center space-x-1 px-2 h-8 overflow-y-hidden">
+                <GrMail size={20} color="white" />
+                <p className="text-[1.14rem]">メール</p>
               </button>
             </a>
-            <a
+            {/* <a
               href="http://sotetu-portfolio.com/"
               target="_blank"
               rel="noopener noreferrer"
@@ -42,7 +44,7 @@ function Developer() {
               <button className="px-1 py-1 bg-teal-600 text-white rounded-md text-md transition hover:bg-teal-700">
                 プロフィール
               </button>
-            </a>
+            </a> */}
           </div>
           <div className="pt-1">
             <p>↑ご意見はメールかDMに</p>
