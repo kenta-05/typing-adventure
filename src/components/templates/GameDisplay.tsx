@@ -1,15 +1,14 @@
 "use client";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Monster } from "../../class";
-import MonsterDisplay from "../../components/organisms/MonsterDisplay";
-import TextDisplay from "../../components/organisms/TextDisplay";
-import HpBar from "../../components/atoms/HpBar";
-import AttackDisplay from "../../components/atoms/AttackDisplay";
-import LoseModal from "../../components/molecules/LoseModal";
-import keygraph from "../../lib/keygraph";
-import sentences from "../../sentences.json";
+import { Monster } from "@/monster";
+import MonsterDisplay from "@/components/organisms/MonsterDisplay";
+import TextDisplay from "@/components/organisms/TextDisplay";
+import HpBar from "@/components/atoms/HpBar";
+import AttackDisplay from "@/components/atoms/AttackDisplay";
+import LoseModal from "@/components/molecules/LoseModal";
+import keygraph from "@/lib/keygraph";
+import sentences from "@/sentences.json";
 import CourseModal from "../organisms/CourseModal";
-import { FirebaseContext } from "@/app/providers/FirebaseProvider";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { Howl, Howler } from "howler";
@@ -18,6 +17,7 @@ import {
   PiSpeakerSimpleSlashFill,
   PiSpeakerSimpleLowFill,
 } from "react-icons/pi";
+import { FirebaseContext } from "@/firebase";
 
 function GameDisplay() {
   const [playing, setPlaying] = useState<boolean>(false); // ゲーム中か否か
@@ -76,12 +76,11 @@ function GameDisplay() {
   if (!firebaseContext) {
     return null;
   }
-  const { user, highscore }: { user: User; highscore: number } =
-    firebaseContext;
+  const { user, highscore } = firebaseContext;
 
   // 現在のスコアがハイスコアを超えていた場合、更新する関数
   const scoreUpdate = () => {
-    if (user) {
+    if (user && typeof highscore === "number") {
       if (highscore < currectType) {
         const db = getFirestore();
         const userDoc = doc(db, "users", user.uid);
@@ -108,7 +107,7 @@ function GameDisplay() {
     // HPが0以下になるとgame_stop()
     if (hp <= 0) {
       game_stop();
-      setPrevScore(highscore);
+      setPrevScore(highscore || 0);
       scoreUpdate();
       setLoseModal(true);
     }

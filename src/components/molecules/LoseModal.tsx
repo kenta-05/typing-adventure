@@ -1,9 +1,8 @@
-import { Monster } from "@/app/class";
 import Link from "next/link";
-import React, { useContext } from "react";
-import { FirebaseContext } from "@/app/providers/FirebaseProvider";
+import React from "react";
 import Image from "next/image";
 import { BsTwitter } from "react-icons/bs";
+import { Monster } from "@/monster";
 
 interface Props {
   prevMonster: Monster | null;
@@ -20,11 +19,6 @@ function LoseModal({
   prevScore,
   game_reset,
 }: Props) {
-  const firebaseContext = useContext(FirebaseContext || {});
-  if (!firebaseContext) {
-    return null;
-  }
-
   const shareTwitter = () => {
     const shareUrl =
       "https://twitter.com/intent/tweet?text=" +

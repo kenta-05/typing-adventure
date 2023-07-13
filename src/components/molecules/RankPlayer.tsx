@@ -1,9 +1,9 @@
-import { GameUser } from "@/app/types/primary";
-import React from "react";
+import { GameUser } from "@/types/primary"
+import React from "react"
 
 interface Props {
-  user: GameUser;
-  index: number;
+  user: GameUser
+  index: number
 }
 
 function RankPlayer({ user, index }: Props) {
@@ -21,7 +21,7 @@ function RankPlayer({ user, index }: Props) {
         に倒された
       </p>
     </div>
-  );
+  )
 }
 
-export default RankPlayer;
+export default RankPlayer

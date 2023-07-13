@@ -29,8 +29,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/providers/FirebaseProvider.js",
-    "src/app/lib/firebase.js"
+    "src/app/_components/providers/Firebase.tsx",
+    "src/lib/firebase.js"
   ],
   "exclude": ["node_modules"]
 }

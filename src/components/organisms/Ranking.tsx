@@ -1,40 +1,40 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import RankPlayer from "../molecules/RankPlayer";
+"use client"
+import React, { useEffect, useState } from "react"
+import RankPlayer from "../molecules/RankPlayer"
 import {
   collection,
   getFirestore,
   limit,
   onSnapshot,
   orderBy,
-  query,
-} from "firebase/firestore";
-import { GameUser } from "@/app/types/primary";
+  query
+} from "firebase/firestore"
+import { GameUser } from "@/types/primary"
 
 function Ranking() {
-  const [users, setUsers] = useState<GameUser[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState<GameUser[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const db = getFirestore();
+    const db = getFirestore()
     const q = query(
       collection(db, "users"),
       orderBy("highscore", "desc"),
       limit(20)
-    );
+    )
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const newUsers: GameUser[] = [];
+      const newUsers: GameUser[] = []
       querySnapshot.forEach((doc) => {
-        newUsers.push(doc.data() as GameUser);
-      });
-      setUsers(newUsers);
-      setLoading(false);
-    });
+        newUsers.push(doc.data() as GameUser)
+      })
+      setUsers(newUsers)
+      setLoading(false)
+    })
 
     // クリーンアップ↓
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribe()
+  }, [])
 
   return (
     <div className="max-h-[30.1rem] min-w-full">
@@ -51,7 +51,7 @@ function Ranking() {
         <RankPlayer user={user} index={index} key={user.uid} />
       ))}
     </div>
-  );
+  )
 }
 
-export default Ranking;
+export default Ranking
