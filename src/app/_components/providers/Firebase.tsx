@@ -1,5 +1,11 @@
 import { FC, PropsWithChildren, useEffect, useState } from "react";
-import { Auth, getAuth, GoogleAuthProvider, onAuthStateChanged, User } from "firebase/auth";
+import {
+  Auth,
+  getAuth,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  User,
+} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -14,7 +20,8 @@ export const FirebaseProvider: FC<PropsWithChildren> = ({ children }) => {
   const [auth, setAuth] = useState<Auth>();
   const [provider, setProvider] = useState<GoogleAuthProvider>();
   const [user, setUser] = useState<User>();
-  const [highscore, setHighscore] = useState();
+  const [highscore, setHighscore] = useState<number>();
+  const [username, setUsername] = useState<string>();
 
   useEffect(() => {
     const app = initializeApp(firebaseConfig);
@@ -48,6 +55,7 @@ export const FirebaseProvider: FC<PropsWithChildren> = ({ children }) => {
             const data = doc.data();
             if (data) {
               setHighscore(data.highscore);
+              setUsername(data.username);
             }
           }
         );
@@ -59,8 +67,10 @@ export const FirebaseProvider: FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   return (
-    <FirebaseContext.Provider value={{ auth, provider, user, highscore }}>
+    <FirebaseContext.Provider
+      value={{ auth, provider, user, highscore, username }}
+    >
       {children}
     </FirebaseContext.Provider>
   );
-}
+};

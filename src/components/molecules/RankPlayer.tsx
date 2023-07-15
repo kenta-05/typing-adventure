@@ -1,9 +1,9 @@
-import { GameUser } from "@/types/primary"
-import React from "react"
+import { GameUser } from "@/types/primary";
+import React from "react";
 
 interface Props {
-  user: GameUser
-  index: number
+  user: GameUser;
+  index: number;
 }
 
 function RankPlayer({ user, index }: Props) {
@@ -12,7 +12,9 @@ function RankPlayer({ user, index }: Props) {
       <div className="flex justify-between px-1">
         <div className="flex">
           <p>{index + 1}位: </p>
-          <p>{user.username}</p>
+          <p className="max-w-[160px] overflow-hidden whitespace-nowrap overflow-ellipsis">
+            {user.username}
+          </p>
         </div>
         <p>{user.highscore == 0 ? "未プレイ" : `スコア:${user.highscore}`}</p>
       </div>
@@ -21,7 +23,7 @@ function RankPlayer({ user, index }: Props) {
         に倒された
       </p>
     </div>
-  )
+  );
 }
 
-export default RankPlayer
+export default RankPlayer;

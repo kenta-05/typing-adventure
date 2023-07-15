@@ -10,7 +10,6 @@ import keygraph from "@/lib/keygraph";
 import sentences from "@/sentences.json";
 import CourseModal from "../organisms/CourseModal";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
-import { User } from "firebase/auth";
 import { Howl, Howler } from "howler";
 import Link from "next/link";
 import {
@@ -1001,8 +1000,8 @@ function GameDisplay() {
         w-[64rem] h-144 mr-0 lg:mr-8"
       >
         <div
-          className="absolute z-20 top-1 right-1
-          absolute z-20 top-1 right-1 flex items-center space-x-3"
+          className="absolute z-10 top-1 right-1
+          absolute z-10 top-1 right-1 flex items-center space-x-3"
         >
           <div className="text-[1.5rem]">スコア: {currectType}</div>
           {isSound ? (

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function HomeDisplay() {
   return (
-    <main>
+    <>
       <div
         className="bg-home bg-bottom
 w-full h-144 space-y-12 flex justify-center overflow-x-hidden"
@@ -20,7 +20,7 @@ w-full h-144 space-y-12 flex justify-center overflow-x-hidden"
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }
 
