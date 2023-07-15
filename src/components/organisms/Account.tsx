@@ -1,14 +1,10 @@
 "use client";
-import { FirebaseContext } from "@/app/providers/FirebaseProvider";
+import { FirebaseContext } from "@/firebase";
 import {
-  Auth,
-  AuthProvider,
-  User,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
 import React, { useContext } from "react";
-import Image from "next/image";
 
 function Account() {
   const firebaseContext = useContext(FirebaseContext);
@@ -20,11 +16,6 @@ function Account() {
     provider,
     user,
     highscore,
-  }: {
-    auth: Auth;
-    provider: AuthProvider;
-    user: User | null;
-    highscore: number;
   } = firebaseContext;
 
   const signInWithGoogle = () => {
@@ -39,6 +30,7 @@ function Account() {
     }
   };
   const signOutWithGoogle = () => {
+    if(!auth) return
     signOut(auth)
       .then(() => {
         console.log("User signed out");

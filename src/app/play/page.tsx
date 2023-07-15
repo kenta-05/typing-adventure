@@ -1,9 +1,8 @@
-import RightDesplay from "../components/templates/RightDesplay";
-import GameDisplay from "../components/templates/GameDisplay";
-import Description from "../components/templates/Description";
-import Developer from "../components/organisms/Developer";
-import Article from "../components/organisms/Article";
-import ShareSns from "../components/organisms/ShareSns";
+import RightDesplay from "@/components/templates/RightDesplay";
+import GameDisplay from "@/components/templates/GameDisplay";
+import Description from "@/components/templates/Description";
+import Developer from "@/components/organisms/Developer";
+import ShareSns from "@/components/organisms/ShareSns";
 
 function Page() {
   return (

@@ -1,11 +1,9 @@
-import Link from "next/link";
-import "./globals.css";
-import { Inter } from "next/font/google";
-import { FirebaseProvider } from "./providers/FirebaseProvider";
-import Head from "next/head";
-import { Metadata } from "next";
+import "@/globals.css"
+import { Inter } from "next/font/google"
+import { Metadata } from "next"
+import { Providers } from "./_components/providers"
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "タイピング冒険記",
@@ -22,9 +20,9 @@ export const metadata: Metadata = {
       {
         url: "https://typing-adventure.com/opengraph.png",
         width: 1200,
-        height: 630,
-      },
-    ],
+        height: 630
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
@@ -32,24 +30,24 @@ export const metadata: Metadata = {
     title: "タイピング冒険記",
     description: "タイピング×冒険の無料ブラウザゲーム",
     site: "@sotetu79",
-    creator: "@sotetu79",
-  },
-};
+    creator: "@sotetu79"
+  }
+}
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="ja">
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}
       >
-        <FirebaseProvider>
+        <Providers>
           <div className="w-320">{children}</div>
-        </FirebaseProvider>
+        </Providers>
       </body>
     </html>
-  );
+  )
 }

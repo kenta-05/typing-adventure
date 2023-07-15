@@ -1,5 +1,4 @@
 import React from "react";
-import RightDesplay from "./RightDesplay";
 import Link from "next/link";
 
 function HomeDisplay() {

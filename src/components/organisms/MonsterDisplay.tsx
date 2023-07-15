@@ -1,4 +1,4 @@
-import { Monster } from "@/app/class";
+import { Monster } from "@/monster";
 import Image from "next/image";
 import React from "react";
 
