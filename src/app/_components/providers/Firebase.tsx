@@ -1,3 +1,4 @@
+"use client";
 import { FC, PropsWithChildren, useEffect, useState } from "react";
 import {
   Auth,
