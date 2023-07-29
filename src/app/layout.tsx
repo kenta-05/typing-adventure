@@ -1,9 +1,10 @@
-import "@/globals.css"
-import { Inter } from "next/font/google"
-import { Metadata } from "next"
-import { Providers } from "./_components/providers"
+import "@/globals.css";
+import { Inter } from "next/font/google";
+import { Metadata } from "next";
+import { Providers } from "./_components/providers";
+import Head from "next/head";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "タイピング冒険記",
@@ -20,9 +21,9 @@ export const metadata: Metadata = {
       {
         url: "https://typing-adventure.com/opengraph.png",
         width: 1200,
-        height: 630
-      }
-    ]
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -30,17 +31,24 @@ export const metadata: Metadata = {
     title: "タイピング冒険記",
     description: "タイピング×冒険の無料ブラウザゲーム",
     site: "@sotetu79",
-    creator: "@sotetu79"
-  }
-}
+    creator: "@sotetu79",
+  },
+};
 
 export default function RootLayout({
-  children
+  children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="ja">
+      <Head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3338022965421180"
+          crossOrigin="anonymous"
+        ></script>
+      </Head>
       <body
         className={`${inter.className} bg-main shadow-lg min-h-screen w-full flex justify-center`}
       >
@@ -49,5 +57,5 @@ export default function RootLayout({
         </Providers>
       </body>
     </html>
-  )
+  );
 }
