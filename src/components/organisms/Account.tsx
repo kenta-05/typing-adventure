@@ -57,7 +57,7 @@ function Account() {
         {user ? (
           <>
             {isRenameDisplay ? (
-              <div className="h-[4.75rem] flex flex-col bg-second space-y-1 pt-1">
+              <div className="h-[4.85rem] flex flex-col bg-second space-y-1 pt-1">
                 <div className="flex">
                   <p
                     className="text-lg overflow-y-hidden pl-1 cursor-pointer hover:underline"
@@ -90,7 +90,7 @@ function Account() {
                 </div>
               </div>
             ) : (
-              <div className="h-[4.75rem] flex flex-col bg-second space-y-1 pt-1 pl-1">
+              <div className="h-[4.85rem] flex flex-col bg-second space-y-1 pt-1 pl-1">
                 <div className="flex">
                   <p className="text-lg overflow-y-hidden">現在のハイスコア:</p>
                   <p className="text-xl overflow-y-hidden pl-1 text-red-500 font-bold">
@@ -131,11 +131,11 @@ function Account() {
             )}
           </>
         ) : (
-          <div className="h-[4.75rem] flex flex-col bg-second p-2 space-y-2">
+          <div className="h-[4.85rem] flex flex-col bg-second p-2 space-y-2">
             <p className="overflow-y-hidden">ログインしてランキングに掲載！</p>
             <button
               onClick={signInWithGoogle}
-              className="rounded-md w-48 transition bg-base hover:bg-base-hover border-2 border-gray-300 w-40 h-8"
+              className="rounded-md w-48 transition bg-base hover:bg-base-hover border-2 border-gray-300 h-8"
             >
               Googleでログイン
             </button>
