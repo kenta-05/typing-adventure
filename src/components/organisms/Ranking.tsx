@@ -20,7 +20,7 @@ function Ranking() {
     const q = query(
       collection(db, "users"),
       orderBy("highscore", "desc"),
-      limit(20)
+      limit(50)
     )
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
