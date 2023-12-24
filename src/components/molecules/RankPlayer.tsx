@@ -12,7 +12,7 @@ function RankPlayer({ user, index }: Props) {
       <div className="flex justify-between px-1">
         <div className="flex">
           <p>{index + 1}位: </p>
-          <p className="max-w-[160px] overflow-hidden whitespace-nowrap overflow-ellipsis">
+          <p className="max-w-[140px] overflow-hidden whitespace-nowrap overflow-ellipsis">
             {user.username}
           </p>
         </div>
