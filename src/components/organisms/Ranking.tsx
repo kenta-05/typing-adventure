@@ -32,7 +32,7 @@ function Ranking() {
   }, []);
 
   return (
-    <div className="max-h-[30.1rem] min-w-full">
+    <div className="max-h-[30.4rem] min-w-full">
       <div className="bg-first text-black">ランキング</div>
       {loading && (
         <div
