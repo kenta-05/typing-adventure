@@ -16,10 +16,10 @@ function RankPlayer({ user, index }: Props) {
             {user.username}
           </p>
         </div>
-        <p>{user.highscore == 0 ? "未プレイ" : `スコア:${user.highscore}`}</p>
+        <p>{`スコア:${user.highscore}`}</p>
       </div>
       <p>
-        {user.monstername === "" ? "「------」" : `「${user.monstername}」`}
+        {`「${user.monstername}」`}
         に倒された
       </p>
     </div>

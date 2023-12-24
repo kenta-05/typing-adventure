@@ -42,9 +42,11 @@ function Ranking() {
           <div className="animate-spin h-16 w-16 border-[0.45rem] border-first rounded-full border-t-transparent"></div>
         </div>
       )}
-      {users.map((user, index) => (
-        <RankPlayer user={user} index={index} key={user.uid} />
-      ))}
+      {users
+        .filter((user) => user.highscore !== 0)
+        .map((user, index) => (
+          <RankPlayer user={user} index={index} key={user.uid} />
+        ))}
     </div>
   );
 }
