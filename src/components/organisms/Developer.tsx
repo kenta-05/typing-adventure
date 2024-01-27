@@ -21,7 +21,7 @@ function Developer() {
           </div>
           <div className="flex items-center mt-1 space-x-2">
             <a
-              href="https://twitter.com/sotetu79"
+              href="https://twitter.com/kenta_sato_05"
               target="_blank"
               rel="noopener noreferrer"
             >
