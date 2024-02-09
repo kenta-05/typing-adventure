@@ -17,7 +17,7 @@ function Developer() {
         />
         <div>
           <div className="flex">
-            <p className="text-black text-2.4rem font-bold">ソテツ</p>
+            <p className="text-black text-2.4rem font-bold">Kenta Sato</p>
           </div>
           <div className="flex items-center mt-1 space-x-2">
             <a
