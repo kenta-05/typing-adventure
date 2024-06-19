@@ -1,4 +1,4 @@
-import RightDesplay from "../components/templates/RightDesplay";
+import RightDisplay from "../components/templates/RightDisplay";
 import Description from "../components/templates/Description";
 import HomeDisplay from "../components/templates/HomeDisplay";
 import Developer from "../components/organisms/Developer";
@@ -14,7 +14,7 @@ export default function Home() {
           </div>
           <div className="flex space-x-0 lg:space-x-8">
             <HomeDisplay />
-            <RightDesplay big={true} />
+            <RightDisplay big={true} />
           </div>
 
           <div className="items-start space-x-0 pt-10 flex flex-col space-y-5 sm:flex-row sm:space-x-8 sm:space-y-0">
@@ -22,7 +22,7 @@ export default function Home() {
             <div className="min-w-[18rem] space-y-4">
               <ShareSns />
               <Developer />
-              <RightDesplay big={false} />
+              <RightDisplay big={false} />
             </div>
           </div>
 
