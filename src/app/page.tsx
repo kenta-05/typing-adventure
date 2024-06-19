@@ -18,7 +18,7 @@ export default function Home() {
           </div>
 
           <div className="items-start space-x-0 pt-10 flex flex-col space-y-5 sm:flex-row sm:space-x-8 sm:space-y-0">
-            <Description />
+            {/* <Description /> */}
             <div className="min-w-[18rem] space-y-4">
               <ShareSns />
               <Developer />
