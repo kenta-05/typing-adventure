@@ -21,7 +21,7 @@ function Page() {
             <Description />
             <div className="min-w-[18rem] space-y-4">
               <ShareSns />
-              <Developer />
+              {/* <Developer /> */}
               <RightDesplay big={false} />
             </div>
           </div>

@@ -1,6 +1,7 @@
 import RightDisplay from "../components/templates/RightDisplay";
 import Description from "../components/templates/Description";
 import HomeDisplay from "../components/templates/HomeDisplay";
+import Developer from "../components/organisms/Developer";
 import ShareSns from "../components/organisms/ShareSns";
 
 export default function Home() {
