@@ -6,7 +6,7 @@ interface Props {
   big: boolean;
 }
 
-function RightDesplay({ big }: Props) {
+function RightDisplay({ big }: Props) {
   return (
     <div
       className={`bg-gray-100 min-w-[18rem] h-144 flex-col justify-between border-2 border-black rounded-md ${
@@ -19,4 +19,4 @@ function RightDesplay({ big }: Props) {
   );
 }
 
-export default RightDesplay;
+export default RightDisplay;
